@@ -1,60 +1,36 @@
 <!DOCTYPE html>
 <html lang="ru">
-    <head>
-        {{ include('include/head.html.twig') }}
-        <title>{% block title %}Регистрация аккаунта{% endblock %}</title>
-        {{ include('styles/authentication.html.twig') }}
-    </head>
-    <body style="background: url('https://mc-cloudy.com/public/images/header-background.webp') no-repeat; background-size: cover">
-        <div class="container">
-            <div class="row d-flex justify-content-center align-items-center min-vh-100 h-100">
-                <div class="col-12 col-md-8 col-lg-6 col-xl-5 mx-auto">
-                    <div class="container-authentication">
-                        <div class="header" style="background: #186ef0">
-                            <a class="fw-bolder" href="{{ path('main_page') }}">
-                                <i class="fas fa-angle-left"></i>
-                                На главную страницу
-                            </a>
-                        </div>
-                        <div class="body">
-                            <div class="block-text">
-                                <div class="col-12 mx-auto">
-                                    <h1>Личный кабинет</h1>
-                                    <p>Скорее регистрируйся и в игру!</p>
-                                </div>
-                                <div class="col-10 mx-auto">
-                                    <img src="https://mc-cloudy.com/public/images/design/wavy-line.png" alt="Wavy line" class="img-fluid mb-2" draggable="false" />
-                                </div>
-                            </div>
+<head>
+    {{ include('include/head.html.twig') }}
+    <title>{% block title %}Регистрация аккаунта{% endblock %}</title>
+    <style>{{ include('styles/authentication.css') }}</style>
+</head>
+<body class="row m-0">
+    <div class="col-12 col-sm-8 col-md-7 col-lg-6 col-xl-5 ms-auto p-0">
+        <div class="container-authentication flex min-vh-100">
+            {{ form_start(registrationForm) }}
+                <h5>Твоя вселенная развлечений</h5>
+                <h2>Регистрация пользователя</h2>
+                <p>Для регистрации нового аккаунта необходимо заполнить все поля.</p>
 
-                            {% if message %}
-                                <p class="message">{{ message|raw }}</p>
-                            {% endif %}
+                {% if message %}
+                    <p class="error-message">{{ message|raw }}</p>
+                {% endif %}
 
-                            {% if not success %}
-                                {{ form_start(registrationForm) }}
-                                    <div class="col-12 col-lg-11 mx-auto">
-                                        {{ form_widget(registrationForm.username, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Введите никнейм'}}) }}
-                                        {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Введите пароль'}}) }}
-                                        {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Введите электронную почту'}}) }}
-                                    </div>
+                {% if not success %}
+                    {{ form_widget(registrationForm.username, {'attr': {'class': 'form-control', 'placeholder': 'Введите никнейм'}}) }}
+                    {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Введите пароль'}}) }}
+                    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Введите электронную почту'}}) }}
 
-                                    <p class="mb-3">Есть аккаунт? <a href="{{ path('login') }}">Нажмите, чтобы войти.</a></p>
+                    <button class="btn btn-primary col-12" type="submit">Создать аккаунт</button>
 
-                                    <div class="buttons d-flex col-12 col-lg-11 col-xl-11 mx-auto">
-                                        <div id="row" style="margin: auto!important">
-                                            <button class="col col-md-auto btn btn-primary" type="submit">Создать аккаунт</button>
-                                            <a href="{{ path('login') }}" class="col col-md-auto btn btn-secondary">Войти в аккаунт</a>
-                                        </div>
-                                    </div>
-                                {{ form_end(registrationForm) }}
-                            {% else %}
-                                <p class="info">Аккаунт успешно создан. Мы выслали вам письмо для подтверждения электронной почты. Если оно не пришло в течение нескольких минут - проверьте, не попало ли оно в папку со спамом.</p>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    <p class="text-center">Есть аккаунт? <a href="{{ path('login') }}">Нажмите, чтобы войти в личный кабинет.</a></p>
+
+                    <p class="text-center fw-light mt-5">BeHover Developer © Minecraft Cloudy, 2022</p>
+                {% else %}
+                    <p class="info-message">Аккаунт успешно создан. Мы выслали вам письмо для подтверждения электронной почты. Если оно не пришло в течение нескольких минут - проверьте, не попало ли оно в папку со спамом.</p>
+                {% endif %}
+            {{ form_end(registrationForm) }}
         </div>
-    </body>
-</html>
+    </div>
+</body>

@@ -1,0 +1,49 @@
+@import "root.scss";
+
+body {
+    background: url('https://mc-cloudy.com/public/images/civilization.webp') no-repeat;
+    background-size: cover;
+    font-family: Inter, sans-serif;
+}
+
+.container-authentication {
+    background: white;
+    box-shadow: 0 3px 5px -1px rgba(0,0,0,0.8),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+    
+    h5 {
+        color: $color-primary;
+        margin-bottom: 0;
+    }
+    
+    h2 {
+        font-weight: bold;
+    }
+    
+    a {
+        color: $color-primary;
+    }
+    
+    p {
+        &.error-message {
+            color: #ef5350;
+            @include margin-y(8px);
+        }
+        
+        &.info-message {
+            color: $color-primary;
+            @include margin-y(8px);
+        }
+    }
+    
+    input {
+        margin-top: 15px;
+        
+        &:last-of-type {
+            margin-bottom: 8px;
+        }
+    }
+    
+    button {
+        margin: 20px 0 15px;
+    }
+}

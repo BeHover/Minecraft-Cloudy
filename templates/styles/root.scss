@@ -1,4 +1,4 @@
-$color-primary: #186EF0;
+$color-primary: #1562d6;
 $color-secondary: #212529;
 
 $color-text-primary: #1e1e1f;
@@ -18,4 +18,14 @@ $color-btn-secondary-focus: #e9f3ff;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@mixin margin-y($value) {
+    margin-top: $value;
+    margin-bottom: $value;
+}
+
+@mixin margin-x($value) {
+    margin-right: $value;
+    margin-left: $value;
 }
