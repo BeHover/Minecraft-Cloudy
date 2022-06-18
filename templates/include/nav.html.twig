@@ -1,0 +1,72 @@
+{% block stylesheet %}
+    <style>
+        {{ include('styles/header.css') }}
+    </style>
+{% endblock %}
+
+<nav class="navbar navbar-light navbar-expand-xl">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('main_page') }}">
+            <img src="https://mc-cloudy.com/public/favicon.ico" alt="Logo" draggable="false"/>
+            <div class="text">
+                <h5>CLOUDY</h5>
+                <p>Minecraft Project</p>
+            </div>
+        </a>
+
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse collapse" id="navbarToggler">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.attributes.get('_route') starts with 'main_page' %} active {% endif %}" href="{{ path('main_page') }}">
+                        <span class="icon d-none d-xl-inline-block"><i class="bi bi-house-fill"></i></span>
+                        <span class="title">Главная страница</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.attributes.get('_route') starts with 'our_servers' or app.request.attributes.get('_route') starts with 'server_rules' %} active {% endif %}" href="{{ path('our_servers') }}">
+                        <span class="icon d-none d-xl-inline-block"><i class="bi bi-grid-fill"></i></span>
+                        <span class="title">Наши сервера</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.attributes.get('_route') starts with 'support' or app.request.attributes.get('_route') starts with 'user_reports' or app.request.attributes.get('_route') starts with 'create_report' or app.request.attributes.get('_route') starts with 'user_report_info' or app.request.attributes.get('_route') starts with 'user_update_report' %} active {% endif %}" href="{{ path('support', {'page': 'main'}) }}">
+                        <span class="icon d-none d-xl-inline-block"><i class="bi bi-life-preserver"></i></span>
+                        <span class="title">Служба поддержки</span>
+                    </a>
+                </li>
+            </ul>
+
+            {% if not app.user %}
+                <a href="{{ path('login') }}" class="btn btn-primary">
+                    Авторизоваться
+                </a>
+            {% else %}
+                <a href="{{ path('profile') }}" class="btn btn-primary d-xl-none">
+                    Мой аккаунт
+                </a>
+
+                <div class="flex d-none d-xl-inline-flex">
+                    <a href="{{ path('profile') }}">
+                        <div class="profile">
+                            <img src="https://mc-cloudy.com/public/images/design/avatars/{{ app.user.getIcon() }}" alt="{{ app.user.getUsername() }} avatar" class="img-fluid" style="width: 40px; height: 40px; border-radius: .5rem" draggable="false" />
+                            <div class="profile-text d-none d-xl-inline-block">
+                                <h5>{{ app.user.getUsername() }}</h5>
+                                <p>
+                                    {{ include('include/roles.html.twig') }}
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="{{ path('logout') }}" class="btn button button-secondary mx-3">
+                        <i class="far fa-sign-out"></i>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</nav>

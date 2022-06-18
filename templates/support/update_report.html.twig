@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {{ include('include/head.html.twig') }}
+    <title>{% block title %}Служба поддержки{% endblock %}</title>
+</head>
+<body>
+    {{ include('include/nav.html.twig') }}
+
+    {{ include('badges/header.html.twig') }}
+
+    <section id="main-content" class="landing-block landing-padding animate__animated animate__fadeIn">
+        <div class="container container-wiki">
+            <div class="row">
+                <div class="d-none d-xxl-block col-xxl-3 mb-4 mb-lg-0">
+                    <div class="nav flex-column nav-pills">
+                        <a class="nav-link" href="{{ path('support', {'page': 'main'}) }}">Вики Minecraft Cloudy</a>
+                        <div class="divider"></div>
+                        <a class="nav-link" href="{{ path('support', {'page': 'faq'}) }}">Частые вопросы</a>
+                        <a class="nav-link" href="{{ path('support', {'page': 'profile'}) }}">Управление аккаунтом</a>
+                        <div class="divider"></div>
+                        <a class="nav-link active" href="{{ path('user_reports') }}">Мои тикеты</a>
+                        <button class="nav-link" href="{{ path('create_report') }}">Создать тикет</button>
+                    </div>
+                </div>
+                <div class="col-12 col-xxl-9">
+                    <a class="d-xxl-none back" href="{{ path('user_report_info', {'id': report.getId()}) }}">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.29289 13.7071C5.68342 14.0976 6.31658 14.0976 6.70711 13.7071C7.09763 13.3166 7.09763 12.6834 6.70711 12.2929L3.41421 9L15 9C15.5523 9 16 8.55228 16 8C16 7.44772 15.5523 7 15 7L3.41421 7L6.70711 3.70711C7.09763 3.31658 7.09763 2.68342 6.70711 2.29289C6.31658 1.90237 5.68342 1.90237 5.29289 2.29289L0.292893 7.29289C-0.0976328 7.68342 -0.0976329 8.31658 0.292893 8.70711L5.29289 13.7071Z" fill="#79797A"></path></svg>
+                        Вернуться назад
+                    </a>
+                    <div class="wiki-display d-block">
+                        {% if not app.user %}
+                            <div class="wiki-banner">
+                                <h4>Вы не авторизированы</h4>
+                                <p>Авторизируйтесь, чтобы получить доступ к полному функционалу сайта.</p>
+                            </div>
+                        {% else %}
+                            <div class="wiki-banner">
+                                <h4>Изменение информации тикета</h4>
+                                <p>Заполните поля ниже, чтобы отправить запрос в службу поддержки.</p>
+                            </div>
+                            <p class="mt-3 col-12 col-xl-8">Картинки необходимо загрузить повторно, если в этом есть необходимость.</p>
+
+                            {% if exception %}
+                                <p class="mt-3 col-12 col-xl-8" style="color: #186EF0">{{ exception|raw }}</p>
+                            {% endif %}
+
+                            {{ form_start(formUpdateReport) }}
+                                <div class="row p-0 align-items-center">
+                                    <div class="col-12 col-xl-8">
+                                        <div class="row">
+                                            <div class="col-12 col-lg-6">
+                                                {{ form_widget(formUpdateReport.server, {'attr': {'class': 'form-control mt-3'}}) }}
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                {{ form_widget(formUpdateReport.type, {'attr': {'class': 'form-control mt-3'}}) }}
+                                            </div>
+                                            <div class="col-12">
+                                                {{ form_widget(formUpdateReport.text, {'attr': {'class': 'form-control mt-3', 'placeholder': 'Введите текст'}}) }}
+                                            </div>
+                                            <div class="col-12">
+                                                {{ form_widget(formUpdateReport.images, {'attr': {'class': 'form-control mt-3'}}) }}
+                                            </div>
+                                            <div class="col-12">
+                                                {{ form_widget(formUpdateReport._token) }}
+                                                <div class="d-flex justify-content-center justify-content-xl-end align-items-center">
+                                                    <button class="btn btn-primary mt-4" type="submit">Внести изменения</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-none d-xl-block col-xl-4 mx-auto">
+                                        <div class="row">
+                                            <div class="col-10 mx-auto" style="margin-top: -50px">
+                                                <img src="https://mc-cloudy.com/public/images/reports.webp" class="img-fluid" alt="Support Minecraft Cloudy" draggable="false">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{ form_end(formUpdateReport) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{ include('include/footer.html.twig') }}
+</body>
+</html>

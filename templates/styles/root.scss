@@ -1,0 +1,21 @@
+$color-primary: #186EF0;
+$color-secondary: #212529;
+
+$color-text-primary: #1e1e1f;
+$color-text-secondary: #1d1d1f;
+
+$color-white: #fff;
+$color-light: #e4e7ea;
+$color-gray: #3c4043;
+
+$color-btn-primary-hover: #1b62c0;
+$color-btn-primary-focus: #1c54a0;
+
+$color-btn-secondary-hover: #ecf5ff;
+$color-btn-secondary-focus: #e9f3ff;
+
+@mixin flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

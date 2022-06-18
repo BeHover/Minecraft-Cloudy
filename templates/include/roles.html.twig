@@ -1,0 +1,11 @@
+{% if app.user.getUsername() == "CHYZHOV" %}
+    Администратор
+{% elseif app.user.getUsername() == "BeHover" %}
+    Веб-разработчик
+{% elseif app.user.getUsername() == "Ling" %}
+    Администратор
+{% elseif app.user.getUsername() == "DreamPhoenixS" %}
+    Модератор
+{% else %}
+    Обычный игрок
+{% endif %}

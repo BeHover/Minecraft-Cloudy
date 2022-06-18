@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        {{ include('include/head.html.twig') }}
+        <title>{% block title %}Авторизация{% endblock %}</title>
+        {{ include('styles/authentication.html.twig') }}
+    </head>
+    <body style="background: url('https://mc-cloudy.com/public/images/header-background.webp') no-repeat; background-size: cover">
+        <div class="container">
+            <div class="row d-flex justify-content-center align-items-center min-vh-100 h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5 mx-auto">
+                    <div class="container-authentication">
+                        <div class="header" style="background: #186ef0">
+                            <a class="fw-bolder" href="{{ path('main_page') }}">
+                                <i class="fas fa-angle-left"></i>
+                                На главную страницу
+                            </a>
+                        </div>
+                        <div class="body">
+                            <form action="{{ path('login') }}" method="post">
+                                <div class="block-text">
+                                    <div class="col-12 mx-auto">
+                                        <h1>Личный кабинет</h1>
+                                        <p>С возвращением, дорогой друг!</p>
+                                    </div>
+                                    <div class="col-10 mx-auto">
+                                        <img src="https://mc-cloudy.com/public/images/design/wavy-line.png" alt="Wavy line" class="img-fluid mb-2" draggable="false" />
+                                    </div>
+                                </div>
+
+                                {% if error %}
+                                    <p class="message">Вы указали неверные данные для входа.</p>
+                                {% endif %}
+
+                                <div class="col-12 col-lg-11 mx-auto">
+                                    <input type="text" id="username" name="_username" class="form-control mb-3" placeholder="Игровой никнейм" required="" autofocus="">
+                                    <input type="password" id="password" name="_password" class="form-control mb-3" placeholder="Пароль" required="">
+                                </div>
+
+                                <p class="mb-3">Забыли пароль? <a href="{{ path('send_password_recovery') }}">Нажмите, чтобы восстановить.</a></p>
+
+                                <div class="buttons d-flex col-12 col-lg-11 col-xl-11 mx-auto">
+                                    <div id="row" style="margin: auto!important">
+                                        <button class="col col-md-auto btn btn-primary m-auto" type="submit">Авторизоваться</button>
+                                        <a href="{{ path('register') }}" class="col col-md-auto btn btn-secondary m-auto">Создать аккаунт</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

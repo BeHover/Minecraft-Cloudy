@@ -1,0 +1,55 @@
+{% block stylesheet %}
+    <style>
+        {{ include('styles/badges.css') }}
+    </style>
+{% endblock %}
+
+<div class="container-banner">
+    <div class="container">
+        {% if not app.user %}
+            <div class="banner">
+                <div class="banner-icon">
+                    <i class="far fa-lock"></i>
+                </div>
+                <div class="banner-text">
+                    <p class="title">Вы не авторизованы</p>
+                    <p class="subtitle">Авторизуйтесь, чтобы получить доступ к полному функционалу сайта</p>
+                </div>
+                <div class="banner-buttons">
+                    <a class="btn btn-secondary col-12 col-md-auto" href="{{ path('login') }}">Войти</a>
+                    <a class="btn btn-primary col-12 col-md-auto" href="{{ path('register') }}">Создать аккаунт</a>
+                </div>
+            </div>
+        {% else %}
+            {% if not app.user.isVerified %}
+                <div class="banner">
+                    <div class="banner-icon">
+                        <i class="far fa-envelope"></i>
+                    </div>
+                    <div class="banner-text">
+                        <p class="title">Подтвердите почту</p>
+                        <p class="subtitle">Пожалуйста, подтвердите почту, чтобы получить доступ к полному функционалу сайта</p>
+                    </div>
+                    <div class="banner-buttons">
+                        <a class="btn btn-secondary col-12 col-md-auto" href="{{ path('send_email_confirmation') }}">Изменить</a>
+                        <a class="btn btn-primary col-12 col-md-auto" href="{{ path('send_email_confirmation') }}">Выслать повторно</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="banner">
+                    <div class="banner-icon">
+                        <i class="far fa-star"></i>
+                    </div>
+                    <div class="banner-text">
+                        <p class="title">History of Civilization</p>
+                        <p class="subtitle">Мы запускаем долгожданный сервер нашего проекта - <b>Цивилизацию</b></p>
+                    </div>
+                    <div class="banner-buttons row">
+                        <a class="btn btn-secondary col-12 col-md-auto" href="{{ path('server_rules', {'server_tag': 'civilization'}) }}">Игровые правила</a>
+                        <a class="btn btn-primary col-12 col-md-auto" href="{{ path('our_servers') }}">О сервере</a>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>

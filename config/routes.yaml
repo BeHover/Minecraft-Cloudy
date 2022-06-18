@@ -1,0 +1,151 @@
+# Main pages
+main_page:
+    path: /
+    controller: App\Controller\MainController::main
+    methods: POST|GET
+
+our_servers:
+    path: /servers
+    controller: App\Controller\ServerController::servers
+    methods: GET
+
+# Redirect Routes
+vk:
+    path: /vk
+    controller: App\Controller\MainController::vk
+    methods: GET
+
+discord:
+    path: /discord
+    controller: App\Controller\MainController::discord
+    methods: GET
+
+# Support
+support:
+    path: /support/{page}
+    controller: App\Controller\ReportController::faq
+    methods: GET
+
+create_report:
+    path: /support/my-reports/create
+    controller: App\Controller\ReportController::createReport
+    methods: POST|GET
+
+user_reports:
+    path: /support/my-reports/list
+    controller: App\Controller\ReportController::userReports
+    methods: GET
+
+user_report_info:
+    path: /support/my-reports/report-{id}/info
+    controller: App\Controller\ReportController::userReportInfo
+    methods: GET
+
+user_update_report:
+    path: /support/my-reports/report-{id}/update
+    controller: App\Controller\ReportController::userUpdateReport
+    methods: POST|GET
+
+user_delete_report:
+    path: /support/my-reports/report-{id}/delete
+    controller: App\Controller\ReportController::userDeleteReport
+    methods: GET|DELETE
+
+# Server
+server_rules:
+    path: /servers/{server_tag}/rules
+    controller: App\Controller\ServerController::serverRules
+    methods: GET
+
+civilization_map:
+    path: /servers/civilization/map
+    #controller: App\Controller\MainController::mapCivilization
+    controller: App\Controller\MainController::main
+    methods: GET
+
+phoenix_map:
+    path: /servers/phoenix/map
+    controller: App\Controller\MainController::mapPhoenix
+    methods: GET
+
+# User
+logout:
+    path: /logout
+    methods: GET
+
+login:
+    path: /login
+    controller: App\Controller\PlayerController::login
+
+register:
+    path: /register
+    controller: App\Controller\RegistrationController::register
+    methods: POST|GET
+
+profile:
+    path: /profile
+    controller: App\Controller\PlayerController::profile
+    methods: POST|GET
+
+verify_email:
+    path: /profile/verify-email
+    controller: App\Controller\RegistrationController::verifyUserEmail
+
+send_email_confirmation:
+    path: /profile/send-verify-email
+    controller: App\Controller\RegistrationController::sendVerify
+    methods: GET
+
+send_password_recovery:
+    path: /send-recover-password
+    #controller: App\Controller\PlayerController::sendRecoverPassword
+    controller: App\Controller\PlayerController::login
+
+recovery_password:
+    path: /recovery-password/{token}
+    controller: App\Controller\PlayerController::recoveryPassword
+
+# Admin
+admin:
+    path: /admin
+    controller: App\Controller\AdminController::main
+    methods: GET
+
+admin_reports:
+    path: /admin/reports
+    controller: App\Controller\AdminController::reports
+    methods: GET
+
+admin_view_report:
+    path: /admin/reports/report-{id}/view
+    controller: App\Controller\AdminController::viewReport
+    methods: POST|GET
+
+admin_delete_report:
+    path: /admin/reports/report-{id}/delete
+    #controller: App\Controller\ReportController::moderatorDeleteReport
+    controller: App\Controller\MainController::main
+    methods: GET|DELETE
+
+admin_players:
+    path: /admin/players
+    controller: App\Controller\AdminController::main
+    methods: GET
+
+admin_global:
+    path: /admin/global
+    controller: App\Controller\AdminController::main
+    methods: POST|GET
+
+# Lands
+lands:
+    path: /servers/{server_tag}/lands
+    #controller: App\Controller\LandsController::getAll
+    controller: App\Controller\MainController::main
+    methods: GET
+
+land:
+    path: /servers/civilization/lands/{id}
+    #controller: App\Controller\LandsController::getOne
+    controller: App\Controller\MainController::main
+    methods: GET

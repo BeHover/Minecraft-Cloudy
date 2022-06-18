@@ -1,0 +1,95 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: Inter, sans-serif;
+}
+
+#main-content {
+  flex: 1 0 auto;
+}
+
+footer {
+  flex: 0 0 auto;
+}
+
+.btn:focus {
+  box-shadow: none !important;
+}
+
+button:focus:not(:focus-visible) {
+  outline: 0;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+}
+.profile img {
+  min-width: 38px;
+  min-height: 38px;
+}
+.profile .profile-text {
+  margin-left: 10px;
+  font-size: 16px;
+  line-height: 16px;
+  color: #1e1e1f;
+}
+.profile .profile-text h5 {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 600;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+.profile .profile-text p {
+  font-weight: 400;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.banner-image {
+  min-height: 230px;
+  height: 230px;
+}
+
+@media only screen and (max-width: 991px) {
+  .banner-image {
+    min-height: 170px;
+    height: 170px;
+  }
+}
+.container-title {
+  margin: 40px auto 30px;
+}
+
+.container-content {
+  padding: 60px 0;
+  background-color: white;
+}
+.container-content.border-top {
+  border-top: 1px solid #e4e7ea !important;
+}
+.container-content.border-bottom {
+  border-bottom: 1px solid #e4e7ea !important;
+}
+
+@media only screen and (max-width: 991px) {
+  .container-content {
+    padding: 25px 0;
+  }
+}
+.text-primary {
+  color: #186EF0;
+}
+
+/*# sourceMappingURL=main.css.map */
