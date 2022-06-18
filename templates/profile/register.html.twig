@@ -8,16 +8,16 @@
 <body class="row m-0">
     <div class="col-12 col-sm-8 col-md-7 col-lg-6 col-xl-5 ms-auto p-0">
         <div class="container-authentication flex min-vh-100">
-            {{ form_start(registrationForm) }}
-                <h5>Твоя вселенная развлечений</h5>
-                <h2>Регистрация пользователя</h2>
-                <p>Для регистрации нового аккаунта необходимо заполнить все поля.</p>
+            <div class="animate__animated animate__zoomIn">
+                {{ form_start(registrationForm) }}
+                    <h5>Твоя вселенная развлечений</h5>
+                    <h2>Регистрация пользователя</h2>
+                    <p>Для регистрации нового аккаунта необходимо заполнить все поля.</p>
 
-                {% if message %}
-                    <p class="error-message">{{ message|raw }}</p>
-                {% endif %}
+                    {% if message %}
+                        <p class="error-message">{{ message|raw }}</p>
+                    {% endif %}
 
-                {% if not success %}
                     {{ form_widget(registrationForm.username, {'attr': {'class': 'form-control', 'placeholder': 'Введите никнейм'}}) }}
                     {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Введите пароль'}}) }}
                     {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Введите электронную почту'}}) }}
@@ -27,10 +27,8 @@
                     <p class="text-center">Есть аккаунт? <a href="{{ path('login') }}">Нажмите, чтобы войти в личный кабинет.</a></p>
 
                     <p class="text-center fw-light mt-5">BeHover Developer © Minecraft Cloudy, 2022</p>
-                {% else %}
-                    <p class="info-message">Аккаунт успешно создан. Мы выслали вам письмо для подтверждения электронной почты. Если оно не пришло в течение нескольких минут - проверьте, не попало ли оно в папку со спамом.</p>
-                {% endif %}
-            {{ form_end(registrationForm) }}
+                {{ form_end(registrationForm) }}
+            </div>
         </div>
     </div>
 </body>

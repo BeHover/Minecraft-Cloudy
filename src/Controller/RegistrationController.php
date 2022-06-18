@@ -42,8 +42,7 @@ class RegistrationController extends AbstractController
                 return $this->render("profile/register.html.twig",
                     [
                         "registrationForm" => $form->createView(),
-                        "message" => "Пароль должен состоять из латиницы и цифр. Допустимая длина: от 5 до 24 символов.",
-                        "success" => 1
+                        "message" => "Пароль должен состоять из латиницы и цифр. Допустимая длина: от 5 до 24 символов."
                     ]
                 );
             }
@@ -53,8 +52,7 @@ class RegistrationController extends AbstractController
                 return $this->render("profile/register.html.twig",
                     [
                         "registrationForm" => $form->createView(),
-                        "message" => "Этот никнейм уже кем-то занят.",
-                        "success" => 1
+                        "message" => "Этот никнейм уже кем-то занят."
                     ]
                 );
             }
@@ -63,8 +61,7 @@ class RegistrationController extends AbstractController
                 return $this->render("profile/register.html.twig",
                     [
                         "registrationForm" => $form->createView(),
-                        "message" => "Никнейм должен состоять из латиницы и цифр. Допустимая длина: от 5 до 20 символов.",
-                        "success" => 1
+                        "message" => "Никнейм должен состоять из латиницы и цифр. Допустимая длина: от 5 до 20 символов."
                     ]
                 );
             }
@@ -74,8 +71,7 @@ class RegistrationController extends AbstractController
                 return $this->render("profile/register.html.twig",
                     [
                         "registrationForm" => $form->createView(),
-                        "message" => "Эту почту уже кто-то использует.",
-                        "success" => 1
+                        "message" => "Эту почту уже кто-то использует."
                     ]
                 );
             }
@@ -113,8 +109,7 @@ class RegistrationController extends AbstractController
             return $this->render("profile/register.html.twig",
                 [
                     "registrationForm" => $form->createView(),
-                    "message" => null,
-                    "success" => 1
+                    "message" => null
                 ]
             );
         }
@@ -122,8 +117,7 @@ class RegistrationController extends AbstractController
         return $this->render("profile/register.html.twig",
             [
                 "registrationForm" => $form->createView(),
-                "message" => null,
-                "success" => 0
+                "message" => null
             ]
         );
     }

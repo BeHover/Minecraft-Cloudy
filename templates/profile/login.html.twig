@@ -8,27 +8,29 @@
 <body class="row m-0">
     <div class="col-12 col-sm-8 col-md-7 col-lg-6 col-xl-5 ms-auto p-0">
         <div class="container-authentication flex min-vh-100">
-            <form action="{{ path('login') }}" method="post">
-                <h5>Твоя вселенная развлечений</h5>
-                <h2>Вход в личный кабинет</h2>
-                <p>Авторизуйтесь, чтобы перейти в личный кабинет <b>Minecraft Cloudy</b>.</p>
+            <div class="animate__animated animate__zoomIn">
+                <form action="{{ path('login') }}" method="post">
+                    <h5>Твоя вселенная развлечений</h5>
+                    <h2>Вход в личный кабинет</h2>
+                    <p>Авторизуйтесь, чтобы перейти в личный кабинет <b>Minecraft Cloudy</b>.</p>
 
-                {% if error %}
-                    <p class="error-message">Вы указали неверные данные для входа.</p>
-                {% endif %}
+                    {% if error %}
+                        <p class="error-message">Вы указали неверные данные для входа.</p>
+                    {% endif %}
 
-                <input type="text" id="username" name="_username" class="form-control" placeholder="Игровой никнейм" required="" />
-                <input type="password" id="password" name="_password" class="form-control" placeholder="Пароль от аккаунта" required="" />
+                    <input type="text" id="username" name="_username" class="form-control" placeholder="Игровой никнейм" required="" />
+                    <input type="password" id="password" name="_password" class="form-control" placeholder="Пароль от аккаунта" required="" />
 
 
-                <a href="{{ path('send_password_recovery') }}">Забыли пароль от аккаунта?</a>
+                    <a href="{{ path('send_password_recovery') }}">Забыли пароль от аккаунта?</a>
 
-                <button class="btn btn-primary col-12" type="submit">Авторизоваться</button>
+                    <button class="btn btn-primary col-12" type="submit">Авторизоваться</button>
 
-                <p class="text-center">Нет аккаунта? <a href="{{ path('register') }}">Нажмите, чтобы зарегистрировать.</a></p>
+                    <p class="text-center">Нет аккаунта? <a href="{{ path('register') }}">Нажмите, чтобы зарегистрировать.</a></p>
 
-                <p class="text-center fw-light mt-5">BeHover Developer © Minecraft Cloudy, 2022</p>
-            </form>
+                    <p class="text-center fw-light mt-5">BeHover Developer © Minecraft Cloudy, 2022</p>
+                </form>
+            </div>
         </div>
     </div>
 </body>
