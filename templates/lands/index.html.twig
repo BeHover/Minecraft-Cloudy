@@ -1,56 +1,55 @@
 <!DOCTYPE html>
-<html class="page">
-    <head>
-        {{ include('include/head.html.twig') }}
-        <title>{% block title %}Города игроков{% endblock %}</title>
-    </head>
-    <body onload="InitPageTheme()">
-        {{ include('include/nav.html.twig') }}
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
-                        <span class="alert-text"><strong>Внимание!</strong> Некоторые данные могут быть недостоверными. Информация о городах обновляется каждые 15-30 минут.</span>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+<html lang="ru">
+<head>
+    {{ include('include/head.html.twig') }}
+    <title>{% block title %}Города игроков{% endblock %}</title>
+</head>
+<body onload="InitPageTheme()">
+    {{ include('include/nav.html.twig') }}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                    <span class="alert-text"><strong>Внимание!</strong> Некоторые данные могут быть недостоверными. Информация о городах обновляется каждые 15-30 минут.</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                {% if lands|length > 0 %}
-                    {% for land in lands %}
-                        {% if land.type == 0 %}
-                            <div class="col-12 col-lg-6 mt-4">
-                                <div class="block lands">
-                                    <div class="block-header block-header-lands">
-                                        <div class="block-title d-flex align-items-center">
-                                            <p class="lands-circle"></p>
-                                            <p class="lands-title">#{{ land.id }} — {{ land.name }}</p>
-                                        </div>
+            </div>
+            {% if lands|length > 0 %}
+                {% for land in lands %}
+                    {% if land.type == 0 %}
+                        <div class="col-12 col-lg-6 mt-4">
+                            <div class="block lands">
+                                <div class="block-header block-header-lands">
+                                    <div class="block-title d-flex align-items-center">
+                                        <p class="lands-circle"></p>
+                                        <p class="lands-title">#{{ land.id }} — {{ land.name }}</p>
                                     </div>
-                                    <div class="block-body block-body-lands block-border-top">
-                                        <div class="block-text lands-text">
-                                            <p><strong>Количество жителей в городе:</strong> {{ land.membersQuantity }}</p>
-                                            <p><strong>Координаты расположения:</strong> {{ land.location.x|round }}, {{ land.location.y|round }}, {{ land.location.z|round }}</p>
-                                            <p><strong>Баланс казны города:</strong> {{ land.balance }} золотых монет</p>
-                                            <p><strong>Дата создания города:</strong> {{ land.createdAt }}</p>
-                                        </div>
+                                </div>
+                                <div class="block-body block-body-lands block-border-top">
+                                    <div class="block-text lands-text">
+                                        <p><strong>Количество жителей в городе:</strong> {{ land.membersQuantity }}</p>
+                                        <p><strong>Координаты расположения:</strong> {{ land.location.x|round }}, {{ land.location.y|round }}, {{ land.location.z|round }}</p>
+                                        <p><strong>Баланс казны города:</strong> {{ land.balance }} золотых монет</p>
+                                        <p><strong>Дата создания города:</strong> {{ land.createdAt }}</p>
                                     </div>
-                                    <div class="block-body block-body-lands block-border-top">
-                                        <div class="block-text">
-                                            <div class="d-flex align-items-center ml-auto">
-                                                <img class="lands-player" alt="" src="https://mc-cloudy.com/public/images/playerhead.png">
-                                                <p class="lands-owner">{{ land.owner }} <span>— Правитель города</span></p>
-                                                <a class="ml-auto" href="{{ path('land', {'id': land.id}) }}"><i class="fas fa-long-arrow-right fa-2x"></i></a>
-                                            </div>
+                                </div>
+                                <div class="block-body block-body-lands block-border-top">
+                                    <div class="block-text">
+                                        <div class="d-flex align-items-center ml-auto">
+                                            <img class="lands-player" alt="" src="https://mc-cloudy.com/public/images/playerhead.png">
+                                            <p class="lands-owner">{{ land.owner }} <span>— Правитель города</span></p>
+                                            <a class="ml-auto" href="{{ path('land', {'id': land.id}) }}"><i class="fas fa-long-arrow-right fa-2x"></i></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
-            {{ include('include/footer.html.twig') }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
-    </body>
-</html>
+        {{ include('include/footer.html.twig') }}
+    </div>
+</body>

@@ -1,140 +1,140 @@
 <!DOCTYPE html>
 <html lang="ru">
-    <head>
-        {{ include('include/head.html.twig') }}
-        <title>{% block title %}Главная страница{% endblock %}</title>
-    </head>
-    <body>
-        {{ include('include/nav.html.twig') }}
+<head>
+    {{ include('include/head.html.twig') }}
+    <title>{% block title %}Главная страница{% endblock %}</title>
+</head>
+<body>
+    {{ include('include/preloader.html.twig') }}
+    {{ include('include/nav.html.twig') }}
 
-        <section class="banner-image flex animate__animated animate__fadeIn" style="background: url('https://mc-cloudy.com/public/images/header-background.webp') no-repeat top; background-size: cover"></section>
+    <section class="banner-image flex wow animate__animated animate__fadeIn" style="background: url('https://mc-cloudy.com/public/images/header-background.webp') no-repeat top; background-size: cover"></section>
 
-        <section class="py-5 animate__animated animate__fadeInUp">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <h3 class="fw-bold">Начни играть на проекте</h3>
-                        <p>Пройди четыре простых этапа и окунись в увлекательную игру</p>
-                    </div>
-                    <div class="col-9 col-md-6 col-lg-4 mx-auto mb-3">
-                        <img src="https://mc-cloudy.com/public/images/design/wavy-line.png" alt="Wavy line" class="img-fluid" draggable="false">
-                    </div>
+    <section class="py-5 wow animate__animated animate__fadeInUp">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h3 class="fw-bold">Начни играть на проекте</h3>
+                    <p>Пройди четыре простых этапа и окунись в увлекательную игру</p>
                 </div>
-            </div>
-
-            <div class="container container-feature">
-                <div class="row">
-                    <div class="col-12 col-md-6 col-xl-3 mb-5 mb-xl-0 feature-item">
-                        <div class="flex" style="height: 140px; width: 100%; background: radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#ffffff 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #ffffff 2px, #186ef0 2px) -1px 0; background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px; border-radius: .5rem;">
-                            <div style="padding: 10px; background-color: #186ef0; border-radius: 50%">
-                                <i class="fas fa-user fa-4x text-white"></i>
-                            </div>
-                        </div>
-                        <div class="text">
-                            <h1>Регистрация аккаунта</h1>
-                            <p>Для игры на проекте необходимо создать аккаунт. <a class="text-primary" href="{{ path('register') }}">Нажмите сюда</a>, чтобы перейти к регистрации.</p>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-3 mb-5 mb-xl-0 feature-item">
-                        <div class="flex" style="height: 140px; width: 100%; background: radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#ffffff 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #ffffff 2px, #186ef0 2px) -1px 0; background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px; border-radius: .5rem;">
-                            <div style="padding: 10px; background-color: #186ef0; border-radius: 50%">
-                                <i class="fas fa-envelope fa-4x text-white"></i>
-                            </div>
-                        </div>
-                        <div class="text">
-                            <h1>Подтверждение почты</h1>
-                            <p>После регистрации подтвердите почту. Используйте ссылку в письме, которое вам пришло.</p>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-3 mb-5 mb-xl-0 feature-item">
-                        <div class="flex" style="height: 140px; width: 100%; background: radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#ffffff 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #ffffff 2px, #186ef0 2px) -1px 0; background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px; border-radius: .5rem;">
-                            <div style="padding: 10px; background-color: #186ef0; border-radius: 50%">
-                                <i class="fas fa-search fa-4x text-white"></i>
-                            </div>
-                        </div>
-                        <div class="text">
-                            <h1>Выбор сервера</h1>
-                            <p>Выберите понравившийся вам сервер. <a class="text-primary" href="{{ path('our_servers') }}">Нажмите здесь</a>, чтобы посмотреть список серверов.</p>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-3 feature-item">
-                        <div class="flex" style="height: 140px; width: 100%; background: radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#ffffff 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #ffffff 2px, #186ef0 2px) -1px 0; background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px; border-radius: .5rem;">
-                            <div style="padding: 6px; background-color: #186ef0; border-radius: 50%">
-                                <i class="fas fa-gamepad fa-4x text-white"></i>
-                            </div>
-                        </div>
-                        <div class="text">
-                            <h1>Начало игры</h1>
-                            <p>Скопируйте IP адрес сервера и окунитесь в незабываемые приключения со своими друзьями!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="container-content border-top landing-block wow animate__animated animate__fadeInLeft">
-            <div class="container landing-wrapper">
-                <div class="row m-0">
-                    <div class="col-12 col-lg-6 order-1 d-flex align-items-center">
-                        <div class="block-text">
-                            <h5>Совершенно новый геймплей</h5>
-                            <h2>Клауди - это уникальные сервера</h2>
-                            <p>Мы заботимся о том, чтобы вы - наши игроки, проводили своё время в комфорте, который создаётся интересным и увлекательным геймплеем.</p>
-                            <p>Наши сервера разработаны с любовью. Мы максимально прорабатываем все возможные механики и системы для каждого сервера. Даже классический Феникс сделан так, чтобы каждому понравился даже самый простой Майнкрафт.</p>
-                            <a href="{{ path('our_servers') }}">Перейти к списку наших серверов<i class="far fa-external-link-alt icon-margin-left"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6 order-2 mt-lg-0">
-                        <img src="https://mc-cloudy.com/public/images/feature-01.webp" alt="Our servers" class="rounded img-fluid" style="transform: rotate(2deg)" draggable="false" />
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="container-content border-top landing-block wow animate__animated animate__fadeInRight">
-            <div class="container landing-wrapper">
-                <div class="row m-0">
-                    <div class="col-12 col-lg-6 order-2 order-lg-1 mt-lg-0">
-                        <img src="https://mc-cloudy.com/public/images/feature-02.webp" alt="Our servers" class="rounded img-fluid" style="transform: rotate(-2deg)" draggable="false" />
-                    </div>
-                    <div class="col-12 col-lg-6 order-1 order-lg-2 d-flex align-items-center">
-                        <div class="ms-xl-5 block-text">
-                            <h5 class="secondary">Развитое сообщество</h5>
-                            <h2>Голосовой чат на всех серверах</h2>
-                            <p>Мод опциональный, потому что серверная часть сделана через плагин, а клиентская через мод.</p>
-                            <p>Голосовой чат погружает и сближает вас с персонажами в игре — вы общаетесь с ними как в реальной жизни.</p>
-                            <ul>
-                                <li>Установка мода не обязательна</li>
-                            </ul>
-                            <div class="row group-buttons">
-                                <a href="https://cdn.modrinth.com/data/1bZhdhsH/versions/forge-1.17-1.2.11/plasmovoice-forge-1.17.1-1.2.11.jar" class="btn btn-primary col-12 col-md-auto">Скачать для Forge</a>
-                                <a href="https://cdn.modrinth.com/data/1bZhdhsH/versions/fabric-1.17-1.2.11/plasmovoice-fabric-1.17.1-1.2.11.jar" class="btn btn-secondary col-12 col-md-auto">Fabric версия мода</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="container-content border-top landing-block wow animate__animated animate__fadeInLeft">
-            <div class="container landing-wrapper">
-                <div class="row m-0">
-                    <div class="col-12 col-lg-6 order-1 d-flex align-items-center">
-                        <div class="block-text">
-                            <h5>Творческие сервера</h5>
-                            <h2>Большой уклон в строительство</h2>
-                            <p>Cloudy - это отличный проект для реализации вашего творческого потенциала. Игроки обожают строить и делают это весьма качественно!</p>
-                            <p>Наши сервера направлены на воплощение ваших идей! Стройте от малых густонаселённых поселений до крупных городов с широкими улицами и прочей инфраструктурой. Станьте лучшим строителем, покорите игровой мир своими сооружениями!</p>
-                            <a href="{{ path('discord') }}">Скриншоты игроков в Дискорде<i class="far fa-external-link-alt icon-margin-left"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6 order-2 mt-lg-0">
-                        <img src="https://mc-cloudy.com/public/images/feature-03.webp" alt="Our servers" class="rounded img-fluid" style="transform: rotate(2deg)" draggable="false" />
-                    </div>
+                <div class="col-9 col-md-6 col-lg-4 mx-auto mb-3">
+                    <img src="https://mc-cloudy.com/public/images/design/wavy-line.png" alt="Wavy line" class="img-fluid" draggable="false">
                 </div>
             </div>
         </div>
 
-        {{ include('include/footer.html.twig') }}
-    </body>
-</html>
+        <div class="container container-feature">
+            <div class="row">
+                <div class="col-12 col-md-6 col-xl-3 mb-5 mb-xl-0 feature-item">
+                    <div class="flex" style="height: 140px; width: 100%; background: radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#ffffff 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #ffffff 2px, #186ef0 2px) -1px 0; background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px; border-radius: .5rem;">
+                        <div style="padding: 10px; background-color: #186ef0; border-radius: 50%">
+                            <i class="fas fa-user fa-4x text-white"></i>
+                        </div>
+                    </div>
+                    <div class="text">
+                        <h1>Регистрация аккаунта</h1>
+                        <p>Для игры на проекте необходимо создать аккаунт. <a class="text-primary" href="{{ path('register') }}">Нажмите сюда</a>, чтобы перейти к регистрации.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-3 mb-5 mb-xl-0 feature-item">
+                    <div class="flex" style="height: 140px; width: 100%; background: radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#ffffff 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #ffffff 2px, #186ef0 2px) -1px 0; background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px; border-radius: .5rem;">
+                        <div style="padding: 10px; background-color: #186ef0; border-radius: 50%">
+                            <i class="fas fa-envelope fa-4x text-white"></i>
+                        </div>
+                    </div>
+                    <div class="text">
+                        <h1>Подтверждение почты</h1>
+                        <p>После регистрации подтвердите почту. Используйте ссылку в письме, которое вам пришло.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-3 mb-5 mb-xl-0 feature-item">
+                    <div class="flex" style="height: 140px; width: 100%; background: radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#ffffff 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #ffffff 2px, #186ef0 2px) -1px 0; background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px; border-radius: .5rem;">
+                        <div style="padding: 10px; background-color: #186ef0; border-radius: 50%">
+                            <i class="fas fa-search fa-4x text-white"></i>
+                        </div>
+                    </div>
+                    <div class="text">
+                        <h1>Выбор сервера</h1>
+                        <p>Выберите понравившийся вам сервер. <a class="text-primary" href="{{ path('our_servers') }}">Нажмите здесь</a>, чтобы посмотреть список серверов.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-3 feature-item">
+                    <div class="flex" style="height: 140px; width: 100%; background: radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#ffffff 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #ffffff 2px, #186ef0 2px) -1px 0; background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px; border-radius: .5rem;">
+                        <div style="padding: 6px; background-color: #186ef0; border-radius: 50%">
+                            <i class="fas fa-gamepad fa-4x text-white"></i>
+                        </div>
+                    </div>
+                    <div class="text">
+                        <h1>Начало игры</h1>
+                        <p>Скопируйте IP адрес сервера и окунитесь в незабываемые приключения со своими друзьями!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container-content border-top landing-block wow animate__animated animate__fadeInLeft">
+        <div class="container landing-wrapper">
+            <div class="row m-0">
+                <div class="col-12 col-lg-6 order-1 d-flex align-items-center">
+                    <div class="block-text">
+                        <h5>Совершенно новый геймплей</h5>
+                        <h2>Клауди - это уникальные сервера</h2>
+                        <p>Мы заботимся о том, чтобы вы - наши игроки, проводили своё время в комфорте, который создаётся интересным и увлекательным геймплеем.</p>
+                        <p>Наши сервера разработаны с любовью. Мы максимально прорабатываем все возможные механики и системы для каждого сервера. Даже классический Феникс сделан так, чтобы каждому понравился даже самый простой Майнкрафт.</p>
+                        <a href="{{ path('our_servers') }}">Перейти к списку наших серверов<i class="far fa-external-link-alt icon-margin-left"></i></a>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 order-2 mt-lg-0">
+                    <img src="https://mc-cloudy.com/public/images/feature-01.webp" alt="Our servers" class="rounded img-fluid" style="transform: rotate(2deg)" draggable="false" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container-content border-top landing-block wow animate__animated animate__fadeInRight">
+        <div class="container landing-wrapper">
+            <div class="row m-0">
+                <div class="col-12 col-lg-6 order-2 order-lg-1 mt-lg-0">
+                    <img src="https://mc-cloudy.com/public/images/feature-02.webp" alt="Our servers" class="rounded img-fluid" style="transform: rotate(-2deg)" draggable="false" />
+                </div>
+                <div class="col-12 col-lg-6 order-1 order-lg-2 d-flex align-items-center">
+                    <div class="ms-xl-5 block-text">
+                        <h5 class="secondary">Развитое сообщество</h5>
+                        <h2>Голосовой чат на всех серверах</h2>
+                        <p>Мод опциональный, потому что серверная часть сделана через плагин, а клиентская через мод.</p>
+                        <p>Голосовой чат погружает и сближает вас с персонажами в игре — вы общаетесь с ними как в реальной жизни.</p>
+                        <ul>
+                            <li>Установка мода не обязательна</li>
+                        </ul>
+                        <div class="row group-buttons">
+                            <a href="https://cdn.modrinth.com/data/1bZhdhsH/versions/forge-1.17-1.2.11/plasmovoice-forge-1.17.1-1.2.11.jar" class="btn btn-primary col-12 col-md-auto">Скачать для Forge</a>
+                            <a href="https://cdn.modrinth.com/data/1bZhdhsH/versions/fabric-1.17-1.2.11/plasmovoice-fabric-1.17.1-1.2.11.jar" class="btn btn-secondary col-12 col-md-auto">Fabric версия мода</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container-content border-top landing-block wow animate__animated animate__fadeInLeft">
+        <div class="container landing-wrapper">
+            <div class="row m-0">
+                <div class="col-12 col-lg-6 order-1 d-flex align-items-center">
+                    <div class="block-text">
+                        <h5>Творческие сервера</h5>
+                        <h2>Большой уклон в строительство</h2>
+                        <p>Cloudy - это отличный проект для реализации вашего творческого потенциала. Игроки обожают строить и делают это весьма качественно!</p>
+                        <p>Наши сервера направлены на воплощение ваших идей! Стройте от малых густонаселённых поселений до крупных городов с широкими улицами и прочей инфраструктурой. Станьте лучшим строителем, покорите игровой мир своими сооружениями!</p>
+                        <a href="{{ path('discord') }}">Скриншоты игроков в Дискорде<i class="far fa-external-link-alt icon-margin-left"></i></a>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 order-2 mt-lg-0">
+                    <img src="https://mc-cloudy.com/public/images/feature-03.webp" alt="Our servers" class="rounded img-fluid" style="transform: rotate(2deg)" draggable="false" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ include('include/footer.html.twig') }}
+</body>

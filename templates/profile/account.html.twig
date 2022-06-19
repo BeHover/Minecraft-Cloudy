@@ -1,98 +1,91 @@
 <!DOCTYPE html>
 <html lang="ru">
-    <head>
-        {{ include('include/head.html.twig') }}
-        <title>{% block title %}Личный кабинет{% endblock %}</title>
-    </head>
-    {% if app.user.isVerified %}
-        <body>
-            {{ include('include/nav.html.twig') }}
+<head>
+    {{ include('include/head.html.twig') }}
+    <title>{% block title %}Личный кабинет{% endblock %}</title>
+</head>
+<body>
+    {{ include('include/preloader.html.twig') }}
+    {{ include('include/nav.html.twig') }}
+    {{ include('badges/header.html.twig') }}
 
-            {{ include('badges/header.html.twig') }}
-
-            <section id="main-content" class="container-fluid landing-block landing-padding bg-white animate__animated animate__fadeIn">
-                <div class="container container-wiki">
-                    <div class="row">
-                        <div class="d-none d-xl-block col-xl-3 mb-4 mb-lg-0">
-                            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                <div class="py-3 nav-link" style="border: 1px solid #d7d9db; background: white!important;">
-                                    <img src="https://mc-cloudy.com/public/images/skins/{{ app.user.getUsername() }}.png" class="img-fluid rounded" style="height: 80px; width: 80px" alt="{{ app.user.getUsername() }} skin" draggable="false">
-                                </div>
-                            </div>
+    <section id="main-content" class="container-fluid landing-block landing-padding bg-white wow animate__animated animate__fadeIn">
+        <div class="container container-wiki">
+            <div class="row">
+                <div class="d-none d-xl-block col-xl-3 mb-4 mb-lg-0">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <div class="py-3 nav-link" style="border: 1px solid #d7d9db; background: white!important;">
+                            <img src="https://mc-cloudy.com/public/images/skins/{{ app.user.getUsername() }}.png" class="img-fluid rounded" style="height: 80px; width: 80px" alt="{{ app.user.getUsername() }} skin" draggable="false">
                         </div>
-                        <div class="col-12 col-xl-9">
-                            <div class="wiki-display d-block">
-                                <div class="row">
-                                    <div class="col-12 col-xxl-9">
-                                        <div class="wiki-banner">
-                                            <h4>Управление данными аккаунта</h4>
-                                            <p>Вы можете изменить данные для доступа к аккаунту и внешность вашего персонажа.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-9">
+                    <div class="wiki-display d-block">
+                        <div class="row">
+                            <div class="col-12 col-xxl-9">
+                                <div class="wiki-banner">
+                                    <h4>Управление данными аккаунта</h4>
+                                    <p>Вы можете изменить данные для доступа к аккаунту и внешность вашего персонажа.</p>
+                                </div>
+
+                                {% if message %}
+                                    <p class="mt-3" style="color: #186EF0">{{ message|raw }}</p>
+                                {% endif %}
+
+                                <p class="mt-4 mb-1">Выбранный скин будет отображаться на всех серверах проекта.</p>
+
+                                {{ form_start(formChangeSkin) }}
+                                    <div class="row">
+                                        <div class="col-12 col-lg-8">
+                                            {{ form_widget(formChangeSkin.skin, {'attr': {'class': 'form-control mb-3 mb-lg-0'}}) }}
                                         </div>
-
-                                        {% if message %}
-                                            <p class="mt-3" style="color: #186EF0">{{ message|raw }}</p>
-                                        {% endif %}
-
-                                        <p class="mt-4 mb-1">Выбранный скин будет отображаться на всех серверах проекта.</p>
-
-                                        {{ form_start(formChangeSkin) }}
-                                            <div class="row">
-                                                <div class="col-12 col-lg-8">
-                                                    {{ form_widget(formChangeSkin.skin, {'attr': {'class': 'form-control mb-3 mb-lg-0'}}) }}
-                                                </div>
-                                                <div class="col-12 col-lg-4">
-                                                    <button class="btn btn-primary m-0 col-12" type="submit" style="padding: 6px 19px">Изменить скин</button>
-                                                </div>
-                                            </div>
-                                        {{ form_end(formChangeSkin) }}
-
-                                        <p class="mt-4 mb-1">Пароль будет использоваться для входа на наши сервера.</p>
-
-                                        {{ form_start(formChangePassword) }}
-                                            <div class="row">
-                                                <div class="col-12 col-lg-8">
-                                                    {{ form_widget(formChangePassword.password, {'attr': {'class': 'form-control mb-3 mb-lg-0', 'placeholder': 'Введите новый пароль'}}) }}
-                                                </div>
-                                                <div class="col-12 col-lg-4">
-                                                    <button class="btn btn-primary m-0 col-12" type="submit" style="padding: 6px 19px">Изменить пароль</button>
-                                                </div>
-                                            </div>
-                                        {{ form_end(formChangePassword) }}
-
-                                        <p class="mt-4 mb-1">Почта используется для восстановления доступу к аккаунту.</p>
-
-                                        {{ form_start(formChangeEmail) }}
-                                            <div class="row">
-                                                <div class="col-12 col-lg-8">
-                                                    {{ form_widget(formChangeEmail.email, {'attr': {'class': 'form-control mb-3 mb-lg-0', 'placeholder': 'Введите новую почту'}}) }}
-                                                </div>
-                                                <div class="col-12 col-lg-4">
-                                                    <button class="btn btn-primary m-0 col-12" type="submit" style="padding: 6px 19px">Изменить почту</button>
-                                                </div>
-                                            </div>
-                                        {{ form_end(formChangeEmail) }}
-
-                                        <a href="{{ path('logout') }}" class="btn btn-secondary mt-3 col-12 col-lg-4 mx-auto d-xl-none">Выйти с аккаунта</a>
+                                        <div class="col-12 col-lg-4">
+                                            <button class="btn btn-primary m-0 col-12" type="submit" style="padding: 6px 19px">Изменить скин</button>
+                                        </div>
                                     </div>
-                                    <div class="d-none d-xxl-block col-xxl-3 mx-auto">
-                                        <div class="row">
-                                            <div class="col-12 mx-auto">
-                                                <img src="https://mc-cloudy.com/public/images/profile.webp" class="img-fluid mt-5" alt="Gallery image" draggable="false">
-                                            </div>
+                                {{ form_end(formChangeSkin) }}
+
+                                <p class="mt-4 mb-1">Пароль будет использоваться для входа на наши сервера.</p>
+
+                                {{ form_start(formChangePassword) }}
+                                    <div class="row">
+                                        <div class="col-12 col-lg-8">
+                                            {{ form_widget(formChangePassword.password, {'attr': {'class': 'form-control mb-3 mb-lg-0', 'placeholder': 'Введите новый пароль'}}) }}
                                         </div>
+                                        <div class="col-12 col-lg-4">
+                                            <button class="btn btn-primary m-0 col-12" type="submit" style="padding: 6px 19px">Изменить пароль</button>
+                                        </div>
+                                    </div>
+                                {{ form_end(formChangePassword) }}
+
+                                <p class="mt-4 mb-1">Почта используется для восстановления доступу к аккаунту.</p>
+
+                                {{ form_start(formChangeEmail) }}
+                                    <div class="row">
+                                        <div class="col-12 col-lg-8">
+                                            {{ form_widget(formChangeEmail.email, {'attr': {'class': 'form-control mb-3 mb-lg-0', 'placeholder': 'Введите новую почту'}}) }}
+                                        </div>
+                                        <div class="col-12 col-lg-4">
+                                            <button class="btn btn-primary m-0 col-12" type="submit" style="padding: 6px 19px">Изменить почту</button>
+                                        </div>
+                                    </div>
+                                {{ form_end(formChangeEmail) }}
+
+                                <a href="{{ path('logout') }}" class="btn btn-secondary mt-3 col-12 col-lg-4 mx-auto d-xl-none">Выйти с аккаунта</a>
+                            </div>
+                            <div class="d-none d-xxl-block col-xxl-3 mx-auto">
+                                <div class="row">
+                                    <div class="col-12 mx-auto">
+                                        <img src="https://mc-cloudy.com/public/images/profile.webp" class="img-fluid mt-5" alt="Gallery image" draggable="false">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </div>
+    </section>
 
-            {{ include('include/footer.html.twig') }}
-        </body>
-    {% else %}
-        <script>
-            location.replace("{{ path('support', {'page': 'main'}) }}");
-        </script>
-    {% endif %}
-</html>
+    {{ include('include/footer.html.twig') }}
+</body>

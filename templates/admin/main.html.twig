@@ -5,11 +5,11 @@
     <title>{% block title %}Панель администратора{% endblock %}</title>
 </head>
 <body>
+    {{ include('include/preloader.html.twig') }}
     {{ include('include/nav.html.twig') }}
-
     {{ include('badges/header.html.twig') }}
 
-    <div class="container-fluid pt-5 bg-white d-none animate__animated animate__fadeInRight">
+    <div class="container-fluid pt-5 bg-white d-none wow animate__animated animate__fadeInRight">
         <div class="container block-title text-center">
             <div class="row">
                 <div class="col-12 mx-auto">
@@ -36,7 +36,7 @@
                         <a class="nav-link" href="{{ path('admin_global') }}">Параметры сайта</a>
                     </div>
                 </div>
-                <div class="col-12 col-xxl-9 animate__animated animate__fadeIn">
+                <div class="col-12 col-xxl-9 wow animate__animated animate__fadeIn">
                     <div class="wiki-display d-block">
                         <div class="wiki-banner">
                             <h4>Панель управления</h4>
@@ -103,4 +103,3 @@
 
     {{ include('include/footer.html.twig') }}
 </body>
-</html>

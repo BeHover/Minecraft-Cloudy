@@ -1,91 +1,90 @@
 <!DOCTYPE html>
 <html lang="ru">
-    <head>
-        {{ include('include/head.html.twig') }}
-        <title>{% block title %}Служба поддержки{% endblock %}</title>
-    </head>
-    <body>
-        {{ include('include/nav.html.twig') }}
+<head>
+    {{ include('include/head.html.twig') }}
+    <title>{% block title %}Служба поддержки{% endblock %}</title>
+</head>
+<body>
+    {{ include('include/preloader.html.twig') }}
+    {{ include('include/nav.html.twig') }}
+    {{ include('badges/header.html.twig') }}
 
-        {{ include('badges/header.html.twig') }}
-
-        <section id="main-content" class="landing-block landing-padding animate__animated animate__fadeIn">
-            <div class="container">
-                <div class="row">
-                    <div class="d-none d-xxl-block col-xxl-3 mb-4 mb-lg-0 container-wiki">
-                        <div class="nav flex-column nav-pills">
-                            <a class="nav-link" href="{{ path('support', {'page': 'main'}) }}">Вики Minecraft Cloudy</a>
-                            <div class="divider"></div>
-                            <a class="nav-link" href="{{ path('support', {'page': 'faq'}) }}">Частые вопросы</a>
-                            <a class="nav-link" href="{{ path('support', {'page': 'profile'}) }}">Управление аккаунтом</a>
-                            <div class="divider"></div>
-                            <a class="nav-link active" href="{{ path('user_reports') }}">Мои тикеты</a>
-                            <a class="nav-link" href="{{ path('create_report') }}">Создать тикет</a>
-                        </div>
+    <section id="main-content" class="landing-block landing-padding wow animate__animated animate__fadeIn">
+        <div class="container">
+            <div class="row">
+                <div class="d-none d-xxl-block col-xxl-3 mb-4 mb-lg-0 container-wiki">
+                    <div class="nav flex-column nav-pills">
+                        <a class="nav-link" href="{{ path('support', {'page': 'main'}) }}">Вики Minecraft Cloudy</a>
+                        <div class="divider"></div>
+                        <a class="nav-link" href="{{ path('support', {'page': 'faq'}) }}">Частые вопросы</a>
+                        <a class="nav-link" href="{{ path('support', {'page': 'profile'}) }}">Управление аккаунтом</a>
+                        <div class="divider"></div>
+                        <a class="nav-link active" href="{{ path('user_reports') }}">Мои тикеты</a>
+                        <a class="nav-link" href="{{ path('create_report') }}">Создать тикет</a>
                     </div>
-                    <div class="col-12 col-xxl-9">
-                        <a class="d-xxl-none back" href="{{ path('support', {'page': 'main'}) }}">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.29289 13.7071C5.68342 14.0976 6.31658 14.0976 6.70711 13.7071C7.09763 13.3166 7.09763 12.6834 6.70711 12.2929L3.41421 9L15 9C15.5523 9 16 8.55228 16 8C16 7.44772 15.5523 7 15 7L3.41421 7L6.70711 3.70711C7.09763 3.31658 7.09763 2.68342 6.70711 2.29289C6.31658 1.90237 5.68342 1.90237 5.29289 2.29289L0.292893 7.29289C-0.0976328 7.68342 -0.0976329 8.31658 0.292893 8.70711L5.29289 13.7071Z" fill="#79797A"></path></svg>
-                            Вернуться назад
-                        </a>
-                        <div class="wiki-display d-block">
-                            {% if not app.user %}
-                                <div class="wiki-banner">
-                                    <h4>Вы не авторизированы</h4>
-                                    <p>Авторизируйтесь, чтобы получить доступ к полному функционалу сайта.</p>
-                                </div>
-                            {% else %}
-                                {% if reports|length > 0 %}
-                                    <div class="row">
-                                        {% for report in reports %}
-                                            <div class="col-12 col-lg-6 d-grid align-items-stretch">
-                                                <div class="report-item">
-                                                    <div class="report-item__header">
-                                                        <img src="https://mc-cloudy.com/public/images/design/avatars/{{ report.getReporter().getIcon() }}" alt="{{ report.getReporter().getUsername() }} avatar" class="img-fluid mt-0" draggable="false" />
-                                                        <p>{{ report.getReporter().getUsername() }}</p>
-                                                        <p class="date">{{ report.getCreatedAt().format('d.m.Y') }}</p>
-                                                    </div>
-                                                    <div class="report-item__body">
-                                                        <p class="report-item__title">#{{ report.getId() }} — {{ report.getType().getName() }}</p>
-                                                        <p class="report-item__text">{{ report.getText() }}</p>
-                                                    </div>
-                                                    <div class="report-item__footer d-block d-lg-flex">
-                                                        {% if report.getStatus() == 0 %}
-                                                            <p class="report-item__status d-none d-lg-block"><i class="fas fa-eye-slash"></i>Не просмотрено</p>
-                                                        {% elseif report.getStatus() == 1 %}
-                                                            <p class="report-item__status d-none d-lg-block"><i class="fas fa-eye"></i>Получен ответ</p>
-                                                        {% endif %}
-                                                        <div class="report-item__buttons">
-                                                            <a href="{{ path('user_report_info', {'id': report.getId()}) }}" class="btn btn-secondary col-9 col-sm-3 col-lg-auto me-lg-1">Открыть</a>
-                                                            <a href="{{ path('user_delete_report', {'id': report.getId()}) }}" class="btn btn-primary ms-1 col-auto"><i class="fas fa-trash"></i></a>
-                                                        </div>
+                </div>
+                <div class="col-12 col-xxl-9">
+                    <a class="d-xxl-none back" href="{{ path('support', {'page': 'main'}) }}">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.29289 13.7071C5.68342 14.0976 6.31658 14.0976 6.70711 13.7071C7.09763 13.3166 7.09763 12.6834 6.70711 12.2929L3.41421 9L15 9C15.5523 9 16 8.55228 16 8C16 7.44772 15.5523 7 15 7L3.41421 7L6.70711 3.70711C7.09763 3.31658 7.09763 2.68342 6.70711 2.29289C6.31658 1.90237 5.68342 1.90237 5.29289 2.29289L0.292893 7.29289C-0.0976328 7.68342 -0.0976329 8.31658 0.292893 8.70711L5.29289 13.7071Z" fill="#79797A"></path></svg>
+                        Вернуться назад
+                    </a>
+                    <div class="wiki-display d-block">
+                        {% if not app.user %}
+                            <div class="wiki-banner">
+                                <h4>Вы не авторизированы</h4>
+                                <p>Авторизируйтесь, чтобы получить доступ к полному функционалу сайта.</p>
+                            </div>
+                        {% else %}
+                            {% if reports|length > 0 %}
+                                <div class="row">
+                                    {% for report in reports %}
+                                        <div class="col-12 col-lg-6 d-grid align-items-stretch">
+                                            <div class="report-item">
+                                                <div class="report-item__header">
+                                                    <img src="https://mc-cloudy.com/public/images/design/avatars/{{ report.getReporter().getIcon() }}" alt="{{ report.getReporter().getUsername() }} avatar" class="img-fluid mt-0" draggable="false" />
+                                                    <p>{{ report.getReporter().getUsername() }}</p>
+                                                    <p class="date">{{ report.getCreatedAt().format('d.m.Y') }}</p>
+                                                </div>
+                                                <div class="report-item__body">
+                                                    <p class="report-item__title">#{{ report.getId() }} — {{ report.getType().getName() }}</p>
+                                                    <p class="report-item__text">{{ report.getText() }}</p>
+                                                </div>
+                                                <div class="report-item__footer d-block d-lg-flex">
+                                                    {% if report.getStatus() == 0 %}
+                                                        <p class="report-item__status d-none d-lg-block"><i class="fas fa-eye-slash"></i>Не просмотрено</p>
+                                                    {% elseif report.getStatus() == 1 %}
+                                                        <p class="report-item__status d-none d-lg-block"><i class="fas fa-eye"></i>Получен ответ</p>
+                                                    {% endif %}
+                                                    <div class="report-item__buttons">
+                                                        <a href="{{ path('user_report_info', {'id': report.getId()}) }}" class="btn btn-secondary col-9 col-sm-3 col-lg-auto me-lg-1">Открыть</a>
+                                                        <a href="{{ path('user_delete_report', {'id': report.getId()}) }}" class="btn btn-primary ms-1 col-auto"><i class="fas fa-trash"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
-                                        {% endfor %}
-                                    </div>
-                                    <div class="btn-toolbar justify-content-center d-none" role="toolbar" aria-label="Toolbar with button groups">
-                                        <div class="btn-group" role="group" aria-label="First group">
-                                            <button type="button" class="btn btn-primary px-3 py-1">1</button>
-                                            <button type="button" class="btn btn-secondary px-3 py-1">2</button>
-                                            <button type="button" class="btn btn-secondary px-3 py-1">3</button>
-                                            <button type="button" class="btn btn-secondary px-3 py-1">4</button>
-                                            <button type="button" class="btn btn-secondary px-3 py-1">5</button>
                                         </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="btn-toolbar justify-content-center d-none" role="toolbar" aria-label="Toolbar with button groups">
+                                    <div class="btn-group" role="group" aria-label="First group">
+                                        <button type="button" class="btn btn-primary px-3 py-1">1</button>
+                                        <button type="button" class="btn btn-secondary px-3 py-1">2</button>
+                                        <button type="button" class="btn btn-secondary px-3 py-1">3</button>
+                                        <button type="button" class="btn btn-secondary px-3 py-1">4</button>
+                                        <button type="button" class="btn btn-secondary px-3 py-1">5</button>
                                     </div>
-                                {% else %}
-                                    <div class="wiki-banner">
-                                        <h4>У вас нет тикетов</h4>
-                                        <p>Вы не подавали запросы в службу поддержки.</p>
-                                    </div>
-                                {% endif %}
+                                </div>
+                            {% else %}
+                                <div class="wiki-banner">
+                                    <h4>У вас нет тикетов</h4>
+                                    <p>Вы не подавали запросы в службу поддержки.</p>
+                                </div>
                             {% endif %}
-                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        {{ include('include/footer.html.twig') }}
-    </body>
-</html>
+    {{ include('include/footer.html.twig') }}
+</body>

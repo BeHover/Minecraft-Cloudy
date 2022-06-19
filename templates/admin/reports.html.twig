@@ -5,8 +5,8 @@
     <title>{% block title %}Панель администратора{% endblock %}</title>
 </head>
 <body>
+    {{ include('include/preloader.html.twig') }}
     {{ include('include/nav.html.twig') }}
-
     {{ include('badges/header.html.twig') }}
 
     <div class="container-fluid pt-5 pb-2 bg-white d-none">
@@ -97,4 +97,3 @@
 
     {{ include('include/footer.html.twig') }}
 </body>
-</html>

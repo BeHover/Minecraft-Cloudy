@@ -5,8 +5,8 @@
     <title>{% block title %}Служба поддержки{% endblock %}</title>
 </head>
 <body>
+    {{ include('include/preloader.html.twig') }}
     {{ include('include/nav.html.twig') }}
-
     {{ include('badges/header.html.twig') }}
 
     <div class="container-fluid pt-5 bg-white d-none">
@@ -142,4 +142,3 @@
     </div>
     {{ include('include/footer.html.twig') }}
 </body>
-</html>

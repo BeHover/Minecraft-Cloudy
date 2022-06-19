@@ -1,14 +1,13 @@
 /.idea/
-###> symfony/framework-bundle ###
+/.env
 /.env.local
 /.env.local.php
 /.env.*.local
+/config/packages/doctrine.yaml
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
 /vendor/
-###< symfony/framework-bundle ###
-/.env
 composer.phar
 *.png
 public/images/skins/LikDioxo.png
