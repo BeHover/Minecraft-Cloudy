@@ -49,7 +49,7 @@ class PlayerController extends AbstractController
         }
 
         $error = $authenticationUtils->getLastAuthenticationError();
-        return $this->render("profile/login.html.twig", [
+        return $this->render("pages/account/login.html.twig", [
             "error" => $error,
             "success" => null
         ]);
@@ -86,8 +86,7 @@ class PlayerController extends AbstractController
             $skinFile = $formChangeSkin->get("skin")->getData();
 
             if ($skinFile) {
-                $safeFilename = $slugger->slug($user->getUserIdentifier());
-                $newFilename = $safeFilename.".".$skinFile->guessExtension();
+                $newFilename = $user->getUsername().".".$skinFile->guessExtension();
 
                 try {
                     $skinFile->move(

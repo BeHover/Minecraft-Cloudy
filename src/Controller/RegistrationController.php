@@ -39,7 +39,7 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $plainPassword = $form->get("plainPassword")->getData();
             if (!preg_match("/^\w{5,24}$/", $plainPassword)) {
-                return $this->render("profile/register.html.twig",
+                return $this->render("pages/account/register.html.twig",
                     [
                         "registrationForm" => $form->createView(),
                         "message" => "Пароль должен состоять из латиницы и цифр. Допустимая длина: от 5 до 24 символов."
@@ -49,7 +49,7 @@ class RegistrationController extends AbstractController
 
             $userName = $form->get("username")->getData();
             if (null !== $userRepository->findOneBy(["username" => $userName])) {
-                return $this->render("profile/register.html.twig",
+                return $this->render("pages/account/register.html.twig",
                     [
                         "registrationForm" => $form->createView(),
                         "message" => "Этот никнейм уже кем-то занят."
@@ -58,7 +58,7 @@ class RegistrationController extends AbstractController
             }
 
             if (!preg_match("/^\w{5,20}$/", $userName)) {
-                return $this->render("profile/register.html.twig",
+                return $this->render("pages/account/register.html.twig",
                     [
                         "registrationForm" => $form->createView(),
                         "message" => "Никнейм должен состоять из латиницы и цифр. Допустимая длина: от 5 до 20 символов."
@@ -68,7 +68,7 @@ class RegistrationController extends AbstractController
 
             $email = $form->get("email")->getData();
             if (null !== $userRepository->findOneBy(["email" => $email])) {
-                return $this->render("profile/register.html.twig",
+                return $this->render("pages/account/register.html.twig",
                     [
                         "registrationForm" => $form->createView(),
                         "message" => "Эту почту уже кто-то использует."
@@ -86,7 +86,7 @@ class RegistrationController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
 
-            $userName = $user->getUserIdentifier();
+            $userName = $user->getUsername();
             $cwd = getcwd();
             $this->filesystem->copy(
                 "$cwd/default/skin.png",
@@ -106,7 +106,7 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate("email/confirmation_email.html.twig")
             );
 
-            return $this->render("profile/register.html.twig",
+            return $this->render("pages/account/register_success.html.twig",
                 [
                     "registrationForm" => $form->createView(),
                     "message" => null
@@ -114,7 +114,7 @@ class RegistrationController extends AbstractController
             );
         }
 
-        return $this->render("profile/register.html.twig",
+        return $this->render("pages/account/register.html.twig",
             [
                 "registrationForm" => $form->createView(),
                 "message" => null
