@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {{ include('include/head.html.twig') }}
+    <title>{% block title %}Подтверждение почты{% endblock %}</title>
+    <style>{{ include('styles/authentication.css') }}</style>
+</head>
+<body class="row m-0" style="background: white">
+    {{ include('include/preloader.html.twig') }}
+    <div class="col-12 col-lg-7 col-xxl-6 p-0">
+        <div class="container-authentication flex min-vh-100" style="box-shadow: none">
+            <div id="success" class="wow animate__animated animate__zoomIn animate__delay-1s">
+                <h5>Твоя вселенная развлечений</h5>
+                <h2>Подтверждение почты</h2>
+                <p>Для продолжения регистрации нового аккаунта необходимо подтвердить электронную почту. Перейдите по ссылке, которую мы вам выслали в письме. Обратите внимание, наше письмо может попасть в папку со спамом.</p>
+
+                <a href="{{ path('main_page') }}" class="btn btn-primary col-auto mt-3">На главную страницу</a>
+            </div>
+        </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-5 col-xxl-6 p-0">
+        <div class="flex min-vh-100">
+            <img src="https://mc-cloudy.com/public/images/register.webp" class="img-fluid wow animate__animated animate__fadeInRight animate__delay-1s" alt="Cloudy Hero">
+        </div>
+    </div>
+</body>

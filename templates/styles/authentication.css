@@ -2,12 +2,17 @@ body {
   background: url("https://mc-cloudy.com/public/images/civilization.webp") no-repeat;
   background-size: cover;
   font-family: Inter, sans-serif;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .container-authentication {
   background: white;
   padding: 0 30px;
   box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.5), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+}
+.container-authentication #success {
+  padding: 0 80px;
 }
 .container-authentication h5 {
   color: #1562d6;
@@ -36,7 +41,31 @@ body {
   margin-bottom: 8px;
 }
 .container-authentication button {
-  margin: 20px 0 15px;
+  margin: 20px 0 15px !important;
+}
+
+@media screen and (max-width: 1400px) {
+  .container-authentication #success {
+    padding: 0 40px;
+  }
+}
+@media screen and (max-width: 992px) {
+  .container-authentication {
+    padding: 0 15px;
+  }
+  .container-authentication #success {
+    padding: 0 110px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .container-authentication #success {
+    padding: 0 40px;
+  }
+}
+@media screen and (max-width: 576px) {
+  .container-authentication #success {
+    padding: 0 15px;
+  }
 }
 
 /*# sourceMappingURL=authentication.css.map */

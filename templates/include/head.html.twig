@@ -1,9 +1,9 @@
 <meta charset="UTF-8">
-<meta name="description" content="Minecraft Cloudy — это прекрасное место для интересной и увлекательной игры.">
+<meta name="description" content="Minecraft Cloudy — это комплекс серверов с различными игровыми режимами, прекрасное место для интересной и увлекательной игры.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <meta name="author" content="CHYZHOV">
 
-<link rel="shortcut icon" type="image/x-icon" href="/public/favicon.ico"/>
+<link rel="shortcut icon" type="image/x-icon" href="https://mc-cloudy.com/public/favicon.ico" />
 
 {% block stylesheets %}
     <link
@@ -11,16 +11,6 @@
         rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
         crossorigin="anonymous"
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet"
-    />
-
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
-        rel="stylesheet"
     />
 
     <link
@@ -29,6 +19,7 @@
     />
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
         {{ include('styles/main.css') }}
     </style>
 
@@ -36,60 +27,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script
-        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
-        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
-        crossorigin="anonymous">
-    </script>
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
-        crossorigin="anonymous">
-    </script>
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous">
-    </script>
-
-    <script
-        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous">
-    </script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-    <script src="https://kit.fontawesome.com/628c8d2499.js" crossorigin="anonymous"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            new WOW().init();
-        });
-    </script>
-
-    <script>
-        window.onload = function() {
-            let preloader = document.getElementById('preloader');
-            preloader.classList.add('hide-preloader');
-            setInterval(function() {
-                preloader.classList.add('preloader-hidden');
-            }, 900);
-        }
-    </script>
-
-    <script type="text/javascript">
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-            $('.alert').alert()
-        });
-    </script>
-
-    <script>
-        document.oncontextmenu=function() { return false };
-    </script>
+    {{ include('include/scripts.html.twig') }}
 {% endblock %}

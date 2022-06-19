@@ -22,19 +22,19 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link {% if app.request.attributes.get('_route') starts with 'main_page' %} active {% endif %}" href="{{ path('main_page') }}">
-                        <span class="icon d-none d-xl-inline-block"><i class="bi bi-house-fill"></i></span>
+                        <span class="icon d-none d-xl-inline-block"><i class="fas fa-home"></i></span>
                         <span class="title">Главная страница</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if app.request.attributes.get('_route') starts with 'our_servers' or app.request.attributes.get('_route') starts with 'server_rules' %} active {% endif %}" href="{{ path('our_servers') }}">
-                        <span class="icon d-none d-xl-inline-block"><i class="bi bi-grid-fill"></i></span>
+                        <span class="icon d-none d-xl-inline-block"><i class="fas fa-heart"></i></span>
                         <span class="title">Наши сервера</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if app.request.attributes.get('_route') starts with 'support' or app.request.attributes.get('_route') starts with 'user_reports' or app.request.attributes.get('_route') starts with 'create_report' or app.request.attributes.get('_route') starts with 'user_report_info' or app.request.attributes.get('_route') starts with 'user_update_report' %} active {% endif %}" href="{{ path('support', {'page': 'main'}) }}">
-                        <span class="icon d-none d-xl-inline-block"><i class="bi bi-life-preserver"></i></span>
+                        <span class="icon d-none d-xl-inline-block"><i class="fas fa-headset"></i></span>
                         <span class="title">Служба поддержки</span>
                     </a>
                 </li>

@@ -7,27 +7,27 @@
 </head>
 <body class="row m-0">
     {{ include('include/preloader.html.twig') }}
-    <div class="col-12 col-sm-8 col-md-7 col-lg-6 col-xl-5 ms-auto p-0">
+    <div class="col-12 col-lg-7 col-xl-6 col-xxl-5 ms-auto p-0">
         <div class="container-authentication flex min-vh-100">
-            <div class="wow animate__animated animate__zoomIn">
+            <div class="wow animate__animated animate__zoomIn animate__delay-1s">
                 {{ form_start(registrationForm) }}
                     <h5>Твоя вселенная развлечений</h5>
-                    <h2>Регистрация пользователя</h2>
+                    <h2>Регистрация аккаунта</h2>
                     <p>Для регистрации нового аккаунта необходимо заполнить все поля.</p>
 
                     {% if message %}
                         <p class="error-message">{{ message|raw }}</p>
                     {% endif %}
 
-                    {{ form_widget(registrationForm.username, {'attr': {'class': 'form-control', 'placeholder': 'Введите никнейм'}}) }}
-                    {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Введите пароль'}}) }}
+                    {{ form_widget(registrationForm.username, {'attr': {'class': 'form-control', 'placeholder': 'Укажите ваш никнейм'}}) }}
+                    {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Придумайте пароль'}}) }}
                     {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Введите электронную почту'}}) }}
 
                     <button class="btn btn-primary col-12" type="submit">Создать аккаунт</button>
 
-                    <p class="text-center">Есть аккаунт? <a href="{{ path('login') }}">Нажмите, чтобы войти в личный кабинет.</a></p>
+                    <p class="text-center">Есть аккаунт? <a href="{{ path('login') }}">Нажмите, чтобы войти.</a></p>
 
-                    <p class="text-center fw-light mt-5">BeHover Developer © Minecraft Cloudy, 2022</p>
+                    <p class="text-center fw-light mt-5">CHYZHOV © Minecraft Cloudy, 2022</p>
                 {{ form_end(registrationForm) }}
             </div>
         </div>
