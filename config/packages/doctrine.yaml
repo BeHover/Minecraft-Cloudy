@@ -1,38 +1,17 @@
-#doctrine:
-#    dbal:
-#        default_connection: main
-#        connections:
-#            main:
-#                url: '%env(resolve:DATABASE_URL)%'
-#    orm:
-#        auto_generate_proxy_classes: true
-#        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-#        auto_mapping: true
-#        mappings:
-#            App:
-#                is_bundle: false
-#                type: annotation
-#                dir: '%kernel.project_dir%/src/Entity'
-#                prefix: 'App\Entity'
-#                alias: App
 doctrine:
     dbal:
         default_connection: default
         connections:
             default:
-                dbname: 'u280855122_symfony'
-                user: 'u280855122_symfony'
-                password: 'M6M64VVS234VSg64g'
-                host: '45.84.204.52:3306'
-                #server_version: '5.7'
-                #url: '%env(resolve:DATABASE_URL)%'
+                dbname: ''
+                user: ''
+                password: ''
+                host: ''
             authme:
-                dbname: 's70411_users'
-                user: 'u70411_xZjx76t0pi'
-                password: 'L5hMWax+v7vqPugpkx0Q+6ch'
-                host: 'mysql2.joinserver.xyz:3306'
-                #server_version: '5.7'
-                #url: '%env(resolve:DATABASE_AUTHME_URL)%'
+                dbname: ''
+                user: ''
+                password: ''
+                host: ''
     orm:
         default_entity_manager: default
         auto_generate_proxy_classes: true
