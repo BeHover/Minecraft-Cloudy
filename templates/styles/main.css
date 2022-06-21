@@ -120,4 +120,15 @@ button:focus:not(:focus-visible) {
   color: #1562d6;
 }
 
+.text-block h5 {
+  color: #1562d6;
+  margin-bottom: 0;
+}
+.text-block h2 {
+  font-weight: bold;
+}
+.text-block a {
+  color: #1562d6;
+}
+
 /*# sourceMappingURL=main.css.map */

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Authme\Authme;
 use App\Entity\Main\User;
 use App\Form\RegistrationFormType;
+use App\Repository\Authme\AuthmeRepository;
 use App\Repository\Main\UserRepository;
 use App\Security\EmailVerifier;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -29,7 +30,8 @@ class RegistrationController extends AbstractController
     public function register(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        AuthmeRepository $authmeRepository
     ): Response
     {
         $user = new User();
@@ -86,7 +88,6 @@ class RegistrationController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
 
-            $userName = $user->getUsername();
             $cwd = getcwd();
             $this->filesystem->copy(
                 "$cwd/default/skin.png",
@@ -99,6 +100,18 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $entityManagerAuthme = $this->getDoctrine()->getManager("authme");
+
+            if (null === $authmeRepository->findOneBy(["realname" => $userName])) {
+                $authmeUser = new Authme();
+                $authmeUser->setUsername(strtolower($userName));
+                $authmeUser->setRealname($userName);
+                $authmeUser->setPassword($hashedPassword);
+                $authmeUser->setRegdate(time());
+                $entityManagerAuthme->persist($authmeUser);
+                $entityManagerAuthme->flush();
+            }
+
             $this->emailVerifier->sendEmailConfirmation("verify_email", $user,
                 (new TemplatedEmail())
                     ->to($user->getEmail())
@@ -106,12 +119,7 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate("email/confirmation_email.html.twig")
             );
 
-            return $this->render("pages/account/register_success.html.twig",
-                [
-                    "registrationForm" => $form->createView(),
-                    "message" => null
-                ]
-            );
+            return $this->redirectToRoute("profile");
         }
 
         return $this->render("pages/account/register.html.twig",
@@ -128,23 +136,10 @@ class RegistrationController extends AbstractController
         $this->denyAccessUnlessGranted("IS_AUTHENTICATED_FULLY");
         $user = $this->getUser();
 
-        $entityManagerAuthme = $this->getDoctrine()->getManager("authme");
-        $authmeRepository = $entityManagerAuthme->getRepository(Authme::class);
-
-        if (null === $authmeRepository->findOneBy(["realname" => $user->getUserIdentifier()])) {
-            $authmeUser = new Authme();
-            $authmeUser->setUsername(strtolower($user->getUserIdentifier()));
-            $authmeUser->setRealname($user->getUserIdentifier());
-            $authmeUser->setPassword($user->getPassword());
-            $authmeUser->setRegdate(time());
-            $entityManagerAuthme->persist($authmeUser);
-            $entityManagerAuthme->flush();
-        }
-
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $user);
-        } catch (VerifyEmailExceptionInterface $exception) {
-            return $this->redirectToRoute("register");
+        } catch (VerifyEmailExceptionInterface) {
+            return $this->redirectToRoute("profile");
         }
 
         return $this->redirectToRoute("profile");
@@ -152,6 +147,7 @@ class RegistrationController extends AbstractController
 
     public function sendVerify(): Response {
         $user = $this->getUser();
+
         if (null !== $user && !$user->isVerified()) {
             $this->emailVerifier->sendEmailConfirmation("verify_email", $user,
                 (new TemplatedEmail())
@@ -161,15 +157,6 @@ class RegistrationController extends AbstractController
             );
         }
 
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-
-        return $this->render(
-            "main.html.twig",
-            [
-                "registrationForm" => $form->createView(),
-                "message" => "<strong>Внимание!</strong> Письмо для подтверждения почты может попасть в спам."
-            ]
-        );
+        return $this->redirectToRoute("profile");
     }
 }

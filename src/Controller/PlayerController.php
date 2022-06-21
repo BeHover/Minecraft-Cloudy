@@ -44,7 +44,7 @@ class PlayerController extends AbstractController
     public function login(
         AuthenticationUtils $authenticationUtils
     ) : Response {
-        if (true == $this->isGranted("IS_AUTHENTICATED_FULLY")) {
+        if ($this->isGranted("IS_AUTHENTICATED_FULLY")) {
             return $this->redirectToRoute("profile");
         }
 
@@ -57,13 +57,12 @@ class PlayerController extends AbstractController
 
     public function profile (
         Request $request,
-        SluggerInterface $slugger,
         UserPasswordHasherInterface $userPasswordHasher,
         AuthmeRepository $authmeRepository,
         UserRepository $userRepository
     ): Response
     {
-        if (false == $this->isGranted("IS_AUTHENTICATED_FULLY")) {
+        if (!$this->isGranted("IS_AUTHENTICATED_FULLY")) {
             return $this->redirectToRoute('login');
         }
 
@@ -72,7 +71,12 @@ class PlayerController extends AbstractController
 
         $user = $this->getUser();
 
-        $authmeUser = $authmeRepository->findOneBy(array("realname" => $user->getUserIdentifier()));
+        $authmeUser = $authmeRepository->findOneBy(["realname" => $user->getUserIdentifier()]);
+        $cloudyUser = $userRepository->findOneBy(["username" => $user->getUserIdentifier()]);
+
+        if (!$cloudyUser->isVerified()) {
+            return $this->render("pages/account/not_verified.html.twig");
+        }
 
         $formChangePassword = $this->createForm(ProfileChangePasswordType::class, $user);
         $formChangeEmail = $this->createForm(ProfileChangeEmailType::class, $user);
@@ -107,7 +111,7 @@ class PlayerController extends AbstractController
             $entityManager->flush();
 
             return $this->renderForm(
-                "profile/account.html.twig",
+                "pages/profile/account.html.twig",
                 [
                     "formChangePassword" => $formChangePassword,
                     "formChangeEmail" => $formChangeEmail,
@@ -122,7 +126,7 @@ class PlayerController extends AbstractController
 
             if ($password) {
                 if (!preg_match("/^\w{5,24}$/", $password)) {
-                    return $this->renderForm("profile/account.html.twig",
+                    return $this->renderForm("pages/profile/account.html.twig",
                         [
                             "formChangePassword" => $formChangePassword,
                             "formChangeEmail" => $formChangeEmail,
@@ -139,7 +143,7 @@ class PlayerController extends AbstractController
             $entityManagerAuthme->flush();
             $entityManager->flush();
 
-            return $this->renderForm("profile/account.html.twig",
+            return $this->renderForm("pages/profile/account.html.twig",
                 [
                     "formChangePassword" => $formChangePassword,
                     "formChangeEmail" => $formChangeEmail,
@@ -154,7 +158,7 @@ class PlayerController extends AbstractController
 
             if ($email) {
                 if (null !== $userRepository->findOneBy(["email" => $email])) {
-                    return $this->renderForm("profile/account.html.twig",
+                    return $this->renderForm("pages/profile/account.html.twig",
                         [
                             "formChangePassword" => $formChangePassword,
                             "formChangeEmail" => $formChangeEmail,
@@ -176,7 +180,7 @@ class PlayerController extends AbstractController
             $entityManagerAuthme->flush();
             $entityManager->flush();
 
-            return $this->renderForm("profile/account.html.twig",
+            return $this->renderForm("pages/profile/account.html.twig",
                 [
                     "formChangePassword" => $formChangePassword,
                     "formChangeEmail" => $formChangeEmail,
@@ -187,7 +191,7 @@ class PlayerController extends AbstractController
         }
 
         return $this->renderForm(
-            "profile/account.html.twig",
+            "pages/profile/account.html.twig",
             [
                 "formChangePassword" => $formChangePassword,
                 "formChangeEmail" => $formChangeEmail,
@@ -212,7 +216,7 @@ class PlayerController extends AbstractController
             $user = $userRepository->findOneBy(["email" => $email]);
             if (null === $user) {
                 return $this->renderForm(
-                    "profile/recovery-password.html.twig",
+                    "recovery_password.html.twig",
                     [
                         "recoverForm" => $form,
                         "message" => "Пользователь с таким адресом не найден!",
@@ -248,7 +252,7 @@ class PlayerController extends AbstractController
             }
 
             return $this->renderForm(
-                "profile/recovery-password.html.twig",
+                "recovery_password.html.twig",
                 [
                     "recoverForm" => $form,
                     "message" => null,
@@ -258,7 +262,7 @@ class PlayerController extends AbstractController
         }
 
         return $this->renderForm(
-            "profile/recovery-password.html.twig",
+            "recovery_password.html.twig",
             [
                 "recoverForm" => $form,
                 "message" => null,
@@ -291,7 +295,7 @@ class PlayerController extends AbstractController
 
             if ($plainPassword !== $plainPasswordConfirm) {
                 return $this->renderForm(
-                    "profile/change_password.html.twig",
+                    "pages/profile/change_password.html.twig",
                     [
                         "changePassword" => $form,
                         "message" => "Пароли должны быть одинаковы"
@@ -301,7 +305,7 @@ class PlayerController extends AbstractController
 
             if (!preg_match("/^\w{5,24}$/", $plainPassword)) {
                 return $this->renderForm(
-                    "profile/change_password.html.twig",
+                    "pages/profile/change_password.html.twig",
                     [
                         "changePassword" => $form,
                         "message" => "Пароль должен состоять из латиницы и цифр с длиной от 5 до 24 символов."
@@ -316,7 +320,7 @@ class PlayerController extends AbstractController
         }
 
         return $this->renderForm(
-            "profile/change_password.html.twig",
+            "pages/profile/change_password.html.twig",
             [
                 "changePassword" => $form,
                 "message" => null
