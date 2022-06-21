@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminController extends AbstractController
 {
     public function main(): Response {
-        return $this->render("admin/main.html.twig");
+        return $this->render("pages/admin/main.html.twig");
     }
 
     public function reports(
@@ -29,7 +29,7 @@ class AdminController extends AbstractController
 
         $reports = $reportRepository->findBy(["server" => $moderator->getServer()], ["createdAt" => "DESC"]);
 
-        return $this->render("admin/reports.html.twig", ["reports" => $reports]);
+        return $this->render("pages/admin/reports.html.twig", ["reports" => $reports]);
     }
 
     public function viewReport(
@@ -55,7 +55,7 @@ class AdminController extends AbstractController
         }
 
         return $this->renderForm(
-            "admin/view_report.html.twig",
+            "pages/admin/view_report.html.twig",
             [
                 "formRespondReport" => $formRespondReport,
                 "report" => $report

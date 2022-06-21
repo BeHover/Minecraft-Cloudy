@@ -22,7 +22,7 @@ class ReportController extends AbstractController
     ) : Response
     {
         return $this->render(
-            "support/faq.html.twig",
+            "pages/support/faq.html.twig",
             [
                 "page" => $page
             ]
@@ -41,7 +41,7 @@ class ReportController extends AbstractController
         }
 
         return $this->render(
-            "support/user_reports.html.twig",
+            "pages/support/user_reports.html.twig",
             [
                 "reports" => $reports
             ]
@@ -71,7 +71,7 @@ class ReportController extends AbstractController
             if ($server->getStatus() == null)
             {
                 return $this->renderForm(
-                    "support/create_report.html.twig",
+                    "pages/support/create_report.html.twig",
                     [
                         "formCreateReport" => $form,
                         "exception" => "<b>Ошибка!</b> Этот сервер на данный момент не работает."
@@ -112,7 +112,7 @@ class ReportController extends AbstractController
         }
 
         return $this->renderForm(
-            "support/create_report.html.twig",
+            "pages/support/create_report.html.twig",
             [
                 "formCreateReport" => $form,
                 "exception" => null
@@ -137,7 +137,7 @@ class ReportController extends AbstractController
         }
 
         return $this->render(
-            "support/report_info.html.twig",
+            "pages/support/report_info.html.twig",
             [
                 "report" => $report
             ]
@@ -177,7 +177,7 @@ class ReportController extends AbstractController
             if ($server->getStatus() == null)
             {
                 return $this->renderForm(
-                    "support/update_report.html.twig",
+                    "pages/support/update_report.html.twig",
                     [
                         "report" => $report,
                         "formUpdateReport" => $form,
@@ -219,7 +219,7 @@ class ReportController extends AbstractController
         }
 
         return $this->renderForm(
-            "support/update_report.html.twig",
+            "pages/support/update_report.html.twig",
             [
                 "report" => $report,
                 "formUpdateReport" => $form,
@@ -242,114 +242,12 @@ class ReportController extends AbstractController
         }
 
         if (null === $report) {
-            return $this->render("profile/my-reports.html.twig", [
-                "reports" => $reports,
-                "message" => null
-            ]);
+            return $this->redirectToRoute("user_reports");
         }
 
         $entityManager->remove($report);
         $entityManager->flush();
 
         return $this->redirectToRoute("user_reports");
-    }
-
-    public function moderatorReports(
-        ModeratorRepository $moderatorRepository,
-        ReportRepository $reportRepository
-    ): Response {
-        $moderator = $moderatorRepository->findOneBy(["user" => $this->getUser()]);
-        $reports = $reportRepository->findBy(["server" => $moderator->getServer()], ["createdAt" => "DESC"]);
-
-        return $this->render(
-            "moderator/reports.html.twig",
-            [
-                "reports" => $reports,
-                "message" => null
-            ]
-        );
-    }
-
-    public function moderatorClosedReports(
-        ModeratorRepository $moderatorRepository,
-        ReportRepository $reportRepository
-    ): Response {
-        $moderator = $moderatorRepository->findOneBy(["user" => $this->getUser()]);
-        $reports = $reportRepository->findBy(["server" => $moderator->getServer(), "status" => 1], ["createdAt" => "DESC"]);
-
-        return $this->render(
-            "moderator/reports.html.twig",
-            [
-                "reports" => $reports,
-                "message" => null
-            ]
-        );
-    }
-
-    public function moderatorExpectedReports(
-        ModeratorRepository $moderatorRepository,
-        ReportRepository $reportRepository
-    ): Response {
-        $moderator = $moderatorRepository->findOneBy(["user" => $this->getUser()]);
-        $reports = $reportRepository->findBy(["server" => $moderator->getServer(), "status" => 0], ["createdAt" => "DESC"]);
-
-        return $this->render(
-            "moderator/reports.html.twig",
-            [
-                "reports" => $reports,
-                "message" => null
-            ]
-        );
-    }
-
-    public function moderatorRespondReport(
-        $id,
-        Request $request,
-        ReportRepository $reportRepository,
-        EntityManagerInterface $entityManager
-    ): RedirectResponse|Response
-    {
-        $report = $reportRepository->findOneBy(["id" => $id]);
-        $form = $this->createForm(ReportResponseFormType::class, $report);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $report->setStatus(1);
-            $entityManager->flush();
-
-            return $this->redirectToRoute("moderator_reports");
-        }
-
-        return $this->renderForm(
-            "admin/respond_report.html.twig",
-            [
-                "form" => $form,
-                "report" => $report,
-                "message" => null
-            ]
-        );
-    }
-
-    public function moderatorDeleteReport(
-        int $id,
-        ReportRepository $reportRepository,
-        EntityManagerInterface $entityManager,
-        ModeratorRepository $moderatorRepository
-    ) : Response {
-        $moderator = $moderatorRepository->findOneBy(["user" => $this->getUser()]);
-        $reports = $reportRepository->findBy(["server" => $moderator->getServer()], ["createdAt" => "DESC"]);
-        $report = $reportRepository->findOneBy(["id" => $id]);
-
-        if (null === $report) {
-            return $this->render("moderator/reports.html.twig", [
-                "reports" => $reports,
-                "message" => null
-            ]);
-        }
-
-        $entityManager->remove($report);
-        $entityManager->flush();
-
-        return $this->redirectToRoute("moderator_reports");
     }
 }

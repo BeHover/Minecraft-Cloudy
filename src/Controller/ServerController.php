@@ -14,7 +14,7 @@ class ServerController extends AbstractController
         $servers = $serverRepository->findAll();
 
         return $this->render(
-            "servers/list.html.twig",
+            "pages/servers/list.html.twig",
             [
                 "servers" => $servers,
                 "message" => null
@@ -33,7 +33,7 @@ class ServerController extends AbstractController
         }
 
         return $this->render(
-            "servers/rules.html.twig",
+            "pages/servers/rules.html.twig",
             [
                 "server" => $server
             ]

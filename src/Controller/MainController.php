@@ -10,7 +10,7 @@ class MainController extends AbstractController
 {
     public function main(): Response {
         return $this->render(
-            "main.html.twig",
+            "pages/main.html.twig",
             [
                 "message" => null
             ]

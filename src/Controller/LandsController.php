@@ -13,7 +13,7 @@ class LandsController extends AbstractController
         LandsDataResolver $dataResolver
     ): Response {
         return $this->render(
-            'lands/land.html.twig',
+            'pages/lands/land.html.twig',
             [
                 'land' => $dataResolver->getLand("civilization", $id)
             ]
@@ -24,7 +24,7 @@ class LandsController extends AbstractController
         LandsDataResolver $dataResolver
     ) : Response {
         return $this->render(
-            'lands/index.html.twig',
+            'pages/lands/index.html.twig',
             [
                 'lands' => $dataResolver->getAllLands("civilization")
             ]
