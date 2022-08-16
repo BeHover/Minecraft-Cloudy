@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  {{ include('include/head.html.twig') }}
+  {{ include('components/head.html.twig') }}
   <title>{% block title %}Правила сервера{% endblock %}</title>
 </head>
 <body>
-  {{ include('include/preloader.html.twig') }}
-  {{ include('include/header.html.twig') }}
-  {{ include('badges/header.html.twig') }}
+  {{ include('components/preloader.html.twig') }}
+  {{ include('components/header.html.twig') }}
+  {{ include('components/badges.html.twig') }}
 
   <section class="section">
     <div class="container">
@@ -131,5 +131,5 @@
     </div>
   </section>
 
-  {{ include('include/footer.html.twig') }}
+  {{ include('components/footer.html.twig') }}
 </body>

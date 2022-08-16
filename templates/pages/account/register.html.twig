@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  {{ include('include/head.html.twig') }}
+  {{ include('components/head.html.twig') }}
   <title>{% block title %}Регистрация аккаунта{% endblock %}</title>
 </head>
 <body class="authentication">
-{{ include('include/preloader.html.twig') }}
+{{ include('components/preloader.html.twig') }}
   <section class="container section information authentication__content">
     {{ form_start(registrationForm) }}
       <p class="information__label information__label--center">Вселенная развлечений</p>

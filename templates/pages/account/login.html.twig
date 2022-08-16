@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  {{ include('include/head.html.twig') }}
+  {{ include('components/head.html.twig') }}
   <title>{% block title %}Авторизация{% endblock %}</title>
 </head>
 <body class="authentication">
-  {{ include('include/preloader.html.twig') }}
+  {{ include('components/preloader.html.twig') }}
 
   <section class="container section information authentication__content">
     <form action="{{ path('login') }}" method="post">

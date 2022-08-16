@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    {{ include('include/head.html.twig') }}
+    {{ include('components/head.html.twig') }}
     <title>{% block title %}Служба поддержки{% endblock %}</title>
 </head>
 <body>
-    {{ include('include/preloader.html.twig') }}
-    {{ include('include/header.html.twig') }}
+    {{ include('components/preloader.html.twig') }}
+    {{ include('components/badges.html.twig') }}
     {{ include('badges/head.html.twig') }}
 
     <section id="main-content" class="landing-block landing-padding">
@@ -86,5 +86,5 @@
         </div>
     </section>
 
-    {{ include('include/footer.html.twig') }}
+    {{ include('components/footer.html.twig') }}
 </body>

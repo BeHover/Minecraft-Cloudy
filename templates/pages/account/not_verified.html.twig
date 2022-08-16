@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    {{ include('include/head.html.twig') }}
+    {{ include('components/head.html.twig') }}
     <title>{% block title %}Подтверждение почты{% endblock %}</title>
 </head>
 <body class="auth-bg">
-    {{ include('include/preloader.html.twig') }}
-    {{ include('include/header.html.twig') }}
+    {{ include('components/preloader.html.twig') }}
+    {{ include('components/badges.html.twig') }}
 
     <section id="main-content" class="container flex" style="padding: 0 15px">
         <div class="row m-0 flex">
@@ -28,5 +28,5 @@
         </div>
     </section>
 
-    {{ include('include/footer.html.twig') }}
+    {{ include('components/footer.html.twig') }}
 </body>

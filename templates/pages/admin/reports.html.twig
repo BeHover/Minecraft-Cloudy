@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    {{ include('include/head.html.twig') }}
+    {{ include('components/head.html.twig') }}
     <title>{% block title %}Панель администратора{% endblock %}</title>
 </head>
 <body>
-    {{ include('include/preloader.html.twig') }}
-    {{ include('include/header.html.twig') }}
+    {{ include('components/preloader.html.twig') }}
+    {{ include('components/badges.html.twig') }}
     {{ include('badges/head.html.twig') }}
 
     <div class="container-fluid pt-5 pb-2 bg-white d-none">
@@ -95,5 +95,5 @@
         </div>
     </div>
 
-    {{ include('include/footer.html.twig') }}
+    {{ include('components/footer.html.twig') }}
 </body>

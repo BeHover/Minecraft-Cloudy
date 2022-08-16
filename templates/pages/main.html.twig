@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  {{ include('include/head.html.twig') }}
+  {{ include('components/head.html.twig') }}
   <title>{% block title %}Главная страница{% endblock %}</title>
 </head>
 <body>
-  {{ include('include/preloader.html.twig') }}
-  {{ include('include/header.html.twig') }}
+  {{ include('components/preloader.html.twig') }}
+  {{ include('components/header.html.twig') }}
 
   <main>
     <section class="banner">
@@ -206,7 +206,7 @@
     </section>
   </main>
 
-  {{ include('include/footer.html.twig') }}
+  {{ include('components/footer.html.twig') }}
 
   <script type="javascript">
       menuBtn = document.querySelector(".navbar__button");
