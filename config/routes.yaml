@@ -4,9 +4,14 @@ main_page:
     controller: App\Controller\MainController::main
     methods: POST|GET
 
-our_servers:
-    path: /servers
-    controller: App\Controller\ServerController::servers
+rules:
+    path: /rules
+    controller: App\Controller\MainController::rules
+    methods: GET
+
+map:
+    path: /map
+    controller: App\Controller\MainController::map
     methods: GET
 
 # Redirect Routes
@@ -51,23 +56,6 @@ user_delete_report:
     controller: App\Controller\ReportController::userDeleteReport
     methods: GET|DELETE
 
-# Server
-server_rules:
-    path: /servers/{server_tag}/rules
-    controller: App\Controller\ServerController::serverRules
-    methods: GET
-
-civilization_map:
-    path: /servers/civilization/map
-    #controller: App\Controller\MainController::mapCivilization
-    controller: App\Controller\MainController::main
-    methods: GET
-
-phoenix_map:
-    path: /servers/phoenix/map
-    controller: App\Controller\MainController::mapPhoenix
-    methods: GET
-
 # User
 logout:
     path: /logout
@@ -106,46 +94,46 @@ recovery_password:
     controller: App\Controller\PlayerController::recoveryPassword
 
 # Admin
-admin:
-    path: /admin
-    controller: App\Controller\AdminController::main
-    methods: GET
-
-admin_reports:
-    path: /admin/reports
-    controller: App\Controller\AdminController::reports
-    methods: GET
-
-admin_view_report:
-    path: /admin/reports/report-{id}/view
-    controller: App\Controller\AdminController::viewReport
-    methods: POST|GET
-
-admin_delete_report:
-    path: /admin/reports/report-{id}/delete
-    #controller: App\Controller\ReportController::moderatorDeleteReport
-    controller: App\Controller\MainController::main
-    methods: GET|DELETE
-
-admin_players:
-    path: /admin/players
-    controller: App\Controller\AdminController::main
-    methods: GET
-
-admin_global:
-    path: /admin/global
-    controller: App\Controller\AdminController::main
-    methods: POST|GET
+#admin:
+#    path: /admin
+#    controller: App\Controller\AdminController::main
+#    methods: GET
+#
+#admin_reports:
+#    path: /admin/reports
+#    controller: App\Controller\AdminController::reports
+#    methods: GET
+#
+#admin_view_report:
+#    path: /admin/reports/report-{id}/view
+#    controller: App\Controller\AdminController::viewReport
+#    methods: POST|GET
+#
+#admin_delete_report:
+#    path: /admin/reports/report-{id}/delete
+#    #controller: App\Controller\ReportController::moderatorDeleteReport
+#    controller: App\Controller\MainController::main
+#    methods: GET|DELETE
+#
+#admin_players:
+#    path: /admin/players
+#    controller: App\Controller\AdminController::main
+#    methods: GET
+#
+#admin_global:
+#    path: /admin/global
+#    controller: App\Controller\AdminController::main
+#    methods: POST|GET
 
 # Lands
-lands:
-    path: /servers/{server_tag}/lands
-    #controller: App\Controller\LandsController::getAll
-    controller: App\Controller\MainController::main
-    methods: GET
-
-land:
-    path: /servers/civilization/lands/{id}
-    #controller: App\Controller\LandsController::getOne
-    controller: App\Controller\MainController::main
-    methods: GET
+#lands:
+#    path: /servers/{server_tag}/lands
+#    #controller: App\Controller\LandsController::getAll
+#    controller: App\Controller\MainController::main
+#    methods: GET
+#
+#land:
+#    path: /servers/civilization/lands/{id}
+#    #controller: App\Controller\LandsController::getOne
+#    controller: App\Controller\MainController::main
+#    methods: GET

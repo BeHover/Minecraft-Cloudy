@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Main\Report;
-use App\Form\ReportResponseFormType;
-use App\Repository\Main\ModeratorRepository;
 use App\Repository\Main\ReportRepository;
 use DateTimeImmutable;
 use DateTimeZone;
@@ -66,19 +64,6 @@ class ReportController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $server = $form->get("server")->getData();
-
-            if ($server->getStatus() == null)
-            {
-                return $this->renderForm(
-                    "pages/support/create_report.html.twig",
-                    [
-                        "formCreateReport" => $form,
-                        "exception" => "<b>Ошибка!</b> Этот сервер на данный момент не работает."
-                    ]
-                );
-            }
-
             $report->setReporter($user);
             $imageNames = [];
             $images = $form->get("images")->getData();
@@ -101,7 +86,7 @@ class ReportController extends AbstractController
 
             try {
                 $report->setCreatedAt(new DateTimeImmutable(timezone: new DateTimeZone("Europe/Riga")));
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // DateTimeImmutable Exception
             }
 
@@ -172,25 +157,9 @@ class ReportController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $server = $form->get("server")->getData();
-
-            if ($server->getStatus() == null)
-            {
-                return $this->renderForm(
-                    "pages/support/update_report.html.twig",
-                    [
-                        "report" => $report,
-                        "formUpdateReport" => $form,
-                        "exception" => "<b>Ошибка!</b> Этот сервер на данный момент не работает."
-                    ]
-                );
-            }
-
-            $report->setServer($server);
-
             try {
                 $report->setCreatedAt(new DateTimeImmutable(timezone: new DateTimeZone("Europe/Riga")));
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // DateTimeImmutable Exception
             }
 
@@ -234,7 +203,6 @@ class ReportController extends AbstractController
         EntityManagerInterface $entityManager
     ) : Response {
         $user = $this->getUser();
-        $reports = $reportRepository->findBy(["reporter" => $user], ["createdAt" => "DESC"]);
         $report = $reportRepository->findOneBy(["id" => $id, "reporter" => $user]);
 
         if (!$this->isGranted("IS_AUTHENTICATED_FULLY")) {

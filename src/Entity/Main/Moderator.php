@@ -30,12 +30,6 @@ class Moderator
     private $realname;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Server::class)
-     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
-     */
-    private $server;
-
-    /**
      * @ORM\Column(name="creation_date", type="date")
      */
     private $creationDate;
@@ -65,18 +59,6 @@ class Moderator
     public function setRealname(string $realname): self
     {
         $this->realname = $realname;
-
-        return $this;
-    }
-
-    public function getServer(): ?Server
-    {
-        return $this->server;
-    }
-
-    public function setServer(?Server $server): self
-    {
-        $this->server = $server;
 
         return $this;
     }

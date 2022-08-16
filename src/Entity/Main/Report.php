@@ -19,6 +19,16 @@ class Report
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     */
+    private $reporter;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $status = false;
+
+    /**
      * @ORM\ManyToOne(targetEntity=ReportType::class)
      */
     private $type;
@@ -29,9 +39,9 @@ class Report
     private $text;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $reporter;
+    private $response;
 
     /**
      * @ORM\Column(type="json", nullable=true)
@@ -39,28 +49,42 @@ class Report
     private $images = [];
 
     /**
-     * @ORM\ManyToOne(targetEntity=Server::class)
-     */
-    private $server;
-
-    /**
      * @ORM\Column(name="created_at", type="datetime", nullable=false)
      */
     private $createdAt;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
      */
-    private $status = false;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $response;
+    private $updatedAt;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getReporter(): ?User
+    {
+        return $this->reporter;
+    }
+
+    public function setReporter(?User $reporter): self
+    {
+        $this->reporter = $reporter;
+
+        return $this;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?bool $status): self
+    {
+        $this->status = $status;
+
+        return $this;
     }
 
     public function getType(): ?ReportType
@@ -87,14 +111,14 @@ class Report
         return $this;
     }
 
-    public function getReporter(): ?User
+    public function getResponse(): ?string
     {
-        return $this->reporter;
+        return $this->response;
     }
 
-    public function setReporter(?User $reporter): self
+    public function setResponse(string $response): self
     {
-        $this->reporter = $reporter;
+        $this->response = $response;
 
         return $this;
     }
@@ -111,18 +135,6 @@ class Report
         return $this;
     }
 
-    public function getServer(): ?Server
-    {
-        return $this->server;
-    }
-
-    public function setServer(?Server $server): self
-    {
-        $this->server = $server;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
@@ -135,26 +147,14 @@ class Report
         return $this;
     }
 
-    public function getStatus(): ?bool
+    public function getUpdatedAt(): ?DateTimeInterface
     {
-        return $this->status;
+        return $this->updatedAt;
     }
 
-    public function setStatus(?bool $status): self
+    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
     {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    public function getResponse(): ?string
-    {
-        return $this->response;
-    }
-
-    public function setResponse(string $response): self
-    {
-        $this->response = $response;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

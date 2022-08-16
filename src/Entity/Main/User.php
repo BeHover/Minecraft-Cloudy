@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use App\Repository\Main\UserRepository;
 
 /**
  * @ORM\Table(name="user")
@@ -52,11 +51,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $skin;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=false)
-     */
-    private $icon;
 
     public function getId(): ?int
     {
@@ -179,18 +173,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSkin(string $skin): self
     {
         $this->skin = $skin;
-
-        return $this;
-    }
-
-    public function getIcon(): ?string
-    {
-        return $this->icon;
-    }
-
-    public function setIcon(string $icon): self
-    {
-        $this->icon = $icon;
 
         return $this;
     }

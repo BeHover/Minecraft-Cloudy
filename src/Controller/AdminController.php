@@ -27,7 +27,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute("admin");
         }
 
-        $reports = $reportRepository->findBy(["server" => $moderator->getServer()], ["createdAt" => "DESC"]);
+        $reports = $reportRepository->findBy([], ["createdAt" => "DESC"]);
 
         return $this->render("pages/admin/reports.html.twig", ["reports" => $reports]);
     }
