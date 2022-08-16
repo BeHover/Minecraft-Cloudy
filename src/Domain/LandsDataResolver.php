@@ -4,38 +4,38 @@ namespace App\Domain;
 
 use App\Repository\Authme\AuthmeRepository;
 use App\Repository\Authme\LandsRepository;
-use App\Repository\Authme\PlayerStatsRepository;
+use App\Repository\Authme\PlayerRepository;
 
 class LandsDataResolver
 {
     private LandsRepository $landsRepository;
-    private PlayerStatsRepository $playerStatsRepository;
+    private PlayerRepository $playerRepository;
     private AuthmeRepository $authmeRepository;
 
     public function __construct(
         LandsRepository $landsRepository,
-        PlayerStatsRepository $playerStatsRepository,
+        PlayerRepository $playerRepository,
         AuthmeRepository $authmeRepository
     )
     {
         $this->landsRepository = $landsRepository;
-        $this->playerStatsRepository = $playerStatsRepository;
+        $this->playerRepository = $playerRepository;
         $this->authmeRepository = $authmeRepository;
     }
 
-    public function getAllLands(string $server)
+    public function getAllLands(): array
     {
         $data = [];
         $lands = $this->landsRepository->findAll();
 
         foreach ($lands as $land) {
-            $data[] = $this->getLand($server, $land->getId());
+            $data[] = $this->getLand($land->getId());
         }
 
         return $data;
     }
 
-    public function getLand(string $server, int $landId)
+    public function getLand(int $landId): array
     {
         $land = $this->landsRepository->findOneBy(['id' => $landId]);
         $landInfo = [];
@@ -69,8 +69,8 @@ class LandsDataResolver
         $memberIds = array_keys(json_decode($land->getMembers(), true));
         foreach ($memberIds as $memberId) {
             $memberData = [];
-            $member = $this->playerStatsRepository->findOneBy(['uuid' => $memberId, 'server' => $server]);
-            $memberData['username'] = $this->authmeRepository->findOneBy(['username' => $member->getName()])->getRealname();
+            $member = $this->playerRepository->findOneBy(['player_uuid' => $memberId]);
+            $memberData['username'] = $this->authmeRepository->findOneBy(['username' => $member->getPlayerName()])->getRealname();
             $role = $roles[$memberRoles[$memberId]]['name'];
             $memberData['role'] = preg_replace('/&\S/', '', $role);
 
