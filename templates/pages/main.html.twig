@@ -1,140 +1,220 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    {{ include('include/head.html.twig') }}
-    <title>{% block title %}Главная страница{% endblock %}</title>
+  {{ include('include/head.html.twig') }}
+  <title>{% block title %}Главная страница{% endblock %}</title>
 </head>
 <body>
-    {{ include('include/preloader.html.twig') }}
-    {{ include('include/nav.html.twig') }}
+  {{ include('include/preloader.html.twig') }}
+  {{ include('include/header.html.twig') }}
 
-    <section class="banner-image flex wow animate__animated animate__fadeIn animate__delay-1s" style="background: url('https://mc-cloudy.com/public/images/header-background.webp') no-repeat top; background-size: cover"></section>
-
-    <section class="py-5 wow animate__animated animate__fadeInUp animate__delay-1s">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h3 class="fw-bold">Начни играть на проекте</h3>
-                    <p>Пройди четыре простых этапа и окунись в увлекательную игру</p>
-                </div>
-                <div class="col-9 col-md-6 col-lg-4 mx-auto mb-3">
-                    <img src="https://mc-cloudy.com/public/images/design/wavy-line.png" alt="Wavy line" class="img-fluid" draggable="false">
-                </div>
-            </div>
-        </div>
-
-        <div class="container container-feature">
-            <div class="row">
-                <div class="col-12 col-md-6 col-xl-3 mb-5 mb-xl-0 feature-item">
-                    <div class="flex" style="height: 140px; width: 100%; background: radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#ffffff 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #ffffff 2px, #186ef0 2px) -1px 0; background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px; border-radius: .5rem;">
-                        <div style="padding: 10px; background-color: #186ef0; border-radius: 50%">
-                            <i class="fas fa-user fa-4x text-white"></i>
-                        </div>
-                    </div>
-                    <div class="text">
-                        <h1>Регистрация аккаунта</h1>
-                        <p>Для игры на проекте необходимо создать аккаунт. <a class="text-primary" href="{{ path('register') }}">Нажмите сюда</a>, чтобы перейти к регистрации.</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-xl-3 mb-5 mb-xl-0 feature-item">
-                    <div class="flex" style="height: 140px; width: 100%; background: radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#ffffff 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #ffffff 2px, #186ef0 2px) -1px 0; background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px; border-radius: .5rem;">
-                        <div style="padding: 10px; background-color: #186ef0; border-radius: 50%">
-                            <i class="fas fa-envelope fa-4x text-white"></i>
-                        </div>
-                    </div>
-                    <div class="text">
-                        <h1>Подтверждение почты</h1>
-                        <p>После регистрации подтвердите почту. Используйте ссылку в письме, которое вам пришло.</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-xl-3 mb-5 mb-xl-0 feature-item">
-                    <div class="flex" style="height: 140px; width: 100%; background: radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#ffffff 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #ffffff 2px, #186ef0 2px) -1px 0; background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px; border-radius: .5rem;">
-                        <div style="padding: 10px; background-color: #186ef0; border-radius: 50%">
-                            <i class="fas fa-search fa-4x text-white"></i>
-                        </div>
-                    </div>
-                    <div class="text">
-                        <h1>Выбор сервера</h1>
-                        <p>Выберите понравившийся вам сервер. <a class="text-primary" href="{{ path('our_servers') }}">Нажмите здесь</a>, чтобы посмотреть список серверов.</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-xl-3 feature-item">
-                    <div class="flex" style="height: 140px; width: 100%; background: radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #186ef0 20%, #186ef0 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#ffffff 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #ffffff 2px, #186ef0 2px) -1px 0; background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px; border-radius: .5rem;">
-                        <div style="padding: 6px; background-color: #186ef0; border-radius: 50%">
-                            <i class="fas fa-gamepad fa-4x text-white"></i>
-                        </div>
-                    </div>
-                    <div class="text">
-                        <h1>Начало игры</h1>
-                        <p>Скопируйте IP адрес сервера и окунитесь в незабываемые приключения со своими друзьями!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <main>
+    <section class="banner">
+      <div class="container banner__content">
+        <h3 class="banner__title">History of Civilization</h3>
+        <p class="banner__subtitle">Выживайте в суровом мире, возводите города, приводите новых поселенцев, управляйте налогами, казной и своими территориями, вершите судьбу в политическом пространстве</p>
+        <a href="#server" class="btn btn--about">Подробнее о сервере</a>
+        <p class="banner__text">Пиратка Java Edition 1.18.2</p>
+      </div>
     </section>
 
-    <section class="container-content border-top landing-block wow animate__animated animate__fadeInLeft animate__delay-1s">
-        <div class="container landing-wrapper">
-            <div class="row m-0">
-                <div class="col-12 col-lg-6 order-1 d-flex align-items-center">
-                    <div class="block-text">
-                        <h5>Совершенно новый геймплей</h5>
-                        <h2>Клауди - это уникальные сервера</h2>
-                        <p>Мы заботимся о том, чтобы вы - наши игроки, проводили своё время в комфорте, который создаётся интересным и увлекательным геймплеем.</p>
-                        <p>Наши сервера разработаны с любовью. Мы максимально прорабатываем все возможные механики и системы для каждого сервера. Даже классический Феникс сделан так, чтобы каждому понравился даже самый простой Майнкрафт.</p>
-                        <a href="{{ path('our_servers') }}">Перейти к списку наших серверов<i class="far fa-external-link-alt icon-margin-left"></i></a>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6 order-2 mt-lg-0">
-                    <img src="https://mc-cloudy.com/public/images/feature-01.webp" alt="Our servers" class="rounded img-fluid" draggable="false" />
-                </div>
-            </div>
+    <section class="section" id="server">
+      <div class="container display-grid-2">
+        <div class="information">
+          <p class="information__label">История длиной в четыре сезона</p>
+          <h2 class="information__title">Лучший политический сервер</h2>
+          <p class="information__text">Цивилизация - это сервер с уникальной реализацией градостроения, в котором автоматизированы процессы создания и управления собственным городом, казной, его территориями, поселенцами и их правами. На полноценную реализацию идеи сервера ушло более одного года. А главное - каждый может погрузиться в игровой процесс, ведь мы не продаём проходки.</p>
+          <ul class="information__list">
+            <li class="information__item">
+              IP сервера: <span>95.216.92.82:25757</span>
+            </li>
+            <li class="information__item">
+              Версия клиента: <span>1.18.2</span>
+            </li>
+          </ul>
+          <div class="information__buttons">
+            <a href="{{ path('rules') }}" class="btn btn--primary">Правила сервера</a>
+            <a href="{{ path('map') }}" class="btn btn--secondary">Интерактивная карта</a>
+          </div>
         </div>
+
+        <img src="https://mc-cloudy.com/public/images/feature-04.webp" alt="Our servers" class="section__image" draggable="false" />
+      </div>
+
+      <div class="box-text">
+        <span class="line"></span>
+        <span class="text">Начни играть прямо сейчас</span>
+        <span class="line"></span>
+      </div>
+
+      <div id="play" class="container feature">
+        <ul class="feature__list">
+          <li class="feature__item">
+            <div class="feature__image">
+              <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/e/e9/Book_and_Quill_JE2_BE2.png" alt="Register account" draggable="false">
+            </div>
+            <div class="feature__content">
+              <h3 class="feature__title">Создание аккаунта</h3>
+              <p class="feature__text"><a href="{{ path('register') }}">Нажмите здесь</a>, чтобы перейти к регистрации нового аккаунта.</p>
+            </div>
+          </li>
+          <li class="feature__item">
+            <div class="feature__image">
+              <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/2/29/Banner_Pattern_JE1_BE1.png" alt="Confirmation email" draggable="false">
+            </div>
+            <div class="feature__content">
+              <h3 class="feature__title">Подтверждение почты</h3>
+              <p class="feature__text">Используйте ссылку в письме, которое вам пришло, для подтверждения почты.</p>
+            </div>
+          </li>
+          <li class="feature__item">
+            <div class="feature__image">
+              <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/6/6f/Spyglass_(item)_JE3_BE1.png" alt="Run to the game" draggable="false">
+            </div>
+            <div class="feature__content">
+              <h3 class="feature__title">Начало приключений</h3>
+              <p class="feature__text">Скопируйте IP адрес сервера и окунитесь с головой в игру.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
     </section>
 
-    <section class="container-content border-top landing-block wow animate__animated animate__fadeInRight">
-        <div class="container landing-wrapper">
-            <div class="row m-0">
-                <div class="col-12 col-lg-6 order-2 order-lg-1 mt-lg-0">
-                    <img src="https://mc-cloudy.com/public/images/feature-02.webp" alt="Our servers" class="rounded img-fluid" draggable="false" />
-                </div>
-                <div class="col-12 col-lg-6 order-1 order-lg-2 d-flex align-items-center">
-                    <div class="ms-xl-5 block-text">
-                        <h5 class="secondary">Развитое сообщество</h5>
-                        <h2>Голосовой чат на всех серверах</h2>
-                        <p>Мод опциональный, потому что серверная часть сделана через плагин, а клиентская через мод.</p>
-                        <p>Голосовой чат погружает и сближает вас с персонажами в игре — вы общаетесь с ними как в реальной жизни.</p>
-                        <ul>
-                            <li>Установка мода не обязательна</li>
-                        </ul>
-                        <div class="row group-buttons">
-                            <a href="https://cdn.modrinth.com/data/1bZhdhsH/versions/forge-1.17-1.2.11/plasmovoice-forge-1.17.1-1.2.11.jar" class="btn btn-primary col-12 col-md-auto">Скачать для Forge</a>
-                            <a href="https://cdn.modrinth.com/data/1bZhdhsH/versions/fabric-1.17-1.2.11/plasmovoice-fabric-1.17.1-1.2.11.jar" class="btn btn-secondary col-12 col-md-auto">Fabric версия мода</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section class="section border border--top border--bottom">
+      <div class="container display-grid-2 section--revert">
+        <div class="information">
+          <p class="information__label">Уникальные возможности</p>
+          <h2 class="information__title">Поддержка голосового чата</h2>
+          <p class="information__text">Наш сервер поддерживает работу голосового чата с 3D-аудио и множеством других функций. Мод опциональный, потому что серверная часть сделана через плагин, а клиентская - через мод.</p>
+          <p class="information__text">Голосовой чат погружает и сближает с персонажами в игре — вы общаетесь с ними как в реальной жизни. Установите мод на голосовой чат и общайтесь с игроками без сторонних программ.</p>
+          <ul class="information__list">
+            <li class="information__item">
+              Установка мода не обязательна для игры на сервере
+            </li>
+          </ul>
+          <div class="information__buttons">
+            <a href="https://www.curseforge.com/minecraft/mc-mods/plasmo-voice/download/3863789/file" class="btn btn--primary">Скачать для Forge</a>
+            <a href="https://www.curseforge.com/minecraft/mc-mods/plasmo-voice/download/3863788/file" class="btn btn--secondary">Fabric версия мода</a>
+          </div>
         </div>
+        <img src="https://mc-cloudy.com/public/images/feature-02.webp" alt="Our servers" class="section__image" draggable="false" />
+      </div>
     </section>
 
-    <div class="container-content border-top landing-block wow animate__animated animate__fadeInLeft">
-        <div class="container landing-wrapper">
-            <div class="row m-0">
-                <div class="col-12 col-lg-6 order-1 d-flex align-items-center">
-                    <div class="block-text">
-                        <h5>Творческие сервера</h5>
-                        <h2>Большой уклон в строительство</h2>
-                        <p>Cloudy - это отличный проект для реализации вашего творческого потенциала. Игроки обожают строить и делают это весьма качественно!</p>
-                        <p>Наши сервера направлены на воплощение ваших идей! Стройте от малых густонаселённых поселений до крупных городов с широкими улицами и прочей инфраструктурой. Станьте лучшим строителем, покорите игровой мир своими сооружениями!</p>
-                        <a href="{{ path('discord') }}">Скриншоты игроков в Дискорде<i class="far fa-external-link-alt icon-margin-left"></i></a>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6 order-2 mt-lg-0">
-                    <img src="https://mc-cloudy.com/public/images/feature-03.webp" alt="Our servers" class="rounded img-fluid" draggable="false" />
-                </div>
-            </div>
+    <section class="section">
+      <div class="container display-grid-2">
+        <div class="information">
+          <p class="information__label">Уклон в систему градостроения</p>
+          <h2 class="information__title">Реализация творческих идей</h2>
+          <p class="information__text">Цивилизация - это отличный сервер для реализации вашего творческого потенциала. Реализация системы градостроения направлена на воплощение творческих идей наших игроков!</p>
+          <p class="information__text">Стройте от малых густонаселённых поселений до крупных городов с широкими улицами и прочей инфраструктурой. Станьте лучшим строителем в своём городе или нанимайтесь на работу в другие поселения. Покорите игровой мир своими красивыми сооружениями!</p>
+          <a class="information__href" href="{{ path('discord') }}">Скриншоты игроков в Дискорде<i class="far fa-external-link-alt"></i></a>
         </div>
-    </div>
+        <img src="https://mc-cloudy.com/public/images/feature-01.webp" alt="Our servers" class="section__image" draggable="false" />
+      </div>
 
-    {{ include('include/footer.html.twig') }}
+      <div class="box-text">
+        <span class="line"></span>
+        <span class="text">Прочие особенности сервера</span>
+        <span class="line"></span>
+      </div>
+
+      <div class="container play">
+        <ul class="feature__list">
+          <li class="feature__item">
+            <div class="feature__image">
+              <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/d/d4/Bundle_JE2.png" draggable="false">
+            </div>
+            <div class="feature__content">
+              <p class="feature__title">Заработок и профессия</p>
+              <p class="feature__text">Каждый игрок может выбрать роль своему персонажу, улучшать его навыки и получать деньги за работу.</p>
+            </div>
+          </li>
+          <li class="feature__item">
+            <div class="feature__image">
+              <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/2/26/Emerald_JE3_BE3.png" draggable="false">
+            </div>
+            <div class="feature__content">
+              <p class="feature__title">Экономика и торговля</p>
+              <p class="feature__text">Торгуйте с игроками, а на заработанные деньги оплачивайте налоги, улучшайте город и навыки персонажа.</p>
+            </div>
+          <li class="feature__item">
+            <div class="feature__image">
+              <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/2/2f/Golden_Chestplate_(item)_JE3_BE3.png" draggable="false">
+            </div>
+            <div class="feature__content">
+              <p class="feature__title">Города и войны</p>
+              <p class="feature__text">Создавайте города, управляйте ими, улучшайте, набирайте жителей, соберите войско и атакуйте чужое государство.</p>
+            </div>
+          </li>
+          <li class="feature__item">
+            <div class="feature__image">
+              <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/e/e0/Baked_Potato_JE4_BE2.png" draggable="false">
+            </div>
+            <div class="feature__content">
+              <p class="feature__title">Жажда и новая еда</p>
+              <p class="feature__text">Пейте воду, чтобы утолить жажду персонажа и готовьте новую еду для продажи в новопостроенной таверне.</p>
+            </div>
+          </li>
+          <li class="feature__item">
+            <div class="feature__image">
+              <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/9/97/Flint_JE3_BE3.png" draggable="false">
+            </div>
+            <div class="feature__content">
+              <p class="feature__title">Поэтапное развитие</p>
+              <p class="feature__text">Постепенно открывайте для себя более продуктивные инструменты и добывайте руды, которые ранее были недоступны.</p>
+            </div>
+          </li>
+          <li class="feature__item">
+            <div class="feature__image">
+              <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/8/89/Knowledge_Book_JE2.png" draggable="false">
+            </div>
+            <div class="feature__content">
+              <p class="feature__title">Новые рецепты создания</p>
+              <p class="feature__text">Ознакомьтесь с новыми рецептами создания рудных смесей, еды, декоративных блоков и прочих ресурсов.</p>
+            </div>
+          </li>
+          <li class="feature__item">
+            <div class="feature__image">
+              <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/9/98/Villager_Spawn_Egg_JE2_BE1.png" draggable="false">
+            </div>
+            <div class="feature__content">
+              <p class="feature__title">Отсутствие автоматизации</p>
+              <p class="feature__text">На сервере нет жителей, а также запрещены любые виды автоматизации добычи ресурсов и подобных ферм.</p>
+            </div>
+          </li>
+          <li class="feature__item">
+            <div class="feature__image">
+              <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/4/43/Lapis_Lazuli_JE2_BE2.png" draggable="false">
+            </div>
+            <div class="feature__content">
+              <p class="feature__title">Система чарования</p>
+              <p class="feature__text">Игрокам недоступна стандартная система получения книг, поэтому в ход идёт лазурит и чародейский стол.</p>
+            </div>
+          </li>
+          <li class="feature__item">
+            <div class="feature__image">
+              <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/4/40/Goat_Horn_JE1_BE1.png" draggable="false">
+            </div>
+            <div class="feature__content">
+              <p class="feature__title">Исправления и генерация</p>
+              <p class="feature__text">Добавлена защита сида, которую невозможно взломать. Убраны странные привязки генерации структур по сиду.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  {{ include('include/footer.html.twig') }}
+
+  <script type="javascript">
+      menuBtn = document.querySelector(".navbar__button");
+      menu = document.querySelector(".navbar__content");
+
+      menuBtn.addEventListener("click", function (e) {
+          menuBtn.classList.toggle("is-open");
+          menu.classList.toggle("is-open");
+      });
+  </script>
 </body>

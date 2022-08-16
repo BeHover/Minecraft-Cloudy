@@ -1,0 +1,82 @@
+.authentication {
+  background: url('https://mc-cloudy.com/public/images/civilization.webp') no-repeat;
+  background-size: cover;
+  overflow: hidden;
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .btn {
+    margin: 0 auto;
+  }
+
+  &__content {
+    background: $color-white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: -60px;
+  }
+
+  &__inputs {
+    .authentication__input {
+      &:first-child {
+        margin-top: 15px;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 15px;
+      }
+    }
+
+    &--bottom {
+      margin-bottom: 25px;
+    }
+  }
+
+  &__input {
+    border: 1px solid rgba(33, 33, 33, 0.2);
+    border-radius: 4px;
+    padding: 8px 12px;
+    width: calc(100% - 24px);
+  }
+
+  &__text {
+    @include flex;
+    font-size: 14px;
+    color: $color-primary;
+
+    svg {
+      margin-right: 8px;
+    }
+
+    &--error {
+      text-align: center;
+    }
+  }
+
+  &__info {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    &--left {
+      text-align: left;
+    }
+
+    &--bottom {
+      margin-bottom: 25px;
+    }
+  }
+
+  &__footer {
+    font-size: 14px;
+    color: $color-gray;
+    text-align: center;
+    margin-top: 30px;
+  }
+}

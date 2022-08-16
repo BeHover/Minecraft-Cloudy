@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  {{ include('include/head.html.twig') }}
+  <title>{% block title %}Правила сервера{% endblock %}</title>
+</head>
+<body>
+  {{ include('include/preloader.html.twig') }}
+  {{ include('include/header.html.twig') }}
+  {{ include('badges/header.html.twig') }}
+
+  <section class="section">
+    <div class="container">
+      <div class="information">
+        <h2 class="information__title information__title--center">Правила игрового сервера</h2>
+        <p class="information__text information__text--center">Правила написаны как гайд по серверу, который интересно и легко прочитать</p>
+      </div>
+
+      <div class="rules">
+        <div class="rules__content">
+          <h2 class="rules__title">Игровой процесс</h2>
+          <ul class="rules__list">
+            <li class="rules__item rules-description">
+              <p class="rules__text">1. Запрещено создавать аккаунты с игровыми никнеймами, которые содержат:</p>
+              <ul class="rules-description__list">
+                <li class="rules-description__item">эротический или аморальный характер;</li>
+                <li class="rules-description__item">оскорбления или нецензурные выражения;</li>
+                <li class="rules-description__item">информацию разжигающую межнациональную рознь;</li>
+                <li class="rules-description__item">рекламу сторонних проектов.</li>
+              </ul>
+              <p class="rules__punishment">Наказание: перманентная блокировка аккаунта.</p>
+            </li>
+
+            <div class="rules__divider"></div>
+
+            <li class="rules__item rules-description">
+              <p class="rules__text">2. Запрещено использование дюпов, ошибок, багов, любых сторонних программ, в том числе ресурспаков, дающих дополнительные преимущества в игре или наносящие вред игровому процессу и серверу.</p>
+              <p class="rules__punishment">Наказание: перманентная блокировка аккаунта.</p>
+            </li>
+
+            <div class="rules__divider"></div>
+
+            <li class="rules__item rules-description">
+              <p class="rules__text">3. Запрещено использовать в названиях предметов, животных и так далее надписи, которые содержат:</p>
+              <ul class="rules-description__list">
+                <li class="rules-description__item">оскорбления участников игрового процесса;</li>
+                <li class="rules-description__item">информацию разжигающую межнациональную рознь;</li>
+                <li class="rules-description__item">рекламу сторонних проектов.</li>
+              </ul>
+              <p class="rules__punishment">Наказание: блокировка аккаунта на 24 часа, удаление предмета/животного/надписи.</p>
+            </li>
+
+            <div class="rules__divider"></div>
+
+            <li class="rules__item rules-description">
+              <p class="rules__text">4. Запрещено намеренно портить внешний вид миров, а также размещать объекты и постройки:</p>
+              <ul class="rules-description__list">
+                <li class="rules-description__item">создающие избыточную нагрузку на сервер;</li>
+                <li class="rules-description__item">имеющие форму чего–либо непристойного;</li>
+                <li class="rules-description__item">содержащие в себе оскорбления или нецензурные выражения;</li>
+                <li class="rules-description__item">рекламирующие сторонние проекты;</li>
+                <li class="rules-description__item">представляющие из себя нацистские символы;</li>
+                <li class="rules-description__item">прямо или косвенно нарушающие остальные правила проекта.</li>
+              </ul>
+              <p class="rules__punishment">Наказание: блокировка аккаунта на 24 часа, снос сооружения и восстановление внешнего вида мира.</p>
+            </li>
+
+            <div class="rules__divider"></div>
+
+            <li class="rules__item rules-description">
+              <p class="rules__text">5. Запрещено обходить ограничения PVP во время игрового процесса.</p>
+              <p class="rules__punishment">Наказание: перманентная блокировка аккаунта.</p>
+            </li>
+          </ul>
+
+          <h2 class="rules__title">Игровые чаты</h2>
+          <ul class="rules__list">
+            <li class="rules__item rules-description">
+              <p class="rules__text">6. Запрещены сообщения, представляющие собой:</p>
+              <ul class="rules-description__list">
+                <li class="rules-description__item">ложные сведения о вайпе;</li>
+                <li class="rules-description__item">спам и флуд;</li>
+                <li class="rules-description__item">любые виды попрошайничества у администрации;</li>
+                <li class="rules-description__item">публичная критика, оспаривание или обсуждение действий администрации;</li>
+                <li class="rules-description__item">подстрекательство, провокации, агрессивные действия с целью вызвать конфликт с администрацией;</li>
+                <li class="rules-description__item">любое упоминание дюпов, читов и прочих хитростей, вредящих игровому процессу;</li>
+                <li class="rules-description__item">эротический или аморальный характер;</li>
+                <li class="rules-description__item">оскорбления с упоминанием родных;</li>
+                <li class="rules-description__item">информацию, разжигающую межнациональную рознь;</li>
+                <li class="rules-description__item">рекламу и упоминание сторонних проектов;</li>
+                <li class="rules-description__item">нечитаемые системой символы;</li>
+                <li class="rules-description__item">подстрекание третьих лиц на нарушение правил;</li>
+                <li class="rules-description__item">угрозы расправой в реальной жизни.</li>
+              </ul>
+              <p class="rules__punishment">Наказание: блокировка доступа к текстовым чатам на 3 часа.</p>
+            </li>
+
+            <div class="rules__divider"></div>
+
+            <li class="rules__item rules-description">
+              <p class="rules__text">7. Запрещены такие действия в голосовом чате, как:</p>
+              <ul class="rules-description__list">
+                <li class="rules-description__item">включение громких, надоедливых и неприятных остальным слушателям звуков в общественных местах;</li>
+                <li class="rules-description__item">все пункты правил текстового чата.</li>
+              </ul>
+              <p class="rules__punishment">Наказание: блокировка доступа к голосовому чату на 3 часа.</p>
+            </li>
+          </ul>
+
+          <h2 class="rules__title">Примечания к правилам</h2>
+          <ul class="rules__list">
+            <li class="rules__item rules-description">
+              <p class="rules__text">Дополнительные пункты:</p>
+              <ul class="rules-description__list">
+                <li class="rules-description__item">Игрок лично несёт ответственность за свой аккаунт и обязуется соблюдать все надлежащие меры по обеспечению его безопасности.</li>
+                <li class="rules-description__item">При блокировке аккаунта, все игровые ценности не подлежат передаче другим игрокам или возврату.</li>
+                <li class="rules-description__item">Любые предметы игрока могут быть изъяты и удалены в случаях, если они были получены в результате ошибки в работе сервера.</li>
+                <li class="rules-description__item">Администрация вправе не возвращать вещи, потерянные в результате бага, отката, смерти игрока, нестабильной работы сервера.</li>
+                <li class="rules-description__item">Администрация вправе телепортировать, удалять неправомерные предметы, выдавать наказание игроку без объяснения причин.</li>
+                <li class="rules-description__item">Администрация вправе выдать перманентную блокировку аккаунту игрока за попытку избежания наказания.</li>
+                <li class="rules-description__item">Администрация вправе ограничить игроку доступ к серверу на время разрешения инцидента с нарушением игровых правил.</li>
+                <li class="rules-description__item">Администрация вправе выдать наказание игроку исходя из собственных рассуждений.</li>
+                <li class="rules-description__item">Игрок лично несет ответственность за вещи, находящиеся в его привате. В случае их кражи другим, добавленным в приват игроком, администрация не обязуется разбираться в этом инциденте.</li>
+                <li class="rules-description__item">Приватные чаты (личные сообщения) не модерируются, если вам кто–то мешает - используйте команду: <b>/ignore</b>.</li>
+                <li class="rules-description__item">Модератор имеет право игнорировать сообщение от игроков, если в этом есть какая-либо причина.</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {{ include('include/footer.html.twig') }}
+</body>

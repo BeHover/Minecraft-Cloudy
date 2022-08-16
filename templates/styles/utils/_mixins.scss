@@ -1,0 +1,15 @@
+@mixin flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin margin-y($value) {
+  margin-top: $value;
+  margin-bottom: $value;
+}
+
+@mixin margin-x($value) {
+  margin-right: $value;
+  margin-left: $value;
+}

@@ -4,15 +4,15 @@
     {{ include('include/head.html.twig') }}
     <title>{% block title %}Подтверждение почты{% endblock %}</title>
 </head>
-<body>
+<body class="auth-bg">
     {{ include('include/preloader.html.twig') }}
-    {{ include('include/nav.html.twig') }}
+    {{ include('include/header.html.twig') }}
 
     <section id="main-content" class="container flex" style="padding: 0 15px">
         <div class="row m-0 flex">
             <div class="col-12 col-lg-7 col-xxl-6 p-0">
                 <div class="container-authentication flex" style="box-shadow: none; padding: 0">
-                    <div class="text-block wow animate__animated animate__zoomIn animate__delay-1s">
+                    <div class="text-block">
                         <h5>Твоя вселенная развлечений</h5>
                         <h2>Подтверждение почты</h2>
                         <p>У вас не подтверждена электронная почта, поэтому мы ограничили вам доступ к некоторым страницам сайта. Перейдите по ссылке, которую мы вам выслали в письме, чтобы подтвердить почту и получить полный доступ к функционалу сайта. Обратите внимание, наше письмо может попасть в папку со спамом.</p>
@@ -22,7 +22,7 @@
             </div>
             <div class="d-none d-lg-block col-lg-5 col-xxl-6 p-0">
                 <div class="flex ms-5">
-                    <img src="https://mc-cloudy.com/public/images/register.webp" class="ms-5 w-50 wow animate__animated animate__fadeInRight animate__delay-1s" alt="Cloudy Hero">
+                    <img src="https://mc-cloudy.com/public/images/register.webp" class="ms-5 w-50" alt="Cloudy Hero">
                 </div>
             </div>
         </div>

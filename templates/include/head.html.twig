@@ -1,31 +1,17 @@
 <meta charset="UTF-8">
-<meta name="description" content="Minecraft Cloudy — это комплекс серверов с различными игровыми режимами, прекрасное место для интересной и увлекательной игры.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="description" content="Выживайте в суровом мире, возводите города, приводите новых поселенцев, управляйте налогами, казной и своими территориями, вершите судьбу в политическом пространстве">
+<meta name="keywords" content="политический политические приватный приватные сервер сервера minecraft майнкрафт майнкрафту civilization">
 <meta name="author" content="CHYZHOV">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Политический сервер History of Civilization">
+<meta property="og:description" content="Выживайте в суровом мире, возводите города, приводите новых поселенцев, управляйте налогами, казной и своими территориями, вершите судьбу в политическом пространстве">
 
 <link rel="shortcut icon" type="image/x-icon" href="https://mc-cloudy.com/public/favicon.ico" />
 
-{% block stylesheets %}
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-        crossorigin="anonymous"
-    />
+<style>
+  {{ include('styles/main.css') }}
+</style>
 
-    <link
-        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-        rel="stylesheet"
-    />
-
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-        {{ include('styles/main.css') }}
-    </style>
-
-    {{ include('styles/main.html.twig') }}
-{% endblock %}
-
-{% block javascripts %}
-    {{ include('include/scripts.html.twig') }}
-{% endblock %}
+{{ include('include/scripts.html.twig') }}

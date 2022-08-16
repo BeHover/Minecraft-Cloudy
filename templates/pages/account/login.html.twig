@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    {{ include('include/head.html.twig') }}
-    <title>{% block title %}Авторизация{% endblock %}</title>
-    <style>{{ include('styles/authentication.css') }}</style>
+  {{ include('include/head.html.twig') }}
+  <title>{% block title %}Авторизация{% endblock %}</title>
 </head>
-<body class="row m-0">
-    {{ include('include/preloader.html.twig') }}
-    <div class="col-12 col-lg-7 col-xl-6 col-xxl-5 ms-auto p-0">
-        <div class="container-authentication flex min-vh-100">
-            <div class="wow animate__animated animate__zoomIn animate__delay-1s">
-                <form action="{{ path('login') }}" method="post">
-                    <h5>Твоя вселенная развлечений</h5>
-                    <h2>Вход в личный кабинет</h2>
-                    <p>Авторизуйтесь, чтобы перейти в личный кабинет <b>Minecraft Cloudy</b>.</p>
+<body class="authentication">
+  {{ include('include/preloader.html.twig') }}
 
-                    {% if error %}
-                        <p class="error-message">Вы указали неверные данные для входа.</p>
-                    {% endif %}
+  <section class="container section information authentication__content">
+    <form action="{{ path('login') }}" method="post">
+      <p class="information__label information__label--center">Вселенная развлечений</p>
+      <h2 class="information__title information__title--center">Вход в личный кабинет</h2>
+      <p class="information__text information__text--center">Авторизуйтесь, чтобы перейти в личный кабинет Minecraft Cloudy.</p>
 
-                    <input type="text" id="username" name="_username" class="form-control" placeholder="Игровой никнейм" required="" />
-                    <input type="password" id="password" name="_password" class="form-control" placeholder="Пароль от аккаунта" required="" />
+      {% if error %}
+        <p class="authentication__text authentication__text--error"><i class="far fa-lock"></i>Вы указали неверные данные для входа.</p>
+      {% endif %}
+
+      <div class="authentication__inputs">
+        <input type="text" id="username" name="_username" class="authentication__input" placeholder="Игровой никнейм" required="" />
+        <input type="password" id="password" name="_password" class="authentication__input" placeholder="Пароль от аккаунта" required="" />
+      </div>
 
 
-                    <a href="{{ path('send_password_recovery') }}">Забыли пароль от аккаунта?</a>
+      <a class="authentication__info authentication__info--left authentication__info--bottom" href="{{ path('send_password_recovery') }}">Забыли пароль от аккаунта?</a>
 
-                    <button class="btn btn-primary col-12" type="submit">Авторизоваться</button>
+      <button class="btn btn--primary" type="submit">Авторизоваться</button>
 
-                    <p class="text-center">Нет аккаунта? <a href="{{ path('register') }}">Нажмите, чтобы создать.</a></p>
+      <p class="authentication__info">Нет аккаунта? <a href="{{ path('register') }}">Нажмите, чтобы создать.</a></p>
 
-                    <p class="text-center fw-light mt-5">CHYZHOV © Minecraft Cloudy, 2022</p>
-                </form>
-            </div>
-        </div>
-    </div>
+      <p class="authentication__footer">CHYZHOV © Minecraft Cloudy, 2022</p>
+    </form>
+  </section>
 </body>

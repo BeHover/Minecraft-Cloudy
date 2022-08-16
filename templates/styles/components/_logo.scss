@@ -1,0 +1,29 @@
+.logo {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+
+  &__image {
+    height: 35px;
+    width: 35px;
+  }
+
+  &__text {
+    font-family: 'Poppins', sans-serif;
+    color: $color-text-primary;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  &__subtitle {
+    font-size: 16px;
+    font-weight: normal;
+  }
+}
