@@ -2,6 +2,9 @@
 
 namespace App\Entity\Authme;
 
+use App\Repository\Authme\PlayerRepository;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ORM\Table(name="players")
  * @ORM\Entity(repositoryClass=App\Repository\Authme\PlayerRepository::class)

@@ -2,6 +2,9 @@
 
 namespace App\Entity\Authme;
 
+use App\Repository\Authme\LandsRepository;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ORM\Table(name="lands")
  * @ORM\Entity(repositoryClass=App\Repository\Authme\LandsRepository::class)
