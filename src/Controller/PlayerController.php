@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Event\FileToDeleteEvent;
 use App\Form\ChangePasswordType;
-use App\Form\PlayerMainInfoType;
 use App\Form\ProfileChangeEmailType;
 use App\Form\ProfileChangeSkinType;
 use App\Form\ProfileChangePasswordType;
@@ -26,7 +25,6 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class PlayerController extends AbstractController
 {
@@ -201,7 +199,7 @@ class PlayerController extends AbstractController
         );
     }
 
-    public function sendRecoverPassword(
+    public function sendPasswordRecovery(
         Request $request,
         MailerInterface $mailer,
         UserRepository $userRepository,
@@ -216,11 +214,11 @@ class PlayerController extends AbstractController
             $user = $userRepository->findOneBy(["email" => $email]);
             if (null === $user) {
                 return $this->renderForm(
-                    "recovery_password.html.twig",
+                    "pages/account/send_password_recovery.html.twig",
                     [
-                        "recoverForm" => $form,
-                        "message" => "Пользователь с таким адресом не найден!",
-                        "success" => null
+                        "recoveryForm" => $form,
+                        "message" => "Пользователь с таким адресом не найден.",
+                        "success" => 0
                     ]
                 );
             }
@@ -234,11 +232,11 @@ class PlayerController extends AbstractController
 
             $mail = (new TemplatedEmail())
                 ->to($email)
-                ->subject("Востановление пароля")
-                ->htmlTemplate("email/password-recovery-email.html.twig")
+                ->subject("Восстановление доступа к аккаунту")
+                ->htmlTemplate("email/send_password_recovery.html.twig")
                 ->context([
                     "signedUrl" => $this->generateUrl(
-                        "recovery_password",
+                        "password_recovery",
                         ["token" => $token],
                         UrlGeneratorInterface::ABSOLUTE_URL
                     )
@@ -247,14 +245,14 @@ class PlayerController extends AbstractController
 
             try {
                 $mailer->send($mail);
-            } catch (TransportExceptionInterface $e) {
+            } catch (TransportExceptionInterface) {
                 #TODO: handle exception properly!
             }
 
             return $this->renderForm(
-                "recovery_password.html.twig",
+                "pages/account/send_password_recovery.html.twig",
                 [
-                    "recoverForm" => $form,
+                    "recoveryForm" => $form,
                     "message" => null,
                     "success" => 1
                 ]
@@ -262,11 +260,11 @@ class PlayerController extends AbstractController
         }
 
         return $this->renderForm(
-            "recovery_password.html.twig",
+            "pages/account/send_password_recovery.html.twig",
             [
-                "recoverForm" => $form,
+                "recoveryForm" => $form,
                 "message" => null,
-                "success" => null
+                "success" => 0
             ]
         );
     }
@@ -277,7 +275,8 @@ class PlayerController extends AbstractController
         $tokenSecret,
         UserRepository $userRepository,
         UserPasswordHasherInterface $userPasswordHasher,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        MailerInterface $mailer,
     ): RedirectResponse|Response {
         $userId = Token::getPayload($token, $tokenSecret)["userId"];
         $user = $userRepository->find($userId);
@@ -295,19 +294,19 @@ class PlayerController extends AbstractController
 
             if ($plainPassword !== $plainPasswordConfirm) {
                 return $this->renderForm(
-                    "pages/profile/change_password.html.twig",
+                    "pages/account/password_recovery.html.twig",
                     [
-                        "changePassword" => $form,
-                        "message" => "Пароли должны быть одинаковы"
+                        "recoveryForm" => $form,
+                        "message" => "Вы указали разные пароли, повторите попытку."
                     ]
                 );
             }
 
             if (!preg_match("/^\w{5,24}$/", $plainPassword)) {
                 return $this->renderForm(
-                    "pages/profile/change_password.html.twig",
+                    "pages/account/password_recovery.html.twig",
                     [
-                        "changePassword" => $form,
+                        "recoveryForm" => $form,
                         "message" => "Пароль должен состоять из латиницы и цифр с длиной от 5 до 24 символов."
                     ]
                 );
@@ -316,13 +315,30 @@ class PlayerController extends AbstractController
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
             $entityManager->flush();
 
+            $email = $user->getEmail();
+
+            $mail = (new TemplatedEmail())
+                ->to($email)
+                ->subject("Изменение пароля")
+                ->htmlTemplate("email/password_recovery.html.twig")
+                ->context([
+                    "username" => $user->getUsername(),
+                    "password" => $plainPassword
+                ]);
+
+            try {
+                $mailer->send($mail);
+            } catch (TransportExceptionInterface) {
+                #TODO: handle exception properly!
+            }
+
             return $this->redirectToRoute("profile");
         }
 
         return $this->renderForm(
-            "pages/profile/change_password.html.twig",
+            "pages/account/password_recovery.html.twig",
             [
-                "changePassword" => $form,
+                "recoveryForm" => $form,
                 "message" => null
             ]
         );

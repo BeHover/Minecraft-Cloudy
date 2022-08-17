@@ -16,17 +16,37 @@
         <p class="authentication__text authentication__text--error"><i class="far fa-exclamation-square"></i>{{ message|raw }}</p>
       {% endif %}
 
-      <div class="authentication__inputs authentication__inputs--bottom">
-        {{ form_widget(registrationForm.username, {'attr': {'class': 'authentication__input', 'placeholder': 'Укажите ваш никнейм'}}) }}
-        {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'authentication__input', 'placeholder': 'Придумайте пароль'}}) }}
-        {{ form_widget(registrationForm.email, {'attr': {'class': 'authentication__input', 'placeholder': 'Введите электронную почту'}}) }}
+      <div class="authentication__inputs">
+
+        <label>
+          <span class="authentication__label">Игровой никнейм</span>
+          {{ form_widget(registrationForm.username, {'attr': {'class': 'authentication__input'}}) }}
+        </label>
+
+        <label>
+          <span class="authentication__label">Пароль от аккаунта</span>
+          {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'authentication__input'}}) }}
+        </label>
+
+        <label>
+          <span class="authentication__label">Электронная почта</span>
+          {{ form_widget(registrationForm.email, {'attr': {'class': 'authentication__input'}}) }}
+        </label>
       </div>
 
       <button class="btn btn--primary" type="submit">Создать аккаунт</button>
 
-      <p class="authentication__info">Есть аккаунт? <a href="{{ path('login') }}">Нажмите, чтобы войти.</a></p>
-
-    <p class="authentication__footer">CHYZHOV © Minecraft Cloudy, 2022</p>
+      <ul class="authentication__list">
+        <li class="authentication__item">
+          <a class="authentication__info authentication__info--left" href="{{ path('send_password_recovery') }}"><i class="fas fa-question-circle"></i>Восстановить доступ к аккаунту</a>
+        </li>
+        <li class="authentication__item">
+          <a class="authentication__info authentication__info--left" href="{{ path('login') }}"><i class="fas fa-user-circle"></i>Войти в существующий аккаунт</a>
+        </li>
+        <li class="authentication__item">
+          <a class="authentication__info authentication__info--left authentication__info--bottom" href="{{ path('main_page') }}"><i class="fas fa-arrow-circle-left"></i>Вернуться на главную</a>
+        </li>
+    </ul>
     {{ form_end(registrationForm) }}
   </section>
 </body>

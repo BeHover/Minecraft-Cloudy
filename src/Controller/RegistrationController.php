@@ -30,8 +30,7 @@ class RegistrationController extends AbstractController
     public function register(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
-        UserRepository $userRepository,
-        AuthmeRepository $authmeRepository
+        UserRepository $userRepository
     ): Response
     {
         $user = new User();
@@ -83,7 +82,6 @@ class RegistrationController extends AbstractController
             $user->setUsername($userName);
             $user->setEmail($email);
             $user->setPassword($hashedPassword);
-            $user->setIcon("default.png");
             $user->setRoles(["ROLE_PLAYER", "ROLE_USER"]);
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -100,18 +98,6 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $entityManagerAuthme = $this->getDoctrine()->getManager("authme");
-
-            if (null === $authmeRepository->findOneBy(["realname" => $userName])) {
-                $authmeUser = new Authme();
-                $authmeUser->setUsername(strtolower($userName));
-                $authmeUser->setRealname($userName);
-                $authmeUser->setPassword($hashedPassword);
-                $authmeUser->setRegdate(time());
-                $entityManagerAuthme->persist($authmeUser);
-                $entityManagerAuthme->flush();
-            }
-
             $this->emailVerifier->sendEmailConfirmation("verify_email", $user,
                 (new TemplatedEmail())
                     ->to($user->getEmail())
@@ -119,7 +105,7 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate("email/confirmation_email.html.twig")
             );
 
-            return $this->redirectToRoute("profile");
+            return $this->redirectToRoute("login");
         }
 
         return $this->render("pages/account/register.html.twig",
@@ -131,6 +117,7 @@ class RegistrationController extends AbstractController
     }
 
     public function verifyUserEmail(
+        AuthmeRepository $authmeRepository,
         Request $request
     ): Response {
         $this->denyAccessUnlessGranted("IS_AUTHENTICATED_FULLY");
@@ -138,6 +125,17 @@ class RegistrationController extends AbstractController
 
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $user);
+
+            $entityManagerAuthme = $this->getDoctrine()->getManager("authme");
+            if (null === $authmeRepository->findOneBy(["realname" => $user->getUsername()])) {
+                $authmeUser = new Authme();
+                $authmeUser->setUsername(strtolower($user->getUsername()));
+                $authmeUser->setRealname($user->getUsername());
+                $authmeUser->setPassword($user->getPassword());
+                $authmeUser->setRegdate(time());
+                $entityManagerAuthme->persist($authmeUser);
+                $entityManagerAuthme->flush();
+            }
         } catch (VerifyEmailExceptionInterface) {
             return $this->redirectToRoute("profile");
         }

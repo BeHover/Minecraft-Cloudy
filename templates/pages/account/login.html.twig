@@ -11,25 +11,37 @@
     <form action="{{ path('login') }}" method="post">
       <p class="information__label information__label--center">Вселенная развлечений</p>
       <h2 class="information__title information__title--center">Вход в личный кабинет</h2>
-      <p class="information__text information__text--center">Авторизуйтесь, чтобы перейти в личный кабинет Minecraft Cloudy.</p>
+      <p class="information__text information__text--center">Авторизуйтесь, чтобы перейти в личный кабинет.</p>
 
       {% if error %}
         <p class="authentication__text authentication__text--error"><i class="far fa-lock"></i>Вы указали неверные данные для входа.</p>
       {% endif %}
 
       <div class="authentication__inputs">
-        <input type="text" id="username" name="_username" class="authentication__input" placeholder="Игровой никнейм" required="" />
-        <input type="password" id="password" name="_password" class="authentication__input" placeholder="Пароль от аккаунта" required="" />
+        <label for="username">
+          <span class="authentication__label">Игровой никнейм</span>
+          <input type="text" id="username" name="_username" class="authentication__input"  required />
+        </label>
+
+        <label for="password" class="authentication__label">
+          <span class="authentication__label">Пароль от аккаунта</span>
+          <input type="password" id="password" name="_password" class="authentication__input"  required />
+        </label>
       </div>
-
-
-      <a class="authentication__info authentication__info--left authentication__info--bottom" href="{{ path('send_password_recovery') }}">Забыли пароль от аккаунта?</a>
 
       <button class="btn btn--primary" type="submit">Авторизоваться</button>
 
-      <p class="authentication__info">Нет аккаунта? <a href="{{ path('register') }}">Нажмите, чтобы создать.</a></p>
-
-      <p class="authentication__footer">CHYZHOV © Minecraft Cloudy, 2022</p>
+      <ul class="authentication__list">
+        <li class="authentication__item">
+          <a class="authentication__info authentication__info--left" href="{{ path('send_password_recovery') }}"><i class="fas fa-question-circle"></i>Восстановить пароль от аккаунта</a>
+        </li>
+        <li class="authentication__item">
+          <a class="authentication__info authentication__info--left authentication__info--bottom" href="{{ path('register') }}"><i class="fas fa-plus-circle"></i>Создать новый аккаунт</a>
+        </li>
+        <li class="authentication__item">
+          <a class="authentication__info authentication__info--left authentication__info--bottom" href="{{ path('main_page') }}"><i class="fas fa-arrow-circle-left"></i>Вернуться на главную</a>
+        </li>
+      </ul>
     </form>
   </section>
 </body>

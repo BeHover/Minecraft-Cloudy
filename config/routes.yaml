@@ -85,12 +85,12 @@ send_email_confirmation:
     methods: GET
 
 send_password_recovery:
-    path: /send-recover-password
-    #controller: App\Controller\PlayerController::sendRecoverPassword
-    controller: App\Controller\PlayerController::login
+    path: /password-recovery
+    controller: App\Controller\PlayerController::sendPasswordRecovery
+#    controller: App\Controller\PlayerController::login
 
-recovery_password:
-    path: /recovery-password/{token}
+password_recovery:
+    path: /password-recovery/{token}
     controller: App\Controller\PlayerController::recoveryPassword
 
 # Admin

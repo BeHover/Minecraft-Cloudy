@@ -4,3 +4,5 @@ framework:
 
         envelope:
             sender: 'no-reply@mc-cloudy.com'
+        headers:
+          From: 'Minecraft Cloudy <no-reply@mc-cloudy.com>'
