@@ -15,10 +15,11 @@
     @include flex;
     background-color: #ebedf0;
     border-radius: 8px;
-    width: 70px;
-    height: 70px;
-    min-width: 70px;
-    min-height: 70px;
+    min-width: 60px;
+    min-height: 60px;
+
+    width: 60px;
+    height: 60px;
 
     img {
       width: 42px;
@@ -50,17 +51,14 @@
   }
 }
 
+#play .feature {
+  &__item {
+    align-items: center;
+  }
+}
+
 @media screen and (min-width: 576px) {
   .feature {
-    &__item {
-      display: flex;
-    }
-
-    &__image {
-      min-width: 70px;
-      min-height: 70px;
-    }
-
     &__title {
       font-size: 18px;
     }
@@ -68,9 +66,7 @@
     &__text {
       font-size: 16px;
     }
-  }
 
-  #play .feature {
     &__item {
       align-items: center;
     }
@@ -80,14 +76,6 @@
 @media screen and (min-width: 768px) {
   .feature {
     &__list {
-      width: 80%;
-      margin: 0 auto;
-    }
-  }
-
-  #play .feature {
-    &__list {
-      grid-template-columns: 1fr;
       width: 80%;
       margin: 0 auto;
     }
@@ -106,7 +94,6 @@
   #play .feature {
     &__list {
       display: flex;
-      width: 100%;
       grid-gap: 12px;
     }
   }
@@ -114,85 +101,48 @@
 
 @media screen and (min-width: 1200px) {
   .feature {
+    &__image {
+      min-width: 80px;
+      min-height: 80px;
+
+      img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
     &__list {
-      grid-template-columns: repeat(2, 1fr);
       grid-gap: 30px;
     }
 
     &__title {
-      font-size: 20px;
+      font-size: 18px;
     }
 
     &__text {
-      font-size: 20px;
+      font-size: 18px;
       max-width: 90%;
-    }
-
-    &__image {
-      min-width: 90px;
-      min-height: 90px;
-    }
-  }
-
-  #play .feature {
-    &__image {
-      display: inline-flex;
-      width: 60px;
-      height: 60px;
     }
   }
 }
 
 @media screen and (min-width: 1400px) {
   .feature {
-    &__image {
-      display: inline-flex;
-      width: 65px;
-      height: 65px;
-      min-width: 65px;
-      min-height: 65px;
-
-      img {
-        width: 35px;
-        height: 35px;
-      }
-    }
-
     &__list {
-      grid-template-columns: 1fr 1fr;
       grid-column-gap: 50px;
       grid-row-gap: 30px;
     }
 
-    &__item {
-      align-items: center;
-    }
-
     &__title {
-      font-size: 18px;
-      margin-bottom: 0;
+      font-size: 19px;
     }
 
     &__text {
-      font-size: 18px;
       max-width: 100%;
     }
   }
 
   #play .feature {
-    &__image {
-      display: inline-flex;
-      width: 65px;
-      height: 65px;
-      min-width: 65px;
-      min-height: 65px;
-
-      img {
-        width: 35px;
-        height: 35px;
-      }
-    }
-
     &__list {
       width: 100%;
       grid-gap: 18px;

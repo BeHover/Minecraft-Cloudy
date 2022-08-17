@@ -1,12 +1,14 @@
-<div class="container badge">
+<section class="container badge">
   {% if not app.user %}
     <div class="badge__content">
-      <div class="badge__icon">
-        <i class="far fa-lock"></i>
-      </div>
-      <div class="badge__text">
-        <p class="badge__title">Вы не авторизованы</p>
-        <p class="badge__subtitle">Авторизуйтесь, чтобы получить доступ к полному функционалу сайта</p>
+      <div class="badge__body">
+        <div class="badge__icon">
+          <i class="far fa-lock"></i>
+        </div>
+        <div class="badge__text">
+          <p class="badge__title">Вы не авторизованы</p>
+          <p class="badge__subtitle">Авторизуйтесь, чтобы получить полный доступ к сайту</p>
+        </div>
       </div>
       <div class="badge__buttons">
         <a class="btn btn--secondary" href="{{ path('login') }}">Войти</a>
@@ -16,12 +18,14 @@
   {% else %}
     {% if not app.user.isVerified %}
       <div class="badge__content">
-        <div class="badge__icon">
-          <i class="far fa-envelope"></i>
-        </div>
-        <div class="badge__text">
-          <p class="badge__title">Подтвердите почту</p>
-          <p class="badge__subtitle">Пожалуйста, подтвердите почту, чтобы получить доступ к полному функционалу сайта</p>
+        <div class="badge__body">
+          <div class="badge__icon">
+            <i class="far fa-envelope"></i>
+          </div>
+          <div class="badge__text">
+            <p class="badge__title">Подтвердите почту</p>
+            <p class="badge__subtitle">Подтвердите почту, чтобы получить полный доступ к сайту</p>
+          </div>
         </div>
         <div class="badge__buttons">
           <a class="btn btn--secondary" href="{{ path('send_email_confirmation') }}"><i class="far fa-pencil"></i></a>
@@ -30,12 +34,14 @@
       </div>
     {% else %}
       <div class="badge__content">
-        <div class="badge__icon">
-          <i class="far fa-star"></i>
-        </div>
-        <div class="badge__text">
-          <p class="badge__title">History of Civilization</p>
-          <p class="badge__subtitle">Хотите продлить жизнь серверу - поддержите его финансово</p>
+        <div class="badge__body">
+          <div class="badge__icon">
+            <i class="far fa-star"></i>
+          </div>
+          <div class="badge__text">
+            <p class="badge__title">History of Civilization</p>
+            <p class="badge__subtitle">Хотите продлить жизнь серверу - поддержите его финансово</p>
+          </div>
         </div>
         <div class="badge__buttons">
           <a class="btn btn--primary" href="{{ path('main_page') }}">Поддержать сервер</a>
@@ -43,4 +49,4 @@
       </div>
     {% endif %}
   {% endif %}
-</div>
+</section>
