@@ -26,7 +26,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 
-class UserController extends AbstractController {
+class UserController extends AbstractController
+{
     private UserRepository $userRepository;
     private AuthmeRepository $authmeRepository;
     private UserPasswordHasherInterface $userPasswordHasher;
@@ -37,14 +38,14 @@ class UserController extends AbstractController {
     private OTPService $OTPService;
 
     public function __construct(
-        UserRepository $userRepository,
-        AuthmeRepository $authmeRepository,
-        UserPasswordHasherInterface $userPasswordHasher,
+        UserRepository               $userRepository,
+        AuthmeRepository             $authmeRepository,
+        UserPasswordHasherInterface  $userPasswordHasher,
         UserPasswordEncoderInterface $passwordEncoder,
-        JWTTokenService $jwtManager,
-        EmailVerifier $emailVerifier,
-        Filesystem $fileSystem,
-        OTPService $OTPService
+        JWTTokenService              $jwtManager,
+        EmailVerifier                $emailVerifier,
+        Filesystem                   $fileSystem,
+        OTPService                   $OTPService
     )
     {
         $this->userRepository = $userRepository;
@@ -63,7 +64,8 @@ class UserController extends AbstractController {
      */
     public function userLogin(
         Request $request
-    ) : JsonResponse {
+    ): JsonResponse
+    {
         $credentials = json_decode($request->getContent(), true);
 
         $username = $credentials["username"] ?? null;
@@ -94,7 +96,8 @@ class UserController extends AbstractController {
      */
     public function userRegister(
         Request $request
-    ) : JsonResponse {
+    ): JsonResponse
+    {
         $credentials = json_decode($request->getContent(), true);
 
         $username = $credentials["username"] ?? null;
@@ -169,8 +172,7 @@ class UserController extends AbstractController {
 
         $this->emailVerifier->sendEmailConfirmation($user,
             (new TemplatedEmail())
-//                ->to($user->getEmail())
-                ->to("chyzhov.contact@gmail.com")
+                ->to($user->getEmail())
                 ->subject("Подтверждение почты")
                 ->htmlTemplate("email/confirmation_email.html.twig"),
             $code
@@ -187,7 +189,8 @@ class UserController extends AbstractController {
      */
     public function verifyUserEmail(
         Request $request
-    ): Response {
+    ): Response
+    {
         return $request->getContent()["TODO"];
     }
 
@@ -196,7 +199,8 @@ class UserController extends AbstractController {
      */
     public function getUserData(
         Request $request
-    ) : JsonResponse {
+    ): JsonResponse
+    {
         $token = null;
 
         $authorizationHeader = $request->headers->get('Authorization');
@@ -245,7 +249,8 @@ class UserController extends AbstractController {
      */
     public function changeUserPassword(
         Request $request
-    ) : JsonResponse {
+    ): JsonResponse
+    {
         $credentials = json_decode($request->getContent(), true);
 
         $nowPassword = $credentials["nowPassword"] ?? null;
@@ -300,37 +305,5 @@ class UserController extends AbstractController {
         $entityManager->flush();
 
         return new JsonResponse([], 200);
-    }
-
-    /**
-     * @Route(path="/api/logout", name="userLogout", methods={"GET"})
-     * @throws Exception
-     */
-    public function userLogout()
-    {
-        throw new Exception('This should not be reached!');
-    }
-
-    /**
-     * @Route(path="/api/otp", name="setUserOTPCode", methods={"GET"})
-     */
-    public function setUserOTPCode() : JsonResponse {
-        $user = $this->userRepository->findOneBy(["username" => "ASDGASDHU"]);
-
-        if (!$user) {
-            return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя"
-            ], 401);
-        }
-
-        try {
-            $code = $this->OTPService->generateOTP($user);
-        } catch (Exception $e) {
-            return new JsonResponse([
-                "message" => "Ошибка генерации токена"
-            ], 500);
-        }
-
-        return new JsonResponse(["otp"=> $code->getOTP()], 200);
     }
 }
