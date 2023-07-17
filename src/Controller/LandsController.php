@@ -1,33 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Domain\LandsDataResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class LandsController extends AbstractController
 {
-    public function getOne(
-        $id,
-        LandsDataResolver $dataResolver
-    ): Response {
-        return $this->render(
-            'pages/lands/land.html.twig',
-            [
-                'land' => $dataResolver->getLand("civilization", $id)
-            ]
-        );
-    }
+    /**
+     * @Route(path="/api/lands", name="lands", methods={"GET"})
+     */
+    public function lands(
+        LandsDataResolver $landsDataResolver
+    ) : JsonResponse {
+        header("Access-Control-Allow-Origin: *");
+        $data = $landsDataResolver->getAllLands();
 
-    public function getAll(
-        LandsDataResolver $dataResolver
-    ) : Response {
-        return $this->render(
-            'pages/lands/index.html.twig',
-            [
-                'lands' => $dataResolver->getAllLands("civilization")
-            ]
-        );
+        return new JsonResponse($data);
     }
 }

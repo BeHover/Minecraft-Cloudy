@@ -1,0 +1,67 @@
+nelmio_cors:
+  defaults:
+    allow_credentials: true
+    allow_origin: ['*']
+    allow_headers: ['*']
+    allow_methods: ['*']
+    max_age: 3600
+  paths:
+    '^/api/login':
+      allow_credentials: true
+      allow_origin: ['http://localhost:3000']
+      allow_headers: ['*']
+      allow_methods: ['POST']
+      max_age: 3600
+    '^/api/user':
+      allow_credentials: true
+      allow_origin: ['http://localhost:3000']
+      allow_headers: ['*']
+      allow_methods: ['GET']
+      max_age: 3600
+    '^/api/register':
+      allow_credentials: true
+      allow_origin: ['http://localhost:3000']
+      allow_headers: ['*']
+      allow_methods: ['POST']
+      max_age: 3600
+    '^/api/user/password':
+      allow_credentials: true
+      allow_origin: ['*']
+      allow_headers: ['*']
+      allow_methods: ['*']
+      max_age: 3600
+    '^/api/lands':
+      allow_credentials: true
+      allow_origin: ['http://localhost:3000']
+      allow_headers: ['*']
+      allow_methods: ['GET']
+      max_age: 3600
+
+
+#nelmio_cors:
+#    defaults:
+#        origin_regex: true
+##        allow_origin: ['%env(CORS_ALLOW_ORIGIN)%']
+#        allow_origin: ['*']
+#        allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE']
+#        allow_headers: ['Content-Type', 'Authorization']
+#        expose_headers: ['Link']
+#        allow_credentials: true
+#        max_age: 3600
+#    paths:
+#        '^/':
+#          allow_credentials: true
+#          allow_origin: [ '*' ]
+#          allow_headers: [ 'Content-Type', 'Authorization' ]
+#          allow_methods: [ 'GET', 'POST', 'PUT', 'DELETE', 'OPTIONS' ]
+#          max_age: 3600
+#        '^/images/skins/':
+#          allow_origin: [ '*' ]
+#          allow_headers: [ '*' ]
+#          allow_methods: [ 'GET' ]
+#          max_age: 3600
+#        '^/public/images/skins/':
+#          allow_origin: [ '*' ]
+#          allow_headers: [ '*' ]
+#          allow_methods: [ 'GET' ]
+#          max_age: 3600

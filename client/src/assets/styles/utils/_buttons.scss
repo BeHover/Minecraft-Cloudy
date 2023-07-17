@@ -1,0 +1,99 @@
+.btn {
+  box-shadow: none;
+  padding: 11px 19px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.1;
+  font-family: inherit;
+  transition-property: border-color, background-color, color;
+  transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.btn--primary {
+    color: $color-white;
+    background-color: $color-primary;
+    border: 1px solid $color-primary;
+    border-radius: 1.5rem;
+
+    &:hover {
+      background-color: darken($color-primary, 5%);
+      border-color: darken($color-primary, 5%);
+    }
+
+    &:focus,
+    &:active {
+      background-color: darken($color-primary, 7%);
+      border-color: darken($color-primary, 7%);
+    }
+  }
+
+  &.btn--secondary {
+    color: $color-primary;
+    background-color: transparent;
+    border: 1px solid $color-primary;
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: $color-primary-focus;
+      border-color: $color-primary-focus;
+    }
+  }
+
+  &.btn--info {
+    color: $color-primary;
+    background-color: $color-white;
+    border: 1px solid $color-primary;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #f5f5f5;
+      box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, .5);
+    }
+  }
+
+  &.btn--black {
+    color: $color-white;
+    background-color: $color-black;
+    border-color: $color-black;
+    border-radius: 1.5rem;
+
+    &:hover {
+      background-color: lighten($color-black, 10%);
+      border-color: lighten($color-black, 10%);
+    }
+
+    &:focus,
+    &:active {
+      background-color: lighten($color-black, 12%);
+      border-color: lighten($color-black, 12%);
+      outline: darken($color-black, 12%);
+    }
+  }
+
+  &.btn--red {
+    color: $color-white;
+    background-color: $color-red;
+    border-color: $color-red;
+    border-radius: 1.5rem;
+
+    &:hover {
+      background-color: darken($color-red, 7%);
+      border-color: darken($color-red, 7%);
+    }
+
+    &:focus,
+    &:active {
+      background-color: darken($color-red, 9%);
+      border-color: darken($color-red, 9%);
+      outline: darken($color-red, 9%);
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .btn {
+    font-size: 16px;
+  }
+}

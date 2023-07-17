@@ -1,0 +1,29 @@
+.logo {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &__image {
+    height: 40px;
+    width: 40px;
+  }
+
+  &__text {
+    color: $color-black;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  &__subtitle {
+    font-size: 16px;
+    font-weight: normal;
+  }
+}

@@ -1,0 +1,104 @@
+.banner {
+  //margin-top: 40px;
+  //border-radius: .5rem;
+  background: $gradient-primary;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  &__content {
+    color: $color-white;
+    text-align: center;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  &__title {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+  }
+
+  &__subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 50px;
+  }
+
+  &__text {
+    font-size: 14px;
+    font-weight: 300;
+    margin-top: 25px;
+  }
+
+  .btn {
+    &--about {
+      background-color: $color-white;
+      border-color: $color-white;
+      color: $color-primary;
+
+      &:hover,
+      &:focus {
+        filter: brightness(95%);
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .banner {
+    &__title {
+      font-size: 28px;
+    }
+
+    &__subtitle {
+      font-size: 16px;
+      max-width: 480px;
+      @include margin-x(auto);
+    }
+
+    &__text {
+      font-size: 16px;
+      margin-top: 35px;
+    }
+
+    .btn {
+      &--about {
+        padding: 11px 19px;
+        font-size: 17px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .banner {
+    &__title {
+      font-size: 30px;
+    }
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .banner {
+    &__subtitle {
+      max-width: 600px;
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .banner {
+    &__content {
+      padding-top: 70px;
+      padding-bottom: 70px;
+    }
+
+    &__subtitle {
+      font-size: 18px;
+      max-width: 700px;
+    }
+  }
+}

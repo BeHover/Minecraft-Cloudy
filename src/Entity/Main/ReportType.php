@@ -16,22 +16,22 @@ class ReportType
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(name="created_at", type="datetime", nullable=false)
      */
-    private $createdAt;
+    private ?DateTimeInterface $createdAt;
 
     /**
      * @ORM\Column(name="updated_at", type="datetime", nullable=false)
      */
-    private $updatedAt;
+    private ?DateTimeInterface $updatedAt;
 
     public function getId(): ?int
     {
@@ -48,6 +48,11 @@ class ReportType
         $this->name = $name;
 
         return $this;
+    }
+
+    public function getCreatedAt(): ?DateTimeInterface
+    {
+        return $this->createdAt;
     }
 
     public function setCreatedAt(?DateTimeInterface $createdAt): self

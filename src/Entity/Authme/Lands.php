@@ -6,7 +6,7 @@ use App\Repository\Authme\LandsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="lands")
+ * @ORM\Table(name="lands_lands")
  * @ORM\Entity(repositoryClass=App\Repository\Authme\LandsRepository::class)
  */
 class Lands
@@ -121,6 +121,11 @@ class Lands
     public function getBalance(): ?float
     {
         return $this->balance;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
     }
 
     public function getSpawn(): ?string

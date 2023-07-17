@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\Main\OTP;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,18 +25,19 @@ class EmailVerifier
         $this->entityManager = $manager;
     }
 
-    public function sendEmailConfirmation(string $verifyEmailRouteName, UserInterface $user, TemplatedEmail $email): void
+    public function sendEmailConfirmation(UserInterface $user, TemplatedEmail $email, OTP $OTP): void
     {
-        $signatureComponents = $this->verifyEmailHelper->generateSignature(
-            $verifyEmailRouteName,
-            $user->getId(),
-            $user->getEmail()
-        );
+//        $signatureComponents = $this->verifyEmailHelper->generateSignature(
+//            $verifyEmailRouteName,
+//            $user->getId(),
+//            $user->getEmail()
+//        );
 
         $context = $email->getContext();
-        $context['signedUrl'] = $signatureComponents->getSignedUrl();
-        $context['expiresAtMessageKey'] = $signatureComponents->getExpirationMessageKey();
-        $context['expiresAtMessageData'] = $signatureComponents->getExpirationMessageData();
+        $context['otp'] = $OTP->getOTP();
+//        $context['signedUrl'] = $signatureComponents->getSignedUrl();
+//        $context['expiresAtMessageKey'] = $signatureComponents->getExpirationMessageKey();
+//        $context['expiresAtMessageData'] = $signatureComponents->getExpirationMessageData();
 
         $email->context($context);
 

@@ -1,0 +1,35 @@
+.footer {
+  background-color: $color-light-gray;
+  padding-bottom: 30px;
+  padding-top: 30px;
+  text-align: center;
+
+  &__title {
+    font-size: 18px;
+    font-weight: 500;
+    color: $color-light-black;
+    margin-bottom: 8px;
+  }
+
+  &__text {
+    font-size: 16px;
+    font-weight: 400;
+    color: $color-gray;
+    margin-bottom: 12px;
+  }
+
+  &__icon {
+    margin-left: 6px;
+  }
+
+  a {
+    font-size: 16px;
+    font-weight: 400;
+    color: $color-gray;
+
+    &:hover,
+    &:focus {
+      color: $color-gray-hover;
+    }
+  }
+}

@@ -3,6 +3,8 @@
 namespace App\Entity\Main;
 
 use DateTimeInterface;
+
+use App\Repository\Main\ModeratorRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,23 +18,38 @@ class Moderator
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    private $user;
+    private ?User $user;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $realname;
+    private ?string $realname;
 
     /**
-     * @ORM\Column(name="creation_date", type="date")
+     * @ORM\Column(type="string", length=255)
      */
-    private $creationDate;
+    private ?string $location;
+
+    /**
+     * @ORM\Column(name="birthday", type="datetime", nullable=false)
+     */
+    private ?DateTimeInterface $birthday;
+
+    /**
+     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     */
+    private ?DateTimeInterface $createdAt;
+
+    /**
+     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     */
+    private ?DateTimeInterface $updatedAt;
 
     public function getId(): ?int
     {
@@ -63,14 +80,50 @@ class Moderator
         return $this;
     }
 
-    public function getCreationDate(): ?DateTimeInterface
+    public function getLocation(): ?string
     {
-        return $this->creationDate;
+        return $this->location;
     }
 
-    public function setCreationDate(DateTimeInterface $creationDate): self
+    public function setLocation(string $location): self
     {
-        $this->creationDate = $creationDate;
+        $this->location = $location;
+
+        return $this;
+    }
+
+    public function getBirthday(): ?DateTimeInterface
+    {
+        return $this->birthday;
+    }
+
+    public function setBirthday(DateTimeInterface $birthday): self
+    {
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

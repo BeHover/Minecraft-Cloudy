@@ -2,6 +2,7 @@
 
 namespace App\Entity\Main;
 
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -19,38 +20,76 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $username;
+    private string $username;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private $password;
+    private string $password;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @ORM\Column(name="is_verified", type="boolean")
      */
-    private $isVerified = false;
+    private bool $isVerified = false;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $skin;
+    private ?string $skin;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $description = null;
+
+    /**
+     * @ORM\Column(name="image_url", type="string", length=255, nullable=true)
+     */
+    private ?string $imageUrl = null;
+
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $discord = null;
+
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $youtube = null;
+
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $twitch = null;
+
+    /**
+     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     */
+    private ?DateTimeInterface $createdAt;
+
+    /**
+     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     */
+    private ?DateTimeInterface $updatedAt;
 
     public function getId(): ?int
     {
@@ -173,6 +212,90 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSkin(string $skin): self
     {
         $this->skin = $skin;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
+    }
+
+    public function setImageUrl(?string $imageUrl): self
+    {
+        $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
+    public function getDiscord(): ?string
+    {
+        return $this->discord;
+    }
+
+    public function setDiscord(?string $discord): self
+    {
+        $this->discord = $discord;
+
+        return $this;
+    }
+
+    public function getYoutube(): ?string
+    {
+        return $this->youtube;
+    }
+
+    public function setYoutube(?string $youtube): self
+    {
+        $this->youtube = $youtube;
+
+        return $this;
+    }
+
+    public function getTwitch(): ?string
+    {
+        return $this->twitch;
+    }
+
+    public function setTwitch(?string $twitch): self
+    {
+        $this->twitch = $twitch;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

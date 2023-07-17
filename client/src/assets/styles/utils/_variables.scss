@@ -1,0 +1,28 @@
+$color-text-primary: #1e1e1f;
+$color-text-secondary: #999999;
+//$color-text-secondary: #1d1d1f;
+$color-light: #e4e7ea;
+
+// Colors
+$color-white: #ffffff;
+$color-gray: #6e6e73;
+$color-light-gray: #f7f7f7;
+$color-black: #1e1e1f;
+$color-light-black: #3c4043;
+//$color-primary: #186EF0;
+$color-primary: darken(#2196F3, 6%);
+$color-primary-brightness: #e4f1ff;
+$color-border: #ebedf0;
+$color-loader: #429ae7;
+//$color-red: #ef2929;
+$color-red: lighten(#EF2929, 8%);
+
+// Hover colors
+$color-gray-hover: #616165;
+$color-primary-hover: #1562d6;
+$color-primary-focus: #1b62c0;
+$color-secondary: #f5f4fa;
+$color-secondary-hover: #ebedf0;
+
+// Gradients
+$gradient-primary: linear-gradient(180deg, #186ef0, #429ae7);

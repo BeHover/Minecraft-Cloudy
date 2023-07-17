@@ -1,0 +1,141 @@
+.lands {
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 30px;
+
+    list-style: none;
+    margin-top: 15px;
+  }
+
+  &__link {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    border: 1px solid $color-black;
+    padding: 14px 17px;
+    border-radius: .35rem;
+    color: $color-black;
+    transition: border-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover,
+    &:focus {
+      color: $color-black;
+      border-color: $color-primary;
+
+      .lands__name {
+        color: $color-primary;
+      }
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+
+  &__icon {
+    width: 32px;
+    height: 30px;
+    min-width: 32px;
+    min-height: 30px;
+    margin-right: 6px;
+  }
+
+  &__role {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 30px;
+    color: $color-gray;
+    margin-left: auto;
+  }
+
+  &__text {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 30px;
+    color: $color-gray;
+    margin-top: 10px;
+
+    span {
+      font-weight: 400;
+      color: $color-light-black;
+    }
+  }
+
+  &__name {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 30px;
+    transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__title {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.1;
+    margin-top: 6px;
+    color: $color-gray;
+  }
+
+  &__info-list {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    list-style: inside;
+    margin-top: 12px;
+  }
+
+  &__info-item {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 20px;
+
+    span {
+      font-weight: 400;
+    }
+  }
+}
+
+
+@media screen and (min-width: 576px) {
+  .lands {
+    &__link {
+      padding: 24px 30px;
+    }
+
+    &__title,
+    &__info-item,
+    &__role,
+    &__text {
+      font-size: 18px;
+    }
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .lands {
+    &__list {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    &__name {
+      font-size: 20px;
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .lands {
+    &__list {
+      grid-template-columns: repeat(3, 1fr);
+
+      &--profile {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+}

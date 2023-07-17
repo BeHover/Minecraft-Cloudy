@@ -16,47 +16,47 @@ class Report
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
      */
-    private $reporter;
+    private ?User $reporter;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $status = false;
+    private bool $status = false;
 
     /**
      * @ORM\ManyToOne(targetEntity=ReportType::class)
      */
-    private $type;
+    private ?ReportType $type;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $text;
+    private ?string $text;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="json")
      */
-    private $response;
+    private ?array $response;
 
     /**
      * @ORM\Column(type="json", nullable=true)
      */
-    private $images = [];
+    private array $images = [];
 
     /**
      * @ORM\Column(name="created_at", type="datetime", nullable=false)
      */
-    private $createdAt;
+    private ?DateTimeInterface $createdAt;
 
     /**
      * @ORM\Column(name="updated_at", type="datetime", nullable=false)
      */
-    private $updatedAt;
+    private ?DateTimeInterface $updatedAt;
 
     public function getId(): ?int
     {
@@ -111,12 +111,12 @@ class Report
         return $this;
     }
 
-    public function getResponse(): ?string
+    public function getResponse(): ?array
     {
         return $this->response;
     }
 
-    public function setResponse(string $response): self
+    public function setResponse(array $response): self
     {
         $this->response = $response;
 

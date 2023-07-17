@@ -1,0 +1,125 @@
+.badge__button {
+  margin-right: 10px;
+}
+
+.badge {
+  margin-top: 20px;
+
+  &__content {
+    padding: 18px 12px;
+    border: 1px solid $color-border;
+    border-radius: .75rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__icon {
+    display: flex;
+    height: 54px;
+    width: 54px;
+    min-height: 54px;
+    min-width: 54px;
+    border-radius: 50%;
+    background-color: $color-primary-brightness;
+    color: $color-primary;
+    font-size: 1.6em;
+
+    svg {
+      margin: auto;
+    }
+  }
+
+  &__text {
+    margin-top: 12px;
+    margin-bottom: 24px;
+    text-align: center;
+    color: $color-light-black;
+  }
+
+  &__title {
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  &__subtitle {
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  &__buttons {
+    margin: 0 auto;
+    justify-content: center;
+    display: flex;
+    grid-gap: 8px;
+    flex-wrap: wrap;
+
+    &-icon {
+      font-size: 14px;
+      margin-left: 6px;
+    }
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .badge {
+    &__buttons {
+      display: block;
+      margin: auto auto 14px;
+
+      .btn:not(:last-child) {
+        margin-right: 6px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .badge {
+    &__body {
+      flex-direction: row;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    &__text {
+      text-align: start;
+      margin: 0 0 0 12px;
+    }
+
+    &__content {
+      flex-direction: row;
+      padding: 18px 24px;
+    }
+
+    &__body {
+      margin-bottom: 0;
+    }
+
+    &__icon {
+      height: 60px;
+      width: 60px;
+      min-height: 60px;
+      min-width: 60px;
+    }
+
+    &__buttons {
+      margin: auto 0 auto auto;
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+
+  .badge {
+    &__content {
+      padding: 22px 30px;
+    }
+  }
+}
