@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository\Authme;
 
 use App\Entity\Authme\LuckPermsPlayers;

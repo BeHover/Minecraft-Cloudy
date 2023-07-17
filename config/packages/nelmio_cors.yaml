@@ -5,38 +5,6 @@ nelmio_cors:
     allow_headers: ['*']
     allow_methods: ['*']
     max_age: 3600
-  paths:
-    '^/api/login':
-      allow_credentials: true
-      allow_origin: ['http://localhost:3000']
-      allow_headers: ['*']
-      allow_methods: ['POST']
-      max_age: 3600
-    '^/api/user':
-      allow_credentials: true
-      allow_origin: ['http://localhost:3000']
-      allow_headers: ['*']
-      allow_methods: ['GET']
-      max_age: 3600
-    '^/api/register':
-      allow_credentials: true
-      allow_origin: ['http://localhost:3000']
-      allow_headers: ['*']
-      allow_methods: ['POST']
-      max_age: 3600
-    '^/api/user/password':
-      allow_credentials: true
-      allow_origin: ['*']
-      allow_headers: ['*']
-      allow_methods: ['*']
-      max_age: 3600
-    '^/api/lands':
-      allow_credentials: true
-      allow_origin: ['http://localhost:3000']
-      allow_headers: ['*']
-      allow_methods: ['GET']
-      max_age: 3600
-
 
 #nelmio_cors:
 #    defaults:

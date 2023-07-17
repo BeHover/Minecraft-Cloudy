@@ -16,7 +16,6 @@ class LandsController extends AbstractController
     public function lands(
         LandsDataResolver $landsDataResolver
     ) : JsonResponse {
-        header("Access-Control-Allow-Origin: *");
         $data = $landsDataResolver->getAllLands();
 
         return new JsonResponse($data);
