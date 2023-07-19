@@ -44,9 +44,9 @@ class Report
     private ?array $response;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private array $images = [];
+    private ?string $proofs;
 
     /**
      * @ORM\Column(name="created_at", type="datetime", nullable=false)
@@ -123,14 +123,14 @@ class Report
         return $this;
     }
 
-    public function getImages(): ?array
+    public function getProofs(): ?string
     {
-        return $this->images;
+        return $this->proofs;
     }
 
-    public function setImages(?array $images): self
+    public function setProofs(?string $proofs): self
     {
-        $this->images = $images;
+        $this->proofs = $proofs;
 
         return $this;
     }

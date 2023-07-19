@@ -49,14 +49,14 @@ class LandsDataResolver
         $data["balance"] = $land->getBalance();
         $data["title"] = preg_replace("/&\S/", "", $land->getTitle());
         $data["membersQuantity"] = sizeof(array_keys(json_decode($land->getMembers(), true)));
-        $data["createdAt"] = date("d.m.Y", (int) $land->getCreated() / 1000);
+        $data["createdAt"] = date("d.m.Y", (int) ($land->getCreated() / 1000));
         $data["members"] = [];
 
         if($spawn !== null) {
             $data["location"] = [
-                "x" => $spawn["x"],
-                "y" => $spawn["y"],
-                "z" => $spawn["z"],
+                "x" => (int) $spawn["x"],
+                "y" => (int) $spawn["y"],
+                "z" => (int) $spawn["z"],
             ];
         }
 
@@ -76,7 +76,6 @@ class LandsDataResolver
             $memberData = [];
             $member = $this->luckPermsPlayersRepository->findOneBy(["uuid" => $memberId]);
             $memberData["username"] = $this->authmeRepository->findOneBy(["username" => $member->getUsername()])->getRealname();
-//            $memberData["username"] = $this->authmeRepository->findOneBy(["username" => "CHYZHOV"])->getRealname();
             $role = $roles[$memberRoles[$memberId]]["name"];
             $memberData["role"] = preg_replace("/&\S/", "", $role);
 
