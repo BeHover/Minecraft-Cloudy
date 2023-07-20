@@ -23,7 +23,7 @@ class Report
     private User $createdBy;
 
     #[ORM\Column(name: "is_active", type: "boolean")]
-    private bool $isActive = true;
+    private bool $isActive;
 
     #[ORM\ManyToOne(targetEntity: ReportType::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -50,6 +50,7 @@ class Report
     {
         $this->id = Uuid::uuid6();
         $this->createdBy = $user;
+        $this->isActive = true;
         $this->type = $type;
         $this->text = $text;
 
@@ -81,7 +82,7 @@ class Report
         return $this->isActive;
     }
 
-    public function setStatus(?bool $status): self
+    public function setStatus(?int $status): self
     {
         $this->isActive = $status;
 

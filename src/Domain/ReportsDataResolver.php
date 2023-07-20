@@ -75,10 +75,13 @@ class ReportsDataResolver
         $data["createdAt"] = $report->getCreatedAt();
         $data["closedAt"] = $report->getClosedAt();
 
-        $data["closedBy"] = [
-            "id" => $report->getClosedBy()->getId(),
-            "username" => $report->getClosedBy()->getUsername(),
-        ];
+
+        $report->getClosedBy() === null
+            ? $data["closedBy"] = null
+            : $data["closedBy"] = [
+                "id" => $report->getClosedBy()->getId(),
+                "username" => $report->getClosedBy()->getUsername(),
+            ];
 
         return $data;
     }
