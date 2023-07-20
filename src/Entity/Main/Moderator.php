@@ -7,48 +7,32 @@ use DateTimeInterface;
 use App\Repository\Main\ModeratorRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="moderator")
- * @ORM\Entity(repositoryClass=App\Repository\Main\ModeratorRepository::class)
- */
+#[ORM\Table(name: "moderator")]
+#[ORM\Entity(repositoryClass: ModeratorRepository::class)]
 class Moderator
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private ?int $id;
 
-    /**
-     * @ORM\OneToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
-     */
+    #[ORM\OneToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?User $user;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private ?string $realname;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private ?string $location;
 
-    /**
-     * @ORM\Column(name="birthday", type="datetime", nullable=false)
-     */
+    #[ORM\Column(name: "birthday", type: "datetime", nullable: false)]
     private ?DateTimeInterface $birthday;
 
-    /**
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
-     */
+    #[ORM\Column(name: "created_at", type: "datetime", nullable: false)]
     private ?DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
-     */
+    #[ORM\Column(name: "updated_at", type: "datetime", nullable: false)]
     private ?DateTimeInterface $updatedAt;
 
     public function getId(): ?int

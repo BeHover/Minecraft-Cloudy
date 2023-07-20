@@ -3,15 +3,9 @@ doctrine:
         default_connection: default
         connections:
             default:
-                dbname: ''
-                user: ''
-                password: ''
-                host: ''
+                url: '%env(DEFAULT_DATABASE_URL)%'
             authme:
-                dbname: ''
-                user: ''
-                password: ''
-                host: ''
+                url: '%env(AUTHME_DATABASE_URL)%'
     orm:
         default_entity_manager: default
         auto_generate_proxy_classes: true
@@ -21,7 +15,7 @@ doctrine:
                 mappings:
                     Main:
                         is_bundle: false
-                        type: annotation
+                        type: attribute
                         dir: '%kernel.project_dir%/src/Entity/Main'
                         prefix: 'App\Entity\Main'
                         alias: Main
@@ -30,7 +24,7 @@ doctrine:
                 mappings:
                     Customer:
                         is_bundle: false
-                        type: annotation
+                        type: attribute
                         dir: '%kernel.project_dir%/src/Entity/Authme'
                         prefix: 'App\Entity\Authme'
                         alias: Authme

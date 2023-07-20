@@ -7,32 +7,22 @@ use DateTimeInterface;
 use App\Repository\Main\OTPRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="otp")
- * @ORM\Entity(repositoryClass=App\Repository\Main\OTPRepository::class)
- */
+#[ORM\Table(name: "otp")]
+#[ORM\Entity(repositoryClass: OTPRepository::class)]
 class OTP
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private ?int $id;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: "integer")]
     private ?int $otp;
 
-    /**
-     * @ORM\Column(type="string", length=180)
-     */
+    #[ORM\Column(type: "string", length: 180)]
     private ?string $username;
 
-    /**
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
-     */
+    #[ORM\Column(name: "created_at", type: "datetime", nullable: false)]
     private ?DateTimeInterface $createdAt;
 
     public function getUsername(): ?string

@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
@@ -306,4 +307,191 @@ class UserController extends AbstractController
 
         return new JsonResponse([], 200);
     }
+
+//    public function verifyUserEmail(
+//        AuthmeRepository $authmeRepository,
+//        Request $request
+//    ): Response {
+//        $this->denyAccessUnlessGranted("IS_AUTHENTICATED_FULLY");
+//        $user = $this->getUser();
+//
+//        try {
+//            $this->emailVerifier->handleEmailConfirmation($request, $user);
+//
+//            $entityManagerAuthme = $this->getDoctrine()->getManager("authme");
+//            if (null === $authmeRepository->findOneBy(["realname" => $user->getUsername()])) {
+//                $authmeUser = new Authme();
+//                $authmeUser->setUsername(strtolower($user->getUsername()));
+//                $authmeUser->setRealname($user->getUsername());
+//                $authmeUser->setPassword($user->getPassword());
+//                $authmeUser->setRegdate(time());
+//                $entityManagerAuthme->persist($authmeUser);
+//                $entityManagerAuthme->flush();
+//            }
+//        } catch (VerifyEmailExceptionInterface) {
+//            return $this->redirectToRoute("profile");
+//        }
+//
+//        return $this->redirectToRoute("profile");
+//    }
+//
+//    public function sendVerify(): Response {
+//        $user = $this->getUser();
+//
+//        if (null !== $user && !$user->isVerified()) {
+//            $this->emailVerifier->sendEmailConfirmation("verify_email", $user,
+//                (new TemplatedEmail())
+//                    ->to($user->getEmail())
+//                    ->subject("Подтверждение почты")
+//                    ->htmlTemplate("email/confirmation_email.html.twig")
+//            );
+//        }
+//
+//        return $this->redirectToRoute("profile");
+//    }
+//
+//    public function sendPasswordRecovery(
+//        Request $request,
+//        MailerInterface $mailer,
+//        UserRepository $userRepository,
+//        $tokenSecret
+//    ): Response {
+//        $form = $this->createForm(RecoverPasswordType::class);
+//
+//        $form->handleRequest($request);
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $email = $form->get("email")->getData();
+//
+//            $user = $userRepository->findOneBy(["email" => $email]);
+//            if (null === $user) {
+//                return $this->renderForm(
+//                    "pages/account/send_password_recovery.html.twig",
+//                    [
+//                        "recoveryForm" => $form,
+//                        "message" => "Пользователь с таким адресом не найден.",
+//                        "success" => 0
+//                    ]
+//                );
+//            }
+//
+//            $token = Token::customPayload(
+//                [
+//                    "userId" => $user->getId()
+//                ],
+//                $tokenSecret
+//            );
+//
+//            $mail = (new TemplatedEmail())
+//                ->to($email)
+//                ->subject("Восстановление доступа к аккаунту")
+//                ->htmlTemplate("email/send_password_recovery.html.twig")
+//                ->context([
+//                    "signedUrl" => $this->generateUrl(
+//                        "password_recovery",
+//                        ["token" => $token],
+//                        UrlGeneratorInterface::ABSOLUTE_URL
+//                    )
+//                ])
+//            ;
+//
+//            try {
+//                $mailer->send($mail);
+//            } catch (TransportExceptionInterface) {
+//                #TODO: handle exception properly!
+//            }
+//
+//            return $this->renderForm(
+//                "pages/account/send_password_recovery.html.twig",
+//                [
+//                    "recoveryForm" => $form,
+//                    "message" => null,
+//                    "success" => 1
+//                ]
+//            );
+//        }
+//
+//        return $this->renderForm(
+//            "pages/account/send_password_recovery.html.twig",
+//            [
+//                "recoveryForm" => $form,
+//                "message" => null,
+//                "success" => 0
+//            ]
+//        );
+//    }
+//
+//    public function recoveryPassword(
+//        Request $request,
+//        string $token,
+//                $tokenSecret,
+//        UserRepository $userRepository,
+//        UserPasswordHasherInterface $userPasswordHasher,
+//        EntityManagerInterface $entityManager,
+//        MailerInterface $mailer,
+//    ): RedirectResponse|Response {
+//        $userId = Token::getPayload($token, $tokenSecret)["userId"];
+//        $user = $userRepository->find($userId);
+//
+//        if (null === $user) {
+//            return $this->redirectToRoute("main_page");
+//        }
+//
+//        $form = $this->createForm(ChangePasswordType::class);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $plainPassword = $form->get("password")->getData();
+//            $plainPasswordConfirm = $form->get("confirmPassword")->getData();
+//
+//            if ($plainPassword !== $plainPasswordConfirm) {
+//                return $this->renderForm(
+//                    "pages/account/password_recovery.html.twig",
+//                    [
+//                        "recoveryForm" => $form,
+//                        "message" => "Вы указали разные пароли, повторите попытку."
+//                    ]
+//                );
+//            }
+//
+//            if (!preg_match("/^\w{5,24}$/", $plainPassword)) {
+//                return $this->renderForm(
+//                    "pages/account/password_recovery.html.twig",
+//                    [
+//                        "recoveryForm" => $form,
+//                        "message" => "Пароль должен состоять из латиницы и цифр с длиной от 5 до 24 символов."
+//                    ]
+//                );
+//            }
+//
+//            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+//            $entityManager->flush();
+//
+//            $email = $user->getEmail();
+//
+//            $mail = (new TemplatedEmail())
+//                ->to($email)
+//                ->subject("Изменение пароля")
+//                ->htmlTemplate("email/password_recovery.html.twig")
+//                ->context([
+//                    "username" => $user->getUsername(),
+//                    "password" => $plainPassword
+//                ]);
+//
+//            try {
+//                $mailer->send($mail);
+//            } catch (TransportExceptionInterface) {
+//                #TODO: handle exception properly!
+//            }
+//
+//            return $this->redirectToRoute("profile");
+//        }
+//
+//        return $this->renderForm(
+//            "pages/account/password_recovery.html.twig",
+//            [
+//                "recoveryForm" => $form,
+//                "message" => null
+//            ]
+//        );
+//    }
 }

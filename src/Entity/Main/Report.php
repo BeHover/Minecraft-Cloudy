@@ -2,87 +2,88 @@
 
 namespace App\Entity\Main;
 
+use App\Repository\Main\ReportRepository;
+use DateTimeImmutable;
+use DateTimeZone;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
-/**
- * @ORM\Table(name="report")
- * @ORM\Entity(repositoryClassApp\Repository\Main\ReportRepository::class)
- */
+#[ORM\Table(name: "report")]
+#[ORM\Entity(repositoryClass: ReportRepository::class)]
 class Report
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private ?int $id;
+    #[ORM\Id]
+    #[ORM\Column(type: "uuid")]
+    private UuidInterface $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class)
-     */
-    private ?User $reporter;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "created_by", nullable: false)]
+    private User $createdBy;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private bool $status = false;
+    #[ORM\Column(name: "is_active", type: "boolean")]
+    private bool $isActive = true;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=ReportType::class)
-     */
-    private ?ReportType $type;
+    #[ORM\ManyToOne(targetEntity: ReportType::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ReportType $type;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    private ?string $text;
+    #[ORM\Column(type: "text", nullable: false)]
+    private string $text;
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private ?array $response;
+    #[ORM\Column(name: "created_at", type: "datetime", nullable: false)]
+    private DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private ?string $proofs;
+    #[ORM\Column(name: "closed_at", type: "datetime", nullable: true)]
+    private ?DateTimeInterface $closedAt = null;
 
-    /**
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
-     */
-    private ?DateTimeInterface $createdAt;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "closed_by", nullable: true)]
+    private ?User $closedBy;
 
-    /**
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
-     */
-    private ?DateTimeInterface $updatedAt;
+    public function __construct(
+        User $user,
+        ReportType $type,
+        string $text
+    )
+    {
+        $this->id = Uuid::uuid6();
+        $this->createdBy = $user;
+        $this->type = $type;
+        $this->text = $text;
 
-    public function getId(): ?int
+        try {
+            $this->createdAt = new DateTimeImmutable(timezone: new DateTimeZone("Europe/Riga"));
+        } catch (\Exception $e) {
+        }
+    }
+
+    public function getId(): UuidInterface
     {
         return $this->id;
     }
 
-    public function getReporter(): ?User
+    public function getCreatedBy(): ?User
     {
-        return $this->reporter;
+        return $this->createdBy;
     }
 
-    public function setReporter(?User $reporter): self
+    public function setCreatedBy(?User $user): self
     {
-        $this->reporter = $reporter;
+        $this->createdBy = $user;
 
         return $this;
     }
 
     public function getStatus(): ?bool
     {
-        return $this->status;
+        return $this->isActive;
     }
 
     public function setStatus(?bool $status): self
     {
-        $this->status = $status;
+        $this->isActive = $status;
 
         return $this;
     }
@@ -111,30 +112,6 @@ class Report
         return $this;
     }
 
-    public function getResponse(): ?array
-    {
-        return $this->response;
-    }
-
-    public function setResponse(array $response): self
-    {
-        $this->response = $response;
-
-        return $this;
-    }
-
-    public function getProofs(): ?string
-    {
-        return $this->proofs;
-    }
-
-    public function setProofs(?string $proofs): self
-    {
-        $this->proofs = $proofs;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
@@ -147,14 +124,26 @@ class Report
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeInterface
+    public function getClosedAt(): ?DateTimeInterface
     {
-        return $this->updatedAt;
+        return $this->closedAt;
     }
 
-    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
+    public function setClosedAt(?DateTimeInterface $closedAt): self
     {
-        $this->updatedAt = $updatedAt;
+        $this->closedAt = $closedAt;
+
+        return $this;
+    }
+
+    public function getClosedBy(): ?User
+    {
+        return $this->closedBy;
+    }
+
+    public function setClosedBy(?User $user): self
+    {
+        $this->closedBy = $user;
 
         return $this;
     }

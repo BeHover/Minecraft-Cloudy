@@ -2,38 +2,42 @@
 
 namespace App\Entity\Main;
 
+use App\Repository\Main\ReportTypeRepository;
+use DateTimeImmutable;
 use DateTimeInterface;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
-/**
- * @ORM\Table(name="report_type")
- * @ORM\Entity(repositoryClass=App\Repository\Main\ReportTypeRepository::class)
- */
+#[ORM\Table(name: "report_type")]
+#[ORM\Entity(repositoryClass: ReportTypeRepository::class)]
 class ReportType
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private ?int $id;
+    #[ORM\Id]
+    #[ORM\Column(type: "uuid")]
+    private UuidInterface $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255, unique: true)]
     private ?string $name;
 
-    /**
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
-     */
+    #[ORM\Column(name: "created_at", type: "datetime", nullable: false)]
     private ?DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
-     */
-    private ?DateTimeInterface $updatedAt;
+    public function __construct(
+        string $name
+    )
+    {
+        $this->id = Uuid::uuid6();
+        $this->name = $name;
 
-    public function getId(): ?int
+        try {
+            $this->createdAt = new DateTimeImmutable(timezone: new DateTimeZone("Europe/Riga"));
+        } catch (\Exception $e) {
+        }
+    }
+
+    public function getId(): ?UuidInterface
     {
         return $this->id;
     }
@@ -58,18 +62,6 @@ class ReportType
     public function setCreatedAt(?DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

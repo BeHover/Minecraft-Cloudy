@@ -2,96 +2,88 @@
 
 namespace App\Entity\Main;
 
+use App\Repository\Main\UserRepository;
+use DateTimeImmutable;
 use DateTimeInterface;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @ORM\Table(name="user")
- * @ORM\Entity(repositoryClass=App\Repository\Main\UserRepository::class)
- * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
- */
+#[ORM\Table(name: "user")]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: "username", message: "There is already an account with this username")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private ?int $id;
+    #[ORM\Id]
+    #[ORM\Column(type: "uuid")]
+    private UuidInterface $id;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
+    #[ORM\Column(type: "string", length: 180, unique: true)]
     private string $username;
 
-    /**
-     * @ORM\Column(type="json")
-     */
+    #[ORM\Column(type: "json")]
     private array $roles = [];
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: "string")]
     private string $password;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
+    #[ORM\Column(type: "string", length: 255, unique: true)]
     private ?string $email;
 
-    /**
-     * @ORM\Column(name="is_verified", type="boolean")
-     */
+    #[ORM\Column(name: "is_verified", type: "boolean")]
     private bool $isVerified = false;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $skin;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $description = null;
 
-    /**
-     * @ORM\Column(name="image_url", type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(name: "image_url", type: "string", length: 255, nullable: true)]
     private ?string $imageUrl = null;
 
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $discord = null;
 
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $youtube = null;
 
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $twitch = null;
 
-    /**
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
-     */
+    #[ORM\Column(name: "created_at", type: "datetime", nullable: false)]
     private ?DateTimeInterface $createdAt;
 
-    /**
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
-     */
+    #[ORM\Column(name: "updated_at", type: "datetime", nullable: false)]
     private ?DateTimeInterface $updatedAt;
 
-    public function getId(): ?int
+    public function __construct(
+        string $username,
+        string $email
+    )
+    {
+        $this->id = Uuid::uuid6();
+        $this->username = $username;
+        $this->roles = ["ROLE_USER"];
+        $this->email = $email;
+        $this->isVerified = false;
+        $this->skin = "$username.png";
+
+        try {
+            $this->createdAt = new DateTimeImmutable(timezone: new DateTimeZone("Europe/Riga"));
+            $this->updatedAt = new DateTimeImmutable(timezone: new DateTimeZone("Europe/Riga"));
+        } catch (\Exception $e) {
+        }
+    }
+
+    public function getId(): ?UuidInterface
     {
         return $this->id;
     }

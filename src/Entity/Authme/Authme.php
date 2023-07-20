@@ -7,103 +7,81 @@ namespace App\Entity\Authme;
 use App\Repository\Authme\AuthmeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="players")
- * @ORM\Entity(repositoryClass=App\Repository\Authme\AuthmeRepository::class)
- */
+#[ORM\Table(name: "players")]
+#[ORM\Entity(repositoryClass: AuthmeRepository::class)]
 class Authme
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private ?int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private ?string $username;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private ?string $realname;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private ?string $password;
 
-    /**
-     * @ORM\Column(type="string", length=40, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 40, nullable: true)]
     private ?string $ip;
 
-    /**
-     * @ORM\Column(type="bigint", nullable=true)
-     */
+    #[ORM\Column(type: "bigint", nullable: true)]
     private ?string $lastlogin;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: "float")]
     private int $x = 0;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: "float")]
     private int $y = 0;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: "float")]
     private int $z = 0;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private string $world = 'worlds';
 
-    /**
-     * @ORM\Column(type="bigint")
-     */
+    #[ORM\Column(type: "bigint")]
     private ?int $regdate;
 
-    /**
-     * @ORM\Column(type="string", length=40, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 40, nullable: true)]
     private ?string $regip;
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
+    #[ORM\Column(type: "float", nullable: true)]
     private ?float $yaw;
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
+    #[ORM\Column(type: "float", nullable: true)]
     private ?float $pitch;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $email;
 
-    /**
-     * @ORM\Column(type="smallint")
-     */
+    #[ORM\Column(type: "smallint")]
     private int $isLogged = 0;
 
-    /**
-     * @ORM\Column(type="smallint")
-     */
+    #[ORM\Column(type: "smallint")]
     private int $hasSession = 0;
 
-    /**
-     * @ORM\Column(type="string", length=32, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 32, nullable: true)]
     private ?string $totp;
+
+    public function __construct(
+        string $username,
+        string $password
+    )
+    {
+        $this->username = strtolower($username);
+        $this->realname = $username;
+        $this->password = $password;
+        $this->regdate = time();
+
+        try {
+            $this->regdate = time();
+        } catch (\Exception $e) {
+        }
+    }
 
     public function getId(): ?int
     {

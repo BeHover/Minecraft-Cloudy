@@ -20,4 +20,22 @@ class ReportTypeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ReportType::class);
     }
+
+    public function save(ReportType $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(ReportType $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

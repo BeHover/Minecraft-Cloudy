@@ -7,87 +7,55 @@ namespace App\Entity\Authme;
 use App\Repository\Authme\LandsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="lands_lands")
- * @ORM\Entity(repositoryClass=App\Repository\Authme\LandsRepository::class)
- */
+#[ORM\Table(name: "lands_lands")]
+#[ORM\Entity(repositoryClass: LandsRepository::class)]
 class Lands
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private ?int $id;
 
-    /**
-     * @ORM\Column(type="string", length=36)
-     */
+    #[ORM\Column(type: "string", length: 36)]
     private ?string $world;
 
-    /**
-     * @ORM\Column(type="string", length=36)
-     */
+    #[ORM\Column(type: "string", length: 36)]
     private ?string $nuid;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: "integer")]
     private ?int $type;
 
-    /**
-     * @ORM\Column(type="string", length=80)
-     */
+    #[ORM\Column(type: "string", length: 80)]
     private ?string $name;
 
-    /**
-     * @ORM\Column(type="string", length=16777215)
-     */
+    #[ORM\Column(type: "string", length: 16777215)]
     private ?string $area;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: "text")]
     private ?string $members;
 
-    /**
-     * @ORM\Column(type="bigint")
-     */
+    #[ORM\Column(type: "bigint")]
     private ?string $created;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: "float")]
     private ?float $balance;
 
-    /**
-     * @ORM\Column(type="string", length=300)
-     */
+    #[ORM\Column(type: "string", length: 300)]
     private ?string $title;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: "text")]
     private ?string $spawn;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: "text")]
     private ?string $inbox;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: "text")]
     private ?string $vs;
 
-    /**
-     * @ORM\Column(type="bigint")
-     */
+    #[ORM\Column(type: "bigint")]
     private ?string $shield;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: "text")]
     private ?string $stats;
 
     public function getId(): ?int

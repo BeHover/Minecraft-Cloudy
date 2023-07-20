@@ -20,4 +20,22 @@ class OTPRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, OTP::class);
     }
+
+    public function save(OTP $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(OTP $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }
