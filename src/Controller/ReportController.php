@@ -8,7 +8,6 @@ use App\Domain\ReportsDataResolver;
 use App\Entity\Main\Report;
 use App\Entity\Main\ReportChatMessage;
 use App\Entity\Main\ReportType;
-use App\Entity\Main\User;
 use App\Repository\Main\ReportChatMessageRepository;
 use App\Repository\Main\ReportRepository;
 use App\Repository\Main\ReportTypeRepository;
