@@ -8,6 +8,7 @@ use App\Domain\ReportsDataResolver;
 use App\Entity\Main\Report;
 use App\Entity\Main\ReportChatMessage;
 use App\Entity\Main\ReportType;
+use App\Entity\Main\User;
 use App\Repository\Main\ReportChatMessageRepository;
 use App\Repository\Main\ReportRepository;
 use App\Repository\Main\ReportTypeRepository;
@@ -15,9 +16,6 @@ use App\Repository\Main\UserRepository;
 use App\Service\JWTTokenService;
 use DateTimeImmutable;
 use DateTimeZone;
-use Lexik\Bundle\JWTAuthenticationBundle\Exception\ExpiredTokenException;
-use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
-use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\PreAuthenticationJWTUserToken;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,6 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('api/reports')]
 class ReportController extends AbstractController
@@ -36,6 +35,7 @@ class ReportController extends AbstractController
     private UserRepository $userRepository;
     private UserPasswordHasherInterface $userPasswordHasher;
     private JWTTokenService $JWTTokenService;
+    private TranslatorInterface $translator;
 
     public function __construct(
         ReportRepository $reportRepository,
@@ -44,7 +44,8 @@ class ReportController extends AbstractController
         ReportsDataResolver $reportsDataResolver,
         UserRepository $userRepository,
         UserPasswordHasherInterface $userPasswordHasher,
-        JWTTokenService $JWTTokenService
+        JWTTokenService $JWTTokenService,
+        TranslatorInterface $translator
     ) {
         $this->reportRepository = $reportRepository;
         $this->reportChatMessageRepository = $reportChatMessageRepository;
@@ -53,10 +54,30 @@ class ReportController extends AbstractController
         $this->userRepository = $userRepository;
         $this->userPasswordHasher = $userPasswordHasher;
         $this->JWTTokenService = $JWTTokenService;
+        $this->translator = $translator;
     }
 
     #[Route('', name: 'all_reports', methods: ['GET'])]
-    public function getAllReports() : JsonResponse {
+    public function getAllReports(
+        Request $plainRequest
+    ) : JsonResponse {
+        $requestData = $plainRequest->toArray();
+        $locale = $requestData["locale"] ?? "en_EN";
+
+        if ($locale !== "en_EN" && $locale !== "ru_RU") {
+            return new JsonResponse([
+                "message" => "The selected language is not supported by the application."
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if (!in_array("ROLE_ADMIN", $user->getRoles())) {
+            $message = $this->translator->trans("report.get_all.not_permission", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_UNAUTHORIZED);
+        }
+
         $reports = $this->reportsDataResolver->getAllReports();
 
         return new JsonResponse($reports);
@@ -79,44 +100,28 @@ class ReportController extends AbstractController
     }
 
     #[Route('/types/create', name: 'create_report_type', methods: ['POST'])]
-    public function createReportType(Request $request) : JsonResponse {
-        $credentials = json_decode($request->getContent(), true);
-        $token = $credentials["token"] ?? null;
-        $name = $credentials["name"] ?? null;
+    public function createReportType(Request $plainRequest) : JsonResponse {
+        $requestData = $plainRequest->toArray();
+        $name = $requestData["name"] ?? null;
+        $locale = $requestData["locale"] ?? "en_EN";
 
-        if ($token === null) {
+        if ($locale !== "en_EN" && $locale !== "ru_RU") {
             return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя."
-            ], 401);
+                "message" => "The selected language is not supported by the application."
+            ], Response::HTTP_BAD_REQUEST);
         }
 
+        /** @var User $user */
+        $user = $this->getUser();
+
         if ($name === null) {
-            return new JsonResponse([
-                "message" => "Укажите названия для создания этого типа обращения."
-            ], 401);
+            $message = $this->translator->trans("report.types.create.name.empty", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }
 
         if ($this->reportTypeRepository->findOneBy(["name" => $name]) !== null) {
-            return new JsonResponse([
-                "message" => "Такое название уже используется, выберите другое."
-            ], 401);
-        }
-
-        try {
-            $payload = new PreAuthenticationJWTUserToken($token);
-            $decoded = $this->JWTTokenService->decodeToken($payload);
-        } catch (JWTDecodeFailureException|ExpiredTokenException $e) {
-            return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя."
-            ], 401);
-        }
-
-        $user = $this->userRepository->findOneBy(["username" => $decoded["username"]]);
-
-        if (!$user) {
-            return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя"
-            ], 401);
+            $message = $this->translator->trans("report.types.create.name.used", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }
 
         $type = new ReportType($name);
@@ -128,160 +133,127 @@ class ReportController extends AbstractController
     }
 
     #[Route('/create', name: 'create_report', methods: ['POST'])]
-    public function createReport(Request $request) : JsonResponse {
-        $credentials = json_decode($request->getContent(), true);
-        $token = $credentials["token"] ?? null;
-        $typeUuid = $credentials["type"] ?? null;
-        $text = $credentials["text"] ?? null;
+    public function createReport(Request $plainRequest) : JsonResponse {
+        $requestData = $plainRequest->toArray();
+        $typeUuid = $requestData["type"] ?? null;
+        $text = $requestData["text"] ?? null;
+        $locale = $requestData["locale"] ?? "en_EN";
 
-        if ($token === null) {
+        if ($locale !== "en_EN" && $locale !== "ru_RU") {
             return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя."
-            ], 401);
+                "message" => "The selected language is not supported by the application."
+            ], Response::HTTP_BAD_REQUEST);
         }
 
+        /** @var User $user */
+        $user = $this->getUser();
+
         if ($typeUuid === null || $text === null) {
-            return new JsonResponse([
-                "message" => "Недостаточно данных для регистрации обращения."
-            ], 401);
+            $message = $this->translator->trans("report.create.empty_fields", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }
 
         $type = $this->reportTypeRepository->findOneBy(["id" => $typeUuid]);
 
         if ($type === null) {
-            return new JsonResponse([
-                "message" => "Ошибка выбора категории обращения в службу поддержки."
-            ], 401);
-        }
-
-        try {
-            $payload = new PreAuthenticationJWTUserToken($token);
-            $decoded = $this->JWTTokenService->decodeToken($payload);
-        } catch (JWTDecodeFailureException|ExpiredTokenException $e) {
-            return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя."
-            ], 401);
-        }
-
-        $user = $this->userRepository->findOneBy(["username" => $decoded["username"]]);
-
-        if (!$user) {
-            return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя"
-            ], 401);
+            $message = $this->translator->trans("report.create.type.not_found", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_NOT_FOUND);
         }
 
         $report = new Report($user, $type, $text);
         $this->reportRepository->save($report, true);
 
-        return new JsonResponse([
-            "message" => "Ваше обращение в службу поддержки успешно зарегистрировано."
-        ], Response::HTTP_CREATED);
+        $message = $this->translator->trans("report.create.successfully", locale: $locale);
+        return new JsonResponse(["message" => $message], Response::HTTP_CREATED);
     }
 
     #[Route('/{reportId}', name: 'report_data', methods: ['GET'])]
-    public function getReportById(string $reportId) : JsonResponse {
+    public function getReportById(Request $plainRequest, string $reportId) : JsonResponse {
+        $requestData = $plainRequest->toArray();
+        $locale = $requestData["locale"] ?? "en_EN";
+
+        if ($locale !== "en_EN" && $locale !== "ru_RU") {
+            return new JsonResponse([
+                "message" => "The selected language is not supported by the application."
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
         $reportUuid = Uuid::fromString($reportId);
         $report = $this->reportsDataResolver->getReportById((string) $reportUuid);
 
         if (empty($report)) {
-            return new JsonResponse(["message" => "Тикет с таким идентификатором не найден."]);
+            $message = $this->translator->trans("report.not_found", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_NOT_FOUND);
         }
 
         return new JsonResponse($report);
     }
 
     #[Route('/{reportId}/message', name: 'post_message', methods: ['POST'])]
-    public function postMessage(Request $request, string $reportId) : JsonResponse {
-        $credentials = json_decode($request->getContent(), true);
-        $token = $credentials["token"] ?? null;
-        $text = $credentials["message"] ?? null;
+    public function postMessage(Request $plainRequest, string $reportId) : JsonResponse {
+        $requestData = $plainRequest->toArray();
+        $text = $requestData["message"] ?? null;
+        $locale = $requestData["locale"] ?? "en_EN";
 
-        if ($token === null) {
+        if ($locale !== "en_EN" && $locale !== "ru_RU") {
             return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя."
-            ], 401);
+                "message" => "The selected language is not supported by the application."
+            ], Response::HTTP_BAD_REQUEST);
         }
+
+        /** @var User $user */
+        $user = $this->getUser();
 
         if ($text === null) {
-            return new JsonResponse([
-                "message" => "Нельзя отправить сообщений без текста."
-            ], 401);
-        }
-
-        try {
-            $payload = new PreAuthenticationJWTUserToken($token);
-            $decoded = $this->JWTTokenService->decodeToken($payload);
-        } catch (JWTDecodeFailureException|ExpiredTokenException $e) {
-            return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя."
-            ], 401);
-        }
-
-        $user = $this->userRepository->findOneBy(["username" => $decoded["username"]]);
-
-        if (!$user) {
-            return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя"
-            ], 401);
+            $message = $this->translator->trans("report.messages.post.empty", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }
 
         $reportUuid = Uuid::fromString($reportId);
         $report = $this->reportRepository->findOneBy(["id" => $reportUuid]);
 
         if (null === $report) {
-            return new JsonResponse(["message" => "Тикет с таким идентификатором не найден."]);
+            $message = $this->translator->trans("report.not_found", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_NOT_FOUND);
         }
 
         if ($report->getCreatedBy() !== $user || !in_array("ROLE_ADMIN", $user->getRoles())) {
-            return new JsonResponse(["message" => "Недостаточно полномочий для выполнения этого действия."]);
+            $message = $this->translator->trans("report.not_permission", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }
 
         $message = new ReportChatMessage($report, $user, $text);
         $this->reportChatMessageRepository->save($message, true);
 
-        return new JsonResponse([
-            "message" => "Ваше сообщение успешно добавлено в чат со службой поддержки."
-        ], 200);
+        $message = $this->translator->trans("report.not_permission", locale: $locale);
+        return new JsonResponse(["message" => $message], Response::HTTP_CREATED);
     }
 
     #[Route('/{reportId}/deactivate', name: 'deactivate_report', methods: ['POST'])]
-    public function deactivateReport(Request $request, string $reportId) : JsonResponse {
-        $credentials = json_decode($request->getContent(), true);
-        $token = $credentials["token"] ?? null;
+    public function deactivateReport(Request $plainRequest, string $reportId) : JsonResponse {
+        $requestData = $plainRequest->toArray();
+        $locale = $requestData["locale"] ?? "en_EN";
 
-        if ($token === null) {
+        if ($locale !== "en_EN" && $locale !== "ru_RU") {
             return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя."
-            ], 401);
+                "message" => "The selected language is not supported by the application."
+            ], Response::HTTP_BAD_REQUEST);
         }
 
-        try {
-            $payload = new PreAuthenticationJWTUserToken($token);
-            $decoded = $this->JWTTokenService->decodeToken($payload);
-        } catch (JWTDecodeFailureException|ExpiredTokenException $e) {
-            return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя."
-            ], 401);
-        }
-
-        $user = $this->userRepository->findOneBy(["username" => $decoded["username"]]);
-
-        if (!$user) {
-            return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя"
-            ], 401);
-        }
+        /** @var User $user */
+        $user = $this->getUser();
 
         $reportUuid = Uuid::fromString($reportId);
         $report = $this->reportRepository->findOneBy(["id" => $reportUuid]);
 
         if (null === $report) {
-            return new JsonResponse(["message" => "Тикет с таким идентификатором не найден."]);
+            $message = $this->translator->trans("report.not_found", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_NOT_FOUND);
         }
 
         if ($report->getCreatedBy() !== $user || !in_array("ROLE_ADMIN", $user->getRoles())) {
-            return new JsonResponse(["message" => "Недостаточно полномочий для выполнения этого действия."]);
+            $message = $this->translator->trans("report.not_permission", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }
 
         $report->setStatus(0);
@@ -294,8 +266,8 @@ class ReportController extends AbstractController
 
         $this->reportRepository->save($report, true);
 
-        return new JsonResponse([
-            "message" => "Это обращение в службу поддержки успешно деактивировано."
-        ], 200);
+
+        $message = $this->translator->trans("report.deactivate.successfully", locale: $locale);
+        return new JsonResponse(["message" => $message]);
     }
 }

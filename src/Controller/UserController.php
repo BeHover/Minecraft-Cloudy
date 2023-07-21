@@ -18,9 +18,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('api/users')]
 class UserController extends AbstractController
@@ -34,6 +36,7 @@ class UserController extends AbstractController
     private Filesystem $fileSystem;
     private OTPService $OTPService;
     private OTPRepository $OTPRepository;
+    private TranslatorInterface $translator;
 
     public function __construct(
         UserRepository               $userRepository,
@@ -44,7 +47,8 @@ class UserController extends AbstractController
         EmailVerifier                $emailVerifier,
         Filesystem                   $fileSystem,
         OTPService                   $OTPService,
-        OTPRepository                $OTPRepository
+        OTPRepository                $OTPRepository,
+        TranslatorInterface          $translator
     )
     {
         $this->userRepository = $userRepository;
@@ -56,6 +60,7 @@ class UserController extends AbstractController
         $this->fileSystem = $fileSystem;
         $this->OTPService = $OTPService;
         $this->OTPRepository = $OTPRepository;
+        $this->translator = $translator;
     }
 
     #[Route('/login', name: 'user_login', methods: ['POST'])]
@@ -66,38 +71,40 @@ class UserController extends AbstractController
         $requestData = $plainRequest->toArray();
         $username = $requestData["username"];
         $password = $requestData["password"];
+        $locale = $requestData["locale"] ?? "en_EN";
+
+        if ($locale !== "en_EN" && $locale !== "ru_RU") {
+            return new JsonResponse([
+                "message" => "The selected language is not supported by the application."
+            ], Response::HTTP_BAD_REQUEST);
+        }
 
         if (empty(trim($username)) || empty(trim($password))) {
-            return new JsonResponse([
-                "message" => "Проверьте ввод всех обязательных полей"
-            ], 401);
+            $message = $this->translator->trans("user.login.empty_fields", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }
 
 
         if (!preg_match("/^\w{4,20}$/", $username)) {
-            return new JsonResponse([
-                "message" => "Ошибка ввода имени пользователя."
-            ], 401);
+            $message = $this->translator->trans("user.login.username.invalid", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }
 
         if (!preg_match("/^\w{5,24}$/", $password)) {
-            return new JsonResponse([
-                "message" => "Пароль не соответствует необходимому формату."
-            ], 401);
+            $message = $this->translator->trans("user.login.password.invalid", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }
 
         $user = $this->userRepository->findOneBy(["username" => $username]);
 
         if (null === $user) {
-            return new JsonResponse([
-                "message" => "Пользователь с таким набором данных не найден."
-            ], 401);
+            $message = $this->translator->trans("user.not_found", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_NOT_FOUND);
         }
 
         if (!$this->passwordEncoder->isPasswordValid($user, $password)) {
-            return new JsonResponse([
-                "message" => "Вы указали неверный пароль от аккаунта."
-            ], 401);
+            $message = $this->translator->trans("user.login.incorrect_password", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }
 
         $token = $this->JWTTokenService->encodeToken($user);
@@ -112,7 +119,7 @@ class UserController extends AbstractController
             "roles" => $user->getRoles()
         ];
 
-        return new JsonResponse($data, 200);
+        return new JsonResponse($data);
     }
 
     #[Route('/register', name: 'user_register', methods: ['POST'])]
@@ -124,35 +131,37 @@ class UserController extends AbstractController
         $username = $requestData["username"];
         $password = $requestData["password"];
         $email = $requestData["email"];
+        $locale = $requestData["locale"] ?? "en_EN";
+
+        if ($locale !== "en_EN" && $locale !== "ru_RU") {
+            return new JsonResponse([
+                "message" => "The selected language is not supported by the application."
+            ], Response::HTTP_BAD_REQUEST);
+        }
 
         if (!$username || !$password || !$email) {
-            return new JsonResponse([
-                "message" => "Проверьте ввод всех обязательных полей."
-            ], 401);
+            $message = $this->translator->trans("user.register.empty_fields", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }
 
         if ($this->userRepository->findOneBy(["username" => $username]) !== null) {
-            return new JsonResponse([
-                "message" => "Аккаунт с таким игровым никнеймом уже существует."
-            ], 401);
+            $message = $this->translator->trans("user.register.username.used", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }
 
         if ($this->userRepository->findOneBy(["email" => $email]) !== null) {
-            return new JsonResponse([
-                "message" => "К сожалению, эту почту уже кто-то использует."
-            ], 401);
+            $message = $this->translator->trans("user.register.email.used", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }
 
         if (!preg_match("/^\w{4,20}$/", $username)) {
-            return new JsonResponse([
-                "message" => "Никнейм должен содержать исключительно латинские символы. Допустимая длина - от 4 до 20 символов."
-            ], 401);
+            $message = $this->translator->trans("user.register.username.invalid", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return new JsonResponse([
-                "message" => "Введите действительную электронную почту."
-            ], 401);
+            $message = $this->translator->trans("user.register.email.invalid", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }
 
         $user = new User($username, $email);
@@ -170,9 +179,8 @@ class UserController extends AbstractController
         try {
             $code = $this->OTPService->generateOTP($user);
         } catch (Exception $e) {
-            return new JsonResponse([
-                "message" => "Ошибка генерации OTP кода, обратитесь в службу поддержки."
-            ], 500);
+            $message = $this->translator->trans("user.otp.generate.failed", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         $this->emailVerifier->sendEmailConfirmation($user,
@@ -193,7 +201,7 @@ class UserController extends AbstractController
             "roles" => $user->getRoles()
         ];
 
-        return new JsonResponse($data, 200);
+        return new JsonResponse($data, Response::HTTP_CREATED);
     }
 
     #[Route('/verify', name: 'user_verify', methods: ['POST'])]
@@ -203,11 +211,17 @@ class UserController extends AbstractController
     {
         $requestData = $plainRequest->toArray();
         $otp = $requestData["otp"];
+        $locale = $requestData["locale"] ?? "en_EN";
+
+        if ($locale !== "en_EN" && $locale !== "ru_RU") {
+            return new JsonResponse([
+                "message" => "The selected language is not supported by the application."
+            ], Response::HTTP_BAD_REQUEST);
+        }
 
         if (!$otp || !preg_match("/^\d{6}$/", $otp)) {
-            return new JsonResponse([
-                "message" => "Вы ввели некорректный OTP код."
-            ], 401);
+            $message = $this->translator->trans("user.otp.invalid", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_NOT_FOUND);
         }
 
         /** @var User $user */
@@ -216,15 +230,13 @@ class UserController extends AbstractController
         $cache = $this->OTPRepository->findOneBy(["user" => $user]);
 
         if ($cache === null) {
-            return new JsonResponse([
-                "message" => "Произошла ошибка при генерации OTP кода. Запросите его ещё раз."
-            ], 401);
+            $message = $this->translator->trans("user.otp.not_found", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_NOT_FOUND);
         }
 
         if ((int) $otp !== $cache->getOTP()) {
-            return new JsonResponse([
-                "message" => "Вы указали неверный OTP код. Повторите попытку или запросите его ещё раз."
-            ], 401);
+            $message = $this->translator->trans("user.otp.invalid", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_NOT_FOUND);
         }
 
         $this->OTPRepository->remove($cache, true);
@@ -236,28 +248,36 @@ class UserController extends AbstractController
             $authmeUser = new Authme($user->getUsername(), $user->getPassword());
             $this->authmeRepository->save($authmeUser, true);
 
-            return new JsonResponse([
-                "message" => "Вы успешно подтвердили почту с помощью OTP кода. Теперь вы можете играть на сервере."
-            ], 200);
+            $message = $this->translator->trans("user.otp.confirm.email_with_authme", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_CREATED);
         }
 
-        return new JsonResponse([
-            "message" => "Вы успешно подтвердили почту с помощью OTP кода."
-        ], 200);
+        $message = $this->translator->trans("user.otp.confirm.email", locale: $locale);
+        return new JsonResponse(["message" => $message]);
     }
 
     #[Route('/verify/send', name: 'send_otp', methods: ['GET'])]
-    public function sendOTP(): JsonResponse
+    public function sendOTP(
+        Request $plainRequest
+    ): JsonResponse
     {
+        $requestData = $plainRequest->toArray();
+        $locale = $requestData["locale"] ?? "en_EN";
+
+        if ($locale !== "en_EN" && $locale !== "ru_RU") {
+            return new JsonResponse([
+                "message" => "The selected language is not supported by the application."
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
         /** @var User $user */
         $user = $this->getUser();
 
         try {
             $code = $this->OTPService->generateOTP($user);
         } catch (Exception $e) {
-            return new JsonResponse([
-                "message" => "Ошибка генерации OTP кода, обратитесь в службу поддержки."
-            ], 500);
+            $message = $this->translator->trans("user.otp.generate.failed", locale: $locale);
+            return new JsonResponse(["message" => $message], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         $this->emailVerifier->sendEmailConfirmation($user,
@@ -268,8 +288,7 @@ class UserController extends AbstractController
             $code
         );
 
-        return new JsonResponse([
-            "message" => "Код подтверждения успешно отправлен на вашу почту."
-        ], 200);
+        $message = $this->translator->trans("user.otp.generate.successfully", locale: $locale);
+        return new JsonResponse(["message" => $message]);
     }
 }
