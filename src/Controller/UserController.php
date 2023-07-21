@@ -6,120 +6,139 @@ namespace App\Controller;
 
 use App\Entity\Main\User;
 use App\Repository\Authme\AuthmeRepository;
+use App\Repository\Main\OTPRepository;
 use App\Repository\Main\UserRepository;
 use App\Security\EmailVerifier;
 use App\Service\JWTTokenService;
 use App\Service\OTPService;
-use DateTimeImmutable;
-use DateTimeZone;
 use Exception;
-use Lexik\Bundle\JWTAuthenticationBundle\Exception\ExpiredTokenException;
-use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
-use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\PreAuthenticationJWTUserToken;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('api/users')]
 class UserController extends AbstractController
 {
     private UserRepository $userRepository;
+    private JWTTokenService $JWTTokenService;
     private AuthmeRepository $authmeRepository;
     private UserPasswordHasherInterface $userPasswordHasher;
     private UserPasswordEncoderInterface $passwordEncoder;
-    private JWTTokenService $jwtManager;
     private EmailVerifier $emailVerifier;
     private Filesystem $fileSystem;
     private OTPService $OTPService;
+    private OTPRepository $OTPRepository;
 
     public function __construct(
         UserRepository               $userRepository,
+        JWTTokenService              $JWTTokenService,
         AuthmeRepository             $authmeRepository,
         UserPasswordHasherInterface  $userPasswordHasher,
         UserPasswordEncoderInterface $passwordEncoder,
-        JWTTokenService              $jwtManager,
         EmailVerifier                $emailVerifier,
         Filesystem                   $fileSystem,
-        OTPService                   $OTPService
+        OTPService                   $OTPService,
+        OTPRepository                $OTPRepository
     )
     {
         $this->userRepository = $userRepository;
+        $this->JWTTokenService = $JWTTokenService;
         $this->authmeRepository = $authmeRepository;
         $this->userPasswordHasher = $userPasswordHasher;
         $this->passwordEncoder = $passwordEncoder;
-        $this->jwtManager = $jwtManager;
         $this->emailVerifier = $emailVerifier;
         $this->fileSystem = $fileSystem;
         $this->OTPService = $OTPService;
+        $this->OTPRepository = $OTPRepository;
     }
 
-    /**
-     * @Route(path="/api/login", name="userLogin", methods={"POST"})
-     * @throws UserNotFoundException
-     */
+    #[Route('/login', name: 'user_login', methods: ['POST'])]
     public function userLogin(
-        Request $request
+        Request $plainRequest
     ): JsonResponse
     {
-        $credentials = json_decode($request->getContent(), true);
+        $requestData = $plainRequest->toArray();
+        $username = $requestData["username"];
+        $password = $requestData["password"];
 
-        $username = $credentials["username"] ?? null;
-        $password = $credentials["password"] ?? null;
-
-        if (!$username || !$password) {
+        if (empty(trim($username)) || empty(trim($password))) {
             return new JsonResponse([
                 "message" => "Проверьте ввод всех обязательных полей"
+            ], 401);
+        }
+
+
+        if (!preg_match("/^\w{4,20}$/", $username)) {
+            return new JsonResponse([
+                "message" => "Ошибка ввода имени пользователя."
+            ], 401);
+        }
+
+        if (!preg_match("/^\w{5,24}$/", $password)) {
+            return new JsonResponse([
+                "message" => "Пароль не соответствует необходимому формату."
             ], 401);
         }
 
         $user = $this->userRepository->findOneBy(["username" => $username]);
 
-        if (!$user || !$this->passwordEncoder->isPasswordValid($user, $password)) {
+        if (null === $user) {
             return new JsonResponse([
-                "message" => "Вы указали неверный логин или пароль"
+                "message" => "Пользователь с таким набором данных не найден."
             ], 401);
         }
 
-        $token = $this->jwtManager->createToken($user);
+        if (!$this->passwordEncoder->isPasswordValid($user, $password)) {
+            return new JsonResponse([
+                "message" => "Вы указали неверный пароль от аккаунта."
+            ], 401);
+        }
 
-        return new JsonResponse(["token" => $token]);
+        $token = $this->JWTTokenService->encodeToken($user);
+
+        $data = [
+            "token" => $token,
+            "username" => $user->getUserIdentifier(),
+            "email" => $user->getEmail(),
+            "createdAt" => $user->getCreatedAt()->format('d.m.Y') . " в " . $user->getCreatedAt()->format('H:i'),
+            "updatedAt" => $user->getUpdatedAt()->format('d.m.Y') . " в " . $user->getUpdatedAt()->format('H:i'),
+            "verified" => $user->isVerified(),
+            "roles" => $user->getRoles()
+        ];
+
+        return new JsonResponse($data, 200);
     }
 
-    /**
-     * @Route(path="/api/register", name="userRegister", methods={"POST"})
-     * @throws UserNotFoundException
-     */
+    #[Route('/register', name: 'user_register', methods: ['POST'])]
     public function userRegister(
-        Request $request
+        Request $plainRequest
     ): JsonResponse
     {
-        $credentials = json_decode($request->getContent(), true);
-
-        $username = $credentials["username"] ?? null;
-        $password = $credentials["password"] ?? null;
-        $email = $credentials["email"] ?? null;
+        $requestData = $plainRequest->toArray();
+        $username = $requestData["username"];
+        $password = $requestData["password"];
+        $email = $requestData["email"];
 
         if (!$username || !$password || !$email) {
             return new JsonResponse([
-                "message" => "Проверьте ввод всех обязательных полей"
+                "message" => "Проверьте ввод всех обязательных полей."
             ], 401);
         }
 
         if ($this->userRepository->findOneBy(["username" => $username]) !== null) {
             return new JsonResponse([
-                "message" => "Аккаунт с таким игровым никнеймом уже существует"
+                "message" => "Аккаунт с таким игровым никнеймом уже существует."
             ], 401);
         }
 
         if ($this->userRepository->findOneBy(["email" => $email]) !== null) {
             return new JsonResponse([
-                "message" => "К сожалению, эту почту уже кто-то использует"
+                "message" => "К сожалению, эту почту уже кто-то использует."
             ], 401);
         }
 
@@ -129,30 +148,15 @@ class UserController extends AbstractController
             ], 401);
         }
 
-        if (!preg_match("/^\w{5,24}$/", $password)) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return new JsonResponse([
-                "message" => "Пароль должен состоять из латиницы и цифр. Допустимая длина - от 5 до 24 символов."
+                "message" => "Введите действительную электронную почту."
             ], 401);
         }
 
-        $user = new User();
-        $user->setUsername($username);
+        $user = new User($username, $email);
         $user->setPassword($this->userPasswordHasher->hashPassword($user, $password));
-        $user->setEmail($email);
-        $user->setRoles(["ROLE_USER"]);
-        $user->setSkin("$username.png");
-        $user->setIsVerified(true);
-
-        try {
-            $user->setCreatedAt(new DateTimeImmutable(timezone: new DateTimeZone("Europe/Riga")));
-            $user->setUpdatedAt(new DateTimeImmutable(timezone: new DateTimeZone("Europe/Riga")));
-        } catch (\Exception) {
-            return new JsonResponse([
-                "message" => "Ошибка даты и времени, обратитесь в службу поддержки"
-            ], 401);
-        }
-
-        $entityManager = $this->getDoctrine()->getManager();
+        $this->userRepository->save($user);
 
         $cwd = getcwd();
         $this->fileSystem->copy(
@@ -160,14 +164,89 @@ class UserController extends AbstractController
             "$cwd/images/skins/$username.png"
         );
 
-        $entityManager->persist($user);
-        $entityManager->flush();
+        $token = $this->JWTTokenService->encodeToken($user);
 
         try {
             $code = $this->OTPService->generateOTP($user);
         } catch (Exception $e) {
             return new JsonResponse([
-                "message" => "Ошибка генерации OTP кода, обратитесь в службу поддержки"
+                "message" => "Ошибка генерации OTP кода, обратитесь в службу поддержки."
+            ], 500);
+        }
+
+        $this->emailVerifier->sendEmailConfirmation($user,
+            (new TemplatedEmail())
+                ->to($email)
+                ->subject("Подтверждение почты")
+                ->htmlTemplate("email/confirmation_email.html.twig"),
+            $code
+        );
+
+        $data = [
+            "token" => $token,
+            "username" => $user->getUserIdentifier(),
+            "email" => $user->getEmail(),
+            "createdAt" => $user->getCreatedAt()->format('d.m.Y') . " в " . $user->getCreatedAt()->format('H:i'),
+            "updatedAt" => $user->getUpdatedAt()->format('d.m.Y') . " в " . $user->getUpdatedAt()->format('H:i'),
+            "verified" => $user->isVerified(),
+            "roles" => $user->getRoles()
+        ];
+
+        return new JsonResponse($data, 200);
+    }
+
+    #[Route('/verify', name: 'user_verify', methods: ['POST'])]
+    public function userVerify(
+        Request $plainRequest
+    ): JsonResponse
+    {
+        $requestData = $plainRequest->toArray();
+        $otp = $requestData["otp"];
+
+        if (!$otp || !preg_match("/^\d{6}$/", $otp)) {
+            return new JsonResponse([
+                "message" => "Вы ввели некорректный OTP код."
+            ], 401);
+        }
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $cache = $this->OTPRepository->findOneBy(["user" => $user]);
+
+        if ($cache === null) {
+            return new JsonResponse([
+                "message" => "Произошла ошибка при генерации OTP кода. Запросите его ещё раз."
+            ], 401);
+        }
+
+        if ((int) $otp !== $cache->getOTP()) {
+            return new JsonResponse([
+                "message" => "Вы указали неверный OTP код. Повторите попытку или запросите его ещё раз."
+            ], 401);
+        }
+
+        $this->OTPRepository->remove($cache, true);
+
+        $user->setIsVerified(true);
+        $this->userRepository->save($user, true);
+
+        return new JsonResponse([
+            "message" => "Вы успешно подтвердили почту с помощью OTP кода."
+        ], 200);
+    }
+
+    #[Route('/verify/send', name: 'send_otp', methods: ['GET'])]
+    public function sendOTP(): JsonResponse
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        try {
+            $code = $this->OTPService->generateOTP($user);
+        } catch (Exception $e) {
+            return new JsonResponse([
+                "message" => "Ошибка генерации OTP кода, обратитесь в службу поддержки."
             ], 500);
         }
 
@@ -179,319 +258,8 @@ class UserController extends AbstractController
             $code
         );
 
-        $token = $this->jwtManager->createToken($user);
-
-        return new JsonResponse(["token" => $token]);
+        return new JsonResponse([
+            "message" => "Код подтверждения успешно отправлен на вашу почту."
+        ], 200);
     }
-
-    /**
-     * @Route(path="/api/user/verify-email", name="userVerifyEmail", methods={"POST"})
-     * @throws UserNotFoundException
-     */
-    public function verifyUserEmail(
-        Request $request
-    ): Response
-    {
-        return $request->getContent()["TODO"];
-    }
-
-    /**
-     * @Route(path="/api/user", name="getUserData", methods={"GET"})
-     */
-    public function getUserData(
-        Request $request
-    ): JsonResponse
-    {
-        $token = null;
-
-        $authorizationHeader = $request->headers->get('Authorization');
-
-        if ($authorizationHeader && preg_match('/Bearer\s(\S+)/', $authorizationHeader, $matches)) {
-            $token = $matches[1];
-        }
-
-        if ($token === null) {
-            return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя"
-            ], 401);
-        }
-
-        try {
-            $payload = new PreAuthenticationJWTUserToken($token);
-            $decoded = $this->jwtManager->decodeToken($payload);
-        } catch (JWTDecodeFailureException|ExpiredTokenException $e) {
-            return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя"
-            ], 401);
-        }
-
-        $user = $this->userRepository->findOneBy(["username" => $decoded["username"]]);
-
-        if (!$user) {
-            return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя"
-            ], 401);
-        }
-
-        $data = [
-            "username" => $user->getUserIdentifier(),
-            "email" => $user->getEmail(),
-            "createdAt" => $user->getCreatedAt()->format('d.m.Y') . " в " . $user->getCreatedAt()->format('H:i'),
-            "updatedAt" => $user->getUpdatedAt()->format('d.m.Y') . " в " . $user->getUpdatedAt()->format('H:i'),
-            "verified" => $user->isVerified(),
-            "roles" => $user->getRoles()
-        ];
-
-        return new JsonResponse($data);
-    }
-
-    /**
-     * @Route(path="/api/user/change-password", name="changeUserPassword", methods={"POST"})
-     */
-    public function changeUserPassword(
-        Request $request
-    ): JsonResponse
-    {
-        $credentials = json_decode($request->getContent(), true);
-
-        $nowPassword = $credentials["nowPassword"] ?? null;
-        $newPassword = $credentials["newPassword"] ?? null;
-        $repeatPassword = $credentials["repeatPassword"] ?? null;
-        $token = $credentials["token"] ?? null;
-
-        if ($token === null) {
-            return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя"
-            ], 401);
-        }
-
-        try {
-            $payload = new PreAuthenticationJWTUserToken($token);
-            $decoded = $this->jwtManager->decodeToken($payload);
-        } catch (JWTDecodeFailureException|ExpiredTokenException $e) {
-            return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя"
-            ], 401);
-        }
-
-        $user = $this->userRepository->findOneBy(["username" => $decoded["username"]]);
-
-        if (!$user) {
-            return new JsonResponse([
-                "message" => "Ошибка сессии текущего пользователя"
-            ], 401);
-        }
-
-        if (!$nowPassword || !$newPassword || !$repeatPassword) {
-            return new JsonResponse([
-                "message" => "Проверьте ввод всех обязательных полей"
-            ], 401);
-        }
-
-        if (!$this->passwordEncoder->isPasswordValid($user, $nowPassword)) {
-            return new JsonResponse([
-                "message" => "Вы неверно указали текущий пароль от аккаунта"
-            ], 401);
-        }
-
-        if ($newPassword !== $repeatPassword) {
-            return new JsonResponse([
-                "message" => "Пароли не совпадают"
-            ], 401);
-        }
-
-        $user->setPassword($this->userPasswordHasher->hashPassword($user, $newPassword));
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        return new JsonResponse([], 200);
-    }
-
-//    public function verifyUserEmail(
-//        AuthmeRepository $authmeRepository,
-//        Request $request
-//    ): Response {
-//        $this->denyAccessUnlessGranted("IS_AUTHENTICATED_FULLY");
-//        $user = $this->getUser();
-//
-//        try {
-//            $this->emailVerifier->handleEmailConfirmation($request, $user);
-//
-//            $entityManagerAuthme = $this->getDoctrine()->getManager("authme");
-//            if (null === $authmeRepository->findOneBy(["realname" => $user->getUsername()])) {
-//                $authmeUser = new Authme();
-//                $authmeUser->setUsername(strtolower($user->getUsername()));
-//                $authmeUser->setRealname($user->getUsername());
-//                $authmeUser->setPassword($user->getPassword());
-//                $authmeUser->setRegdate(time());
-//                $entityManagerAuthme->persist($authmeUser);
-//                $entityManagerAuthme->flush();
-//            }
-//        } catch (VerifyEmailExceptionInterface) {
-//            return $this->redirectToRoute("profile");
-//        }
-//
-//        return $this->redirectToRoute("profile");
-//    }
-//
-//    public function sendVerify(): Response {
-//        $user = $this->getUser();
-//
-//        if (null !== $user && !$user->isVerified()) {
-//            $this->emailVerifier->sendEmailConfirmation("verify_email", $user,
-//                (new TemplatedEmail())
-//                    ->to($user->getEmail())
-//                    ->subject("Подтверждение почты")
-//                    ->htmlTemplate("email/confirmation_email.html.twig")
-//            );
-//        }
-//
-//        return $this->redirectToRoute("profile");
-//    }
-//
-//    public function sendPasswordRecovery(
-//        Request $request,
-//        MailerInterface $mailer,
-//        UserRepository $userRepository,
-//        $tokenSecret
-//    ): Response {
-//        $form = $this->createForm(RecoverPasswordType::class);
-//
-//        $form->handleRequest($request);
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $email = $form->get("email")->getData();
-//
-//            $user = $userRepository->findOneBy(["email" => $email]);
-//            if (null === $user) {
-//                return $this->renderForm(
-//                    "pages/account/send_password_recovery.html.twig",
-//                    [
-//                        "recoveryForm" => $form,
-//                        "message" => "Пользователь с таким адресом не найден.",
-//                        "success" => 0
-//                    ]
-//                );
-//            }
-//
-//            $token = Token::customPayload(
-//                [
-//                    "userId" => $user->getId()
-//                ],
-//                $tokenSecret
-//            );
-//
-//            $mail = (new TemplatedEmail())
-//                ->to($email)
-//                ->subject("Восстановление доступа к аккаунту")
-//                ->htmlTemplate("email/send_password_recovery.html.twig")
-//                ->context([
-//                    "signedUrl" => $this->generateUrl(
-//                        "password_recovery",
-//                        ["token" => $token],
-//                        UrlGeneratorInterface::ABSOLUTE_URL
-//                    )
-//                ])
-//            ;
-//
-//            try {
-//                $mailer->send($mail);
-//            } catch (TransportExceptionInterface) {
-//                #TODO: handle exception properly!
-//            }
-//
-//            return $this->renderForm(
-//                "pages/account/send_password_recovery.html.twig",
-//                [
-//                    "recoveryForm" => $form,
-//                    "message" => null,
-//                    "success" => 1
-//                ]
-//            );
-//        }
-//
-//        return $this->renderForm(
-//            "pages/account/send_password_recovery.html.twig",
-//            [
-//                "recoveryForm" => $form,
-//                "message" => null,
-//                "success" => 0
-//            ]
-//        );
-//    }
-//
-//    public function recoveryPassword(
-//        Request $request,
-//        string $token,
-//                $tokenSecret,
-//        UserRepository $userRepository,
-//        UserPasswordHasherInterface $userPasswordHasher,
-//        EntityManagerInterface $entityManager,
-//        MailerInterface $mailer,
-//    ): RedirectResponse|Response {
-//        $userId = Token::getPayload($token, $tokenSecret)["userId"];
-//        $user = $userRepository->find($userId);
-//
-//        if (null === $user) {
-//            return $this->redirectToRoute("main_page");
-//        }
-//
-//        $form = $this->createForm(ChangePasswordType::class);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $plainPassword = $form->get("password")->getData();
-//            $plainPasswordConfirm = $form->get("confirmPassword")->getData();
-//
-//            if ($plainPassword !== $plainPasswordConfirm) {
-//                return $this->renderForm(
-//                    "pages/account/password_recovery.html.twig",
-//                    [
-//                        "recoveryForm" => $form,
-//                        "message" => "Вы указали разные пароли, повторите попытку."
-//                    ]
-//                );
-//            }
-//
-//            if (!preg_match("/^\w{5,24}$/", $plainPassword)) {
-//                return $this->renderForm(
-//                    "pages/account/password_recovery.html.twig",
-//                    [
-//                        "recoveryForm" => $form,
-//                        "message" => "Пароль должен состоять из латиницы и цифр с длиной от 5 до 24 символов."
-//                    ]
-//                );
-//            }
-//
-//            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
-//            $entityManager->flush();
-//
-//            $email = $user->getEmail();
-//
-//            $mail = (new TemplatedEmail())
-//                ->to($email)
-//                ->subject("Изменение пароля")
-//                ->htmlTemplate("email/password_recovery.html.twig")
-//                ->context([
-//                    "username" => $user->getUsername(),
-//                    "password" => $plainPassword
-//                ]);
-//
-//            try {
-//                $mailer->send($mail);
-//            } catch (TransportExceptionInterface) {
-//                #TODO: handle exception properly!
-//            }
-//
-//            return $this->redirectToRoute("profile");
-//        }
-//
-//        return $this->renderForm(
-//            "pages/account/password_recovery.html.twig",
-//            [
-//                "recoveryForm" => $form,
-//                "message" => null
-//            ]
-//        );
-//    }
 }

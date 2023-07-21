@@ -4,30 +4,25 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
-use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\PreAuthenticationJWTUserToken;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\Main\User;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class JWTTokenService
 {
-    private JWTTokenManagerInterface $jwtManager;
 
-    public function __construct(JWTTokenManagerInterface $jwtManager)
-    {
-        $this->jwtManager = $jwtManager;
+    public function __construct(private readonly string $jwtKey) {
     }
 
-    public function createToken(UserInterface $user): string
+    public function encodeToken(User $user): string
     {
-        return $this->jwtManager->create($user);
+        return JWT::encode([
+            "username" => $user->getUsername(),
+        ], $this->jwtKey, 'HS256');
     }
 
-    /**
-     * @throws JWTDecodeFailureException
-     */
-    public function decodeToken(PreAuthenticationJWTUserToken $token): bool|array
+    public function decodeToken(string $token): array
     {
-        return $this->jwtManager->decode($token);
+        return (array) JWT::decode($token, new Key($this->jwtKey, 'HS256'));
     }
 }

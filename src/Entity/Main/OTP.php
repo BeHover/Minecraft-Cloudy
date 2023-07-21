@@ -2,37 +2,56 @@
 
 namespace App\Entity\Main;
 
+use DateTimeImmutable;
 use DateTimeInterface;
 
 use App\Repository\Main\OTPRepository;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 #[ORM\Table(name: "otp")]
 #[ORM\Entity(repositoryClass: OTPRepository::class)]
 class OTP
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    private ?int $id;
+    #[ORM\Column(type: "uuid")]
+    private UuidInterface $id;
 
     #[ORM\Column(type: "integer")]
     private ?int $otp;
 
-    #[ORM\Column(type: "string", length: 180)]
-    private ?string $username;
+    #[ORM\OneToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
+    private User $user;
 
     #[ORM\Column(name: "created_at", type: "datetime", nullable: false)]
     private ?DateTimeInterface $createdAt;
 
-    public function getUsername(): ?string
+    public function __construct(
+        int $otp,
+        User $user
+    )
     {
-        return $this->username;
+        $this->id = Uuid::uuid6();
+        $this->otp = $otp;
+        $this->user = $user;
+
+        try {
+            $this->createdAt = new DateTimeImmutable(timezone: new DateTimeZone("Europe/Riga"));
+        } catch (\Exception $e) {
+        }
     }
 
-    public function setUsername(string $username): self
+    public function getUser(): User
     {
-        $this->username = $username;
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

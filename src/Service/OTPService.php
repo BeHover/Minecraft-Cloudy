@@ -7,45 +7,30 @@ namespace App\Service;
 use App\Entity\Main\OTP;
 use App\Entity\Main\User;
 use App\Repository\Main\OTPRepository;
-use DateTimeImmutable;
-use DateTimeZone;
-use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 
 class OTPService
 {
     private OTPRepository $OTPRepository;
-    private EntityManagerInterface $entityManager;
 
     public function __construct(
-        OTPRepository $OTPRepository,
-        EntityManagerInterface $entityManager
+        OTPRepository $OTPRepository
     )
     {
         $this->OTPRepository = $OTPRepository;
-        $this->entityManager = $entityManager;
     }
 
-    /**
-     * @throws Exception
-     */
     public function generateOTP(User $user): OTP
     {
-        $data = $this->OTPRepository->findBy(["username" => $user->getUsername()]);
+        $data = $this->OTPRepository->findBy(["user" => $user]);
 
         if ($data !== null) {
             foreach ($data as $item) {
-                $this->entityManager->remove($item);
-                $this->entityManager->flush();
+                $this->OTPRepository->remove($item, true);
             }
         }
 
-        $code = new OTP();
-        $code->setOTP(mt_rand(100000, 999999));
-        $code->setUsername($user->getUsername());
-        $code->setCreatedAt(new DateTimeImmutable(timezone: new DateTimeZone("Europe/Riga")));
-        $this->entityManager->persist($code);
-        $this->entityManager->flush();
+        $code = new OTP(mt_rand(100000, 999999), $user);
+        $this->OTPRepository->save($code, true);
 
         return $code;
     }

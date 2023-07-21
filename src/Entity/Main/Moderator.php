@@ -2,23 +2,26 @@
 
 namespace App\Entity\Main;
 
+use DateTimeImmutable;
 use DateTimeInterface;
 
 use App\Repository\Main\ModeratorRepository;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 #[ORM\Table(name: "moderator")]
 #[ORM\Entity(repositoryClass: ModeratorRepository::class)]
 class Moderator
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    private ?int $id;
+    #[ORM\Column(type: "uuid")]
+    private UuidInterface $id;
 
     #[ORM\OneToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
-    private ?User $user;
+    private User $user;
 
     #[ORM\Column(type: "string", length: 255)]
     private ?string $realname;
@@ -35,7 +38,27 @@ class Moderator
     #[ORM\Column(name: "updated_at", type: "datetime", nullable: false)]
     private ?DateTimeInterface $updatedAt;
 
-    public function getId(): ?int
+    public function __construct(
+        User $user,
+        string $realname,
+        string $location,
+        DateTimeInterface $birthday
+    )
+    {
+        $this->id = Uuid::uuid6();
+        $this->user = $user;
+        $this->realname = $realname;
+        $this->location = $location;
+        $this->birthday = $birthday;
+
+        try {
+            $this->createdAt = new DateTimeImmutable(timezone: new DateTimeZone("Europe/Riga"));
+            $this->updatedAt = new DateTimeImmutable(timezone: new DateTimeZone("Europe/Riga"));
+        } catch (\Exception $e) {
+        }
+    }
+
+    public function getId(): ?UuidInterface
     {
         return $this->id;
     }
