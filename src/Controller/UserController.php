@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Authme\Authme;
 use App\Entity\Main\User;
 use App\Repository\Authme\AuthmeRepository;
 use App\Repository\Main\OTPRepository;
@@ -230,6 +231,15 @@ class UserController extends AbstractController
 
         $user->setIsVerified(true);
         $this->userRepository->save($user, true);
+
+        if (null === $this->authmeRepository->findOneBy(["realname" => $user->getUsername()])) {
+            $authmeUser = new Authme($user->getUsername(), $user->getPassword());
+            $this->authmeRepository->save($authmeUser, true);
+
+            return new JsonResponse([
+                "message" => "Вы успешно подтвердили почту с помощью OTP кода. Теперь вы можете играть на сервере."
+            ], 200);
+        }
 
         return new JsonResponse([
             "message" => "Вы успешно подтвердили почту с помощью OTP кода."
