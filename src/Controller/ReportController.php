@@ -61,8 +61,7 @@ class ReportController extends AbstractController
     public function getAllReports(
         Request $plainRequest
     ) : JsonResponse {
-        $requestData = $plainRequest->toArray();
-        $locale = $requestData["locale"] ?? "en_EN";
+        $locale = $plainRequest->query->get("locale", "en_EN");
 
         if ($locale !== "en_EN" && $locale !== "ru_RU") {
             return new JsonResponse([
@@ -103,16 +102,13 @@ class ReportController extends AbstractController
     public function createReportType(Request $plainRequest) : JsonResponse {
         $requestData = $plainRequest->toArray();
         $name = $requestData["name"] ?? null;
-        $locale = $requestData["locale"] ?? "en_EN";
+        $locale = $plainRequest->query->get("locale", "en_EN");
 
         if ($locale !== "en_EN" && $locale !== "ru_RU") {
             return new JsonResponse([
                 "message" => "The selected language is not supported by the application."
             ], Response::HTTP_BAD_REQUEST);
         }
-
-        /** @var User $user */
-        $user = $this->getUser();
 
         if ($name === null) {
             $message = $this->translator->trans("report.types.create.name.empty", locale: $locale);
@@ -137,7 +133,7 @@ class ReportController extends AbstractController
         $requestData = $plainRequest->toArray();
         $typeUuid = $requestData["type"] ?? null;
         $text = $requestData["text"] ?? null;
-        $locale = $requestData["locale"] ?? "en_EN";
+        $locale = $plainRequest->query->get("locale", "en_EN");
 
         if ($locale !== "en_EN" && $locale !== "ru_RU") {
             return new JsonResponse([
@@ -168,9 +164,8 @@ class ReportController extends AbstractController
     }
 
     #[Route('/{reportId}', name: 'report_data', methods: ['GET'])]
-    public function getReportById(Request $plainRequest, string $reportId) : JsonResponse {
-        $requestData = $plainRequest->toArray();
-        $locale = $requestData["locale"] ?? "en_EN";
+    public function getReportById(Request $request, string $reportId) : JsonResponse {
+        $locale = $request->query->get("locale", "en_EN");
 
         if ($locale !== "en_EN" && $locale !== "ru_RU") {
             return new JsonResponse([
@@ -193,7 +188,7 @@ class ReportController extends AbstractController
     public function postMessage(Request $plainRequest, string $reportId) : JsonResponse {
         $requestData = $plainRequest->toArray();
         $text = $requestData["message"] ?? null;
-        $locale = $requestData["locale"] ?? "en_EN";
+        $locale = $plainRequest->query->get("locale", "en_EN");
 
         if ($locale !== "en_EN" && $locale !== "ru_RU") {
             return new JsonResponse([
@@ -217,7 +212,7 @@ class ReportController extends AbstractController
             return new JsonResponse(["message" => $message], Response::HTTP_NOT_FOUND);
         }
 
-        if ($report->getCreatedBy() !== $user || !in_array("ROLE_ADMIN", $user->getRoles())) {
+        if ($report->getCreatedBy() !== $user && !in_array("ROLE_ADMIN", $user->getRoles())) {
             $message = $this->translator->trans("report.not_permission", locale: $locale);
             return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }
@@ -225,14 +220,13 @@ class ReportController extends AbstractController
         $message = new ReportChatMessage($report, $user, $text);
         $this->reportChatMessageRepository->save($message, true);
 
-        $message = $this->translator->trans("report.not_permission", locale: $locale);
+        $message = $this->translator->trans("report.messages.post.successfully", locale: $locale);
         return new JsonResponse(["message" => $message], Response::HTTP_CREATED);
     }
 
-    #[Route('/{reportId}/deactivate', name: 'deactivate_report', methods: ['POST'])]
+    #[Route('/{reportId}/deactivate', name: 'deactivate_report', methods: ['GET'])]
     public function deactivateReport(Request $plainRequest, string $reportId) : JsonResponse {
-        $requestData = $plainRequest->toArray();
-        $locale = $requestData["locale"] ?? "en_EN";
+        $locale = $plainRequest->query->get("locale", "en_EN");
 
         if ($locale !== "en_EN" && $locale !== "ru_RU") {
             return new JsonResponse([
@@ -251,7 +245,7 @@ class ReportController extends AbstractController
             return new JsonResponse(["message" => $message], Response::HTTP_NOT_FOUND);
         }
 
-        if ($report->getCreatedBy() !== $user || !in_array("ROLE_ADMIN", $user->getRoles())) {
+        if ($report->getCreatedBy() !== $user && !in_array("ROLE_ADMIN", $user->getRoles())) {
             $message = $this->translator->trans("report.not_permission", locale: $locale);
             return new JsonResponse(["message" => $message], Response::HTTP_BAD_REQUEST);
         }

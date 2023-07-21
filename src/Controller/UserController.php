@@ -71,7 +71,7 @@ class UserController extends AbstractController
         $requestData = $plainRequest->toArray();
         $username = $requestData["username"];
         $password = $requestData["password"];
-        $locale = $requestData["locale"] ?? "en_EN";
+        $locale = $plainRequest->query->get("locale", "en_EN");
 
         if ($locale !== "en_EN" && $locale !== "ru_RU") {
             return new JsonResponse([
@@ -131,7 +131,7 @@ class UserController extends AbstractController
         $username = $requestData["username"];
         $password = $requestData["password"];
         $email = $requestData["email"];
-        $locale = $requestData["locale"] ?? "en_EN";
+        $locale = $plainRequest->query->get("locale", "en_EN");
 
         if ($locale !== "en_EN" && $locale !== "ru_RU") {
             return new JsonResponse([
@@ -211,7 +211,7 @@ class UserController extends AbstractController
     {
         $requestData = $plainRequest->toArray();
         $otp = $requestData["otp"];
-        $locale = $requestData["locale"] ?? "en_EN";
+        $locale = $plainRequest->query->get("locale", "en_EN");
 
         if ($locale !== "en_EN" && $locale !== "ru_RU") {
             return new JsonResponse([
@@ -261,8 +261,7 @@ class UserController extends AbstractController
         Request $plainRequest
     ): JsonResponse
     {
-        $requestData = $plainRequest->toArray();
-        $locale = $requestData["locale"] ?? "en_EN";
+        $locale = $plainRequest->query->get("locale", "en_EN");
 
         if ($locale !== "en_EN" && $locale !== "ru_RU") {
             return new JsonResponse([
