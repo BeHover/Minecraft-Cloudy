@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true">
+
+    <testsuites>
+        <testsuite name="Reports">
+            <directory>./tests/Reports</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <env name="KERNEL_CLASS" value="App\Kernel" />
+        <env name="DEFAULT_DATABASE_URL" value="DEFAULT_DATABASE_URL" />
+        <env name="AUTHME_DATABASE_URL" value="AUTHME_DATABASE_URL" />
+        <env name="CORS_ALLOW_ORIGIN" value="CORS_ALLOW_ORIGIN" />
+        <env name="JWT_SECRET_KEY" value="JWT_SECRET_KEY" />
+        <ini name="error_reporting" value="-1"/>
+    </php>
+
+</phpunit>

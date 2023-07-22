@@ -12,6 +12,8 @@ composer.phar
 public/images/skins/LikDioxo.png
 /symfony.lock
 /composer.lock
+.env.test
+.phpunit.cache
 
 ###> symfony/framework-bundle ###
 /.env.local
@@ -22,3 +24,13 @@ public/images/skins/LikDioxo.png
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
