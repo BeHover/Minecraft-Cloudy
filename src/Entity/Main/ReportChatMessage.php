@@ -20,7 +20,7 @@ class ReportChatMessage
 
     #[ORM\ManyToOne(targetEntity: Report::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Report $report = null;
+    private ?Report $report;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -59,23 +59,9 @@ class ReportChatMessage
         return $this->report;
     }
 
-    public function setReport(?Report $report): self
-    {
-        $this->report = $report;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
     }
 
     public function getText(): ?string
@@ -83,22 +69,8 @@ class ReportChatMessage
         return $this->text;
     }
 
-    public function setText(string $text): self
-    {
-        $this->text = $text;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
-    }
-
-    public function setCreatedAt(?DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
     }
 }

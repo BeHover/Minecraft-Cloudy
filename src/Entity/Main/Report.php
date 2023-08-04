@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -21,9 +22,6 @@ class Report
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: "created_by", nullable: false)]
     private User $createdBy;
-
-    #[ORM\Column(name: "is_active", type: "boolean")]
-    private bool $isActive;
 
     #[ORM\ManyToOne(targetEntity: ReportType::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -50,7 +48,6 @@ class Report
     {
         $this->id = Uuid::uuid6();
         $this->createdBy = $user;
-        $this->isActive = true;
         $this->type = $type;
         $this->text = $text;
 
@@ -70,25 +67,6 @@ class Report
         return $this->createdBy;
     }
 
-    public function setCreatedBy(?User $user): self
-    {
-        $this->createdBy = $user;
-
-        return $this;
-    }
-
-    public function getStatus(): ?bool
-    {
-        return $this->isActive;
-    }
-
-    public function setStatus(?int $status): self
-    {
-        $this->isActive = $status;
-
-        return $this;
-    }
-
     public function getType(): ?ReportType
     {
         return $this->type;
@@ -106,23 +84,9 @@ class Report
         return $this->text;
     }
 
-    public function setText(string $text): self
-    {
-        $this->text = $text;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
-    }
-
-    public function setCreatedAt(?DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     public function getClosedAt(): ?DateTimeInterface
@@ -130,21 +94,24 @@ class Report
         return $this->closedAt;
     }
 
-    public function setClosedAt(?DateTimeInterface $closedAt): self
-    {
-        $this->closedAt = $closedAt;
-
-        return $this;
-    }
-
     public function getClosedBy(): ?User
     {
         return $this->closedBy;
     }
 
-    public function setClosedBy(?User $user): self
+    public function getClosed() : bool
+    {
+        return null !== $this->getClosedAt() || null !== $this->getClosedBy();
+    }
+
+    public function setClosed(?User $user): self
     {
         $this->closedBy = $user;
+
+        try {
+            $this->closedAt = new DateTimeImmutable(timezone: new DateTimeZone("Europe/Riga"));
+        } catch (Exception $e) {
+        }
 
         return $this;
     }
