@@ -18,8 +18,8 @@ class LandsController extends AbstractController
     ) {
     }
 
-    #[Route('', name: 'all_lands', methods: ['GET'])]
-    public function getAllLands(Request $plainRequest) : JsonResponse {
+    #[Route('', name: 'get_lands', methods: ['GET'])]
+    public function getLands(Request $plainRequest) : JsonResponse {
         $locale = $plainRequest->query->get("locale", "en_EN");
         $id = $plainRequest->query->get("id");
 
