@@ -57,7 +57,7 @@ export default function LandsPage() {
                                     <div className="lands">
                                         <ul className="lands__list">
                                             {lands.map(land =>
-                                                <LandData key={land.id} name={land.name} owner={land.owner} title={land.title} membersQuantity={land.membersQuantity} balance={land.balance} createdAt={land.createdAt} />
+                                                <LandData key={land.id} name={land.name} owner={land.owner} title={land.title} membersQuantity={land.membersQuantity} balance={land.balance} createdAt={land.created} />
                                             )}
                                         </ul>
                                     </div>

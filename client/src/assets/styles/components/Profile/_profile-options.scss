@@ -1,0 +1,31 @@
+.profile-options {
+  margin-top: 18px;
+  margin-bottom: 18px;
+
+  &__list {
+    list-style: none;
+    display: flex;
+    grid-gap: 24px;
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    border-radius: .5rem;
+    padding: 12px 16px;
+    background-color: $color-black;
+    cursor: pointer;
+  }
+
+  &__icon {
+    margin-right: 6px;
+    color: $color-white;
+  }
+
+  &__text {
+    font-size: 13px;
+    font-weight: 500;
+    color: $color-white;
+    text-transform: uppercase;
+  }
+}

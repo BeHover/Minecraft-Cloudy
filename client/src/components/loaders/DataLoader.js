@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function DataLoader({title, subtitle}) {
+
     return(
         <div className="error">
             <div className="container">

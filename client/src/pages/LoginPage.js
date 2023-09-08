@@ -1,47 +1,58 @@
-import React, {useEffect, useRef, useState} from 'react';
-import axios from 'axios';
+import React, {useEffect, useRef, useState} from "react";
 import "../assets/styles/main.css";
 import NavigateButtonWithIcon from "../components/UI/buttons/NavigateButtonWithIcon";
 import {useNavigate} from "react-router-dom";
+import {getToken, getUser, setToken, setUser} from "../services/UserService";
+import {loginRequest} from "../services/ServerRequestService";
 
 export default function LoginPage() {
-    const [formData, setFormData] = useState({
-        username: '',
-        password: ''
-    });
+    const [formData, setFormData] = useState({ username: '', password: '' });
 
     const handleChange = event => {
         setFormData({...formData, [event.target.name]: event.target.value});
     };
 
+    const token = getToken();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const textRef = useRef(null);
 
     useEffect(() => {
-        if (localStorage.getItem("token")) {
+        if (null !== token) {
             return navigate("/profile", { replace: true });
         }
-    }, []);
+    }, [token]);
 
     const handleSubmit = async event => {
         event.preventDefault();
-        try {
-            setLoading(true);
-            textRef.current.textContent = "Проверка наличия аккаунта с такими данными";
-            textRef.current.style.color = "#3c4043";
-            const response = await axios.post("https://127.0.0.1:8000/api/login", formData);
-            localStorage.setItem("token", response.data.token);
 
-            setLoading(false);
-            navigate("/profile", { replace: true });
-            textRef.current.textContent = "Добро пожаловать в личный кабинет";
+        try {
+            if (textRef.current) {
+                setLoading(true);
+                textRef.current.textContent = "Проверка наличия аккаунта с такими данными";
+                textRef.current.style.color = "#3c4043";
+
+                const response = await loginRequest(formData);
+                setToken(response.data.token);
+                setUser(response.data.user);
+
+                setLoading(false);
+            }
         } catch (error) {
             setLoading(false);
-            textRef.current.textContent = error.response.data.message;
-            textRef.current.style.color = "#ef2929";
+            if (textRef.current) {
+                textRef.current.style.color = "#ef2929";
+                setFormData({...formData, password: ''});
+
+                if (error?.response?.data?.message) {
+                    textRef.current.textContent = error.response.data.message;
+                } else {
+                    textRef.current.textContent = "Возникла непредвиденная ошибка.";
+                }
+            }
         }
     };
+
 
     return (
         <div id="react-dom" className="authentication" style={{overflow: "hidden"}}>

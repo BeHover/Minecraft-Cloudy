@@ -1,0 +1,22 @@
+@import "../../utils/variables";
+@import "profile-block";
+@import "profile-menu";
+@import "profile-promocode";
+@import "profile-security";
+@import "profile-lands";
+@import "profile-options";
+
+.container {
+  &--profile {
+    min-height: calc(100vh - 70px - 48px);
+    background-color: $color-light-gray;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+}
+
+.profile {
+  display: grid;
+  grid-template-columns: 0.75fr 2.25fr;
+  grid-gap: 24px;
+}

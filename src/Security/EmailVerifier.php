@@ -30,7 +30,7 @@ class EmailVerifier
     public function sendEmailConfirmation(UserInterface $user, TemplatedEmail $email, OTP $OTP): void
     {
         $context = $email->getContext();
-        $context['otp'] = $OTP->getOTP();
+        $context["otp"] = $OTP->getOTP();
 
         $email->context($context);
 

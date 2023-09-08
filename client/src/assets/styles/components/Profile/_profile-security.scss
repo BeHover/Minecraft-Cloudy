@@ -1,0 +1,19 @@
+.profile-security {
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+
+  &__text {
+    display: none;
+
+    &--error {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 22px;
+      color: $color-red;
+      text-align: center;
+    }
+  }
+}

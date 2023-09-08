@@ -1,0 +1,112 @@
+.profile-block {
+  background-color: $color-white;
+  padding: 24px;
+  border-radius: .5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  &--align-start {
+    align-self: start;
+  }
+
+  &__grid {
+    display: grid;
+    grid-gap: 24px;
+
+    &--x2 {
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 24px;
+    }
+  }
+
+  &__title {
+    font-size: 16px;
+    letter-spacing: .3px;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    color: $color-black;
+  }
+
+  &__subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    color: $color-gray;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $color-border-bottom;
+
+    &--without-border {
+      border: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  &__text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    color: $color-middle-gray;
+
+    span {
+      margin-left: 4px;
+    }
+
+    &--center {
+      text-align: center;
+    }
+
+    &--link {
+      cursor: pointer;
+    }
+
+    &--color-black {
+      color: $color-black;
+    }
+
+    &--color-blue {
+      color: $color-primary;
+    }
+  }
+
+  &__icon {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    color: $color-primary;
+    margin-left: 4px;
+  }
+
+  &__button {
+    padding: 8.7px 14px !important;
+    border-radius: 0.375rem !important;
+    align-self: center;
+  }
+
+  &__buttons {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: auto auto;
+    margin-top: 10px;
+  }
+
+  &__loader {
+    margin: 90px auto auto;
+  }
+
+  &__reload {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    display: flex;
+    padding: 10px 12px;
+    border-radius: 0.35rem !important;
+    cursor: pointer;
+
+    &--center {
+      transform: translateY(5px);
+    }
+  }
+}

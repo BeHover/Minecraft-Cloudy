@@ -37,11 +37,11 @@ export default function SecurityPageChangePassword() {
     };
 
     return(
-        <div className="profile__menu" style={{alignSelf: "start"}}>
-            <p className="profile__menu-title">Пароль от аккаунта</p>
-            <p className="profile__menu-subtitle">Рекомендуем периодически обновлять пароль, чтобы повысить безопасность аккаунта</p>
+        <div className="profile-block" style={{alignSelf: "start"}}>
+            <p className="profile-block__title">Пароль от аккаунта</p>
+            <p className="profile-block__subtitle">Рекомендуем периодически обновлять пароль, чтобы повысить безопасность аккаунта</p>
             <form onSubmit={handleSubmit}>
-                <p className="profile__menu-error" ref={textRef} style={{display: "none"}}></p>
+                <p className="profile-security__text profile-security__text--error" ref={textRef}></p>
                 <label htmlFor="nowPassword">
                     <span className="authentication__label">Текущий пароль</span>
                     <input
@@ -68,21 +68,8 @@ export default function SecurityPageChangePassword() {
                     />
                 </label>
 
-                <label htmlFor="repeatPassword">
-                    <span className="authentication__label">Повторите новый пароль</span>
-                    <input
-                        type="text"
-                        id="repeatPassword"
-                        name="repeatPassword"
-                        value={formData.repeatPassword}
-                        onChange={handleChange}
-                        className="authentication__input"
-                        required
-                    />
-                </label>
-
-                <div style={{display: "flex", justifyContent: "flex-end", marginTop: "20px"}}>
-                    <button type="submit" className="btn btn--primary promocode__btn">Изменить пароль</button>
+                <div className="profile-security__buttons">
+                    <button type="submit" className="btn btn--primary profile-block__button">Изменить пароль</button>
                 </div>
             </form>
         </div>

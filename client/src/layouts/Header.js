@@ -16,7 +16,7 @@ export default function Header() {
     };
 
     return (
-        <header className="header" style={{background: "white"}}>
+        <header className="header">
             <nav className="navbar container">
                 <NavbarHomeButton title="CLOUDY" subtitle="Minecraft Project"></NavbarHomeButton>
 
@@ -61,16 +61,16 @@ export default function Header() {
                         {/*</a>*/}
                         {isLoggedIn
                             ? <ul className="navbar__profile-list">
-                                <li><NavigateButtonWithIcon to="/profile" icon="fas fa-user-edit navbar__profile-icon" text="Профиль" classNames="btn btn--primary" /></li>
+                                <li><NavigateButtonWithIcon to="/profile" icon="fas fa-user-alt navbar__profile-icon" text="Профиль" classNames="btn btn--primary profile-block__button" /></li>
                                 <li>
-                                    <button type="button" onClick={handleLogout} className="btn btn--black navbar__profile-icon">
+                                    <button type="button" onClick={handleLogout} className="btn btn--black navbar__profile-icon profile-block__button">
                                         <span>
                                             Выйти<i className="fas fa-door-open" style={{marginLeft: "8px"}}></i>
                                         </span>
                                     </button>
                                 </li>
                             </ul>
-                            : <NavigateButtonWithIcon to="/login" icon="fas fa-sign-in-alt navbar__profile-icon" text="Авторизация" classNames="btn btn--primary" />
+                            : <NavigateButtonWithIcon to="/login" icon="fas fa-sign-in-alt navbar__profile-icon" text="Авторизация" classNames="btn btn--primary profile-block__button" />
                         }
 
                         {/*{% else %}*/}

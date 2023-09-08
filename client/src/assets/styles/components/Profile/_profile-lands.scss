@@ -1,0 +1,74 @@
+.profile-lands {
+  margin-top: 24px;
+
+  &__list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 24px;
+  }
+
+  &__item {
+    background: $color-white;
+    border-radius: .35rem;
+    padding: 20px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: start;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $color-border-bottom;
+  }
+
+  &__name {
+    font-size: 18px;
+    color: $color-black;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  &__title {
+    font-size: 16px;
+    color: $color-middle-gray;
+    font-weight: 400;
+  }
+
+  &__text {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 22px;
+    color: $color-middle-gray;
+
+    span {
+      margin-left: 4px;
+    }
+
+    &-block {
+      margin-top: 8px;
+    }
+
+    &--center {
+      text-align: center;
+    }
+
+    &--link {
+      cursor: pointer;
+    }
+
+    &--color-black {
+      color: $color-black;
+    }
+
+    &--color-blue {
+      color: $color-primary;
+    }
+  }
+
+  &__button {
+    margin-left: auto;
+    padding: 7px 12px;
+    border-radius: 0.35rem !important;
+    cursor: pointer;
+  }
+}

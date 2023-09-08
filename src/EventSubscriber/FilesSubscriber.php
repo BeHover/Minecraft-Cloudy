@@ -20,7 +20,7 @@ class FilesSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            FileToDeleteEvent::NAME => ['delete']
+            FileToDeleteEvent::NAME => ["delete"]
         ];
     }
 

@@ -5,8 +5,8 @@ import SecurityPageVerifyEmail from "./SecurityPageVerifyEmail";
 
 export default function SecurityPageBlock() {
     return(
-        <div className="profile__grid">
-            <div className="profile__grid profile__grid--2">
+        <div className="profile-block__grid">
+            <div className="profile-block__grid profile-block__grid--x2">
                 <SecurityPageChangePassword/>
                 <SecurityPageChangeEmail/>
             </div>

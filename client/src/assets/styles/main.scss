@@ -27,6 +27,7 @@
 @import "components/settings";
 @import "components/page404";
 @import "components/error";
+@import "components/reports";
 
 * {
   outline: $color-white;
@@ -187,4 +188,9 @@ button {
   &--right {
     margin-right: 8px;
   }
+}
+
+.cloudy-background {
+  overflow: hidden;
+  background: #f7f7f7;
 }

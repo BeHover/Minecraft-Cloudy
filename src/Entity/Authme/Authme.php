@@ -41,7 +41,7 @@ class Authme
     private int $z = 0;
 
     #[ORM\Column(type: "string", length: 255)]
-    private string $world = 'worlds';
+    private string $world = "worlds";
 
     #[ORM\Column(type: "bigint")]
     private ?int $regdate;

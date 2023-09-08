@@ -6,16 +6,21 @@ $color-light: #e4e7ea;
 // Colors
 $color-white: #ffffff;
 $color-gray: #6e6e73;
+$color-middle-gray: #6e6e73;
 $color-light-gray: #f7f7f7;
 $color-black: #1e1e1f;
 $color-light-black: #3c4043;
 //$color-primary: #186EF0;
-$color-primary: darken(#2196F3, 6%);
+$color-primary: #0d87e9;
 $color-primary-brightness: #e4f1ff;
 $color-border: #ebedf0;
 $color-loader: #429ae7;
 //$color-red: #ef2929;
 $color-red: lighten(#EF2929, 8%);
+$color-green: #03AC13;
+
+$color-border-bottom: #d2d2d2;
+$color-form-placeholder: #575b5d;
 
 // Hover colors
 $color-gray-hover: #616165;

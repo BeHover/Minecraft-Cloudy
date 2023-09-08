@@ -8,7 +8,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class FileToDeleteEvent extends Event
 {
-    public const NAME = 'file.to.delete';
+    public const NAME = "file.to.delete";
 
     protected string $filePath;
 

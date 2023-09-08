@@ -2,7 +2,7 @@
 
 namespace App\Security;
 
-use App\Service\JWTTokenService;
+use App\Service\JWT\JWTTokenService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,17 +26,17 @@ class TokenAuthenticator extends AbstractAuthenticator
 
     public function supports(Request $request): ?bool
     {
-        return $request->headers->has('authorization');
+        return $request->headers->has("authorization");
     }
 
     public function authenticate(Request $request): Passport
     {
-        if (!$request->headers->has('authorization')) {
+        if (!$request->headers->has("authorization")) {
             throw new AuthenticationException();
         }
 
-        $authorizationHeader = (string) $request->headers->get('authorization');
-        preg_match('/^Bearer\s(\S+)/i', $authorizationHeader, $matches);
+        $authorizationHeader = (string) $request->headers->get("authorization");
+        preg_match("/^Bearer\s(\S+)/i", $authorizationHeader, $matches);
         if (!$matches) {
             throw new CustomUserMessageAuthenticationException("Invalid authorization header: {$authorizationHeader}");
         }

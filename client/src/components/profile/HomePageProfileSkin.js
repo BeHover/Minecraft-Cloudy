@@ -2,15 +2,23 @@ import React from "react";
 
 export default function HomePageProfileSkin() {
     return(
-        <div className="profile__menu">
-            <p className="profile__menu-title">Скин персонажа</p>
-            <p className="profile__menu-subtitle">Здесь вы можете изменить свой скин</p>
-            <div style={{display: "flex", flexDirection: "column"}}>
-                <p className="profile__menu-text">Скин должен быть в формате <span>.png</span>.</p>
-                <p className="profile__menu-text">Допустимые размеры: <span>64x64</span> или <span>64х32</span>.</p>
-                <div style={{display: "flex", justifyContent: "center", marginTop: "10px"}}>
-                    <button type="button" className="btn btn--primary promocode__btn">Изменить скин</button>
-                </div>
+        <div className="profile-block">
+            <p className="profile-block__title">Скин персонажа</p>
+            <p className="profile-block__subtitle">Здесь вы можете изменить свой скин</p>
+            <p className="profile-block__text">
+                Скин не должен нарушать
+                <span className="profile-block__text--color-blue profile-block__text--link">
+                    правила проекта
+                    <i className="fas fa-mouse-pointer profile-block__icon" />
+                </span>
+            </p>
+            <div className="profile-block__buttons">
+                <button type="button" className="btn btn--primary profile-block__button">
+                    <i className="fas fa-upload" /> Выбрать файл
+                </button>
+                <button type="button" className="btn btn--red profile-block__button">
+                    <i className="fas fa-trash-alt" /> Сбросить скин
+                </button>
             </div>
         </div>
     );
